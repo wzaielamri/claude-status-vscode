@@ -38,7 +38,7 @@ function panelDir(): string {
 }
 
 export class AccountSwitch implements vscode.Disposable {
-  private item = vscode.window.createStatusBarItem("claudeStatus.account", vscode.StatusBarAlignment.Right, 99);
+  private item = vscode.window.createStatusBarItem("talpyDen.account", vscode.StatusBarAlignment.Right, 99);
   private startedOn = realOr(panelDir()); // the folder this window's panel started on
   private switching = false;
   private told = "";
@@ -47,8 +47,8 @@ export class AccountSwitch implements vscode.Disposable {
     private dash: Dashboard,
     private backend?: Backend, // for pointing ~/.claude at the default account too (accounts.py)
   ) {
-    this.item.name = "Claude Status: VS Code's Claude account";
-    this.item.command = "claudeStatus.switchAccount";
+    this.item.name = "Talpy Den: VS Code's Claude account";
+    this.item.command = "talpyDen.switchAccount";
   }
 
   dispose(): void {
@@ -114,7 +114,7 @@ export class AccountSwitch implements vscode.Disposable {
         "There's one Claude account on this computer. Add another one (a ~/.claude-NAME folder, logged in with Claude's own login) to switch between them.",
         "Add Account…",
       );
-      if (add) await vscode.commands.executeCommand("claudeStatus.addAccount");
+      if (add) await vscode.commands.executeCommand("talpyDen.addAccount");
       return;
     }
     const key = localPanelProfileKey();
@@ -140,7 +140,7 @@ export class AccountSwitch implements vscode.Disposable {
         placeHolder: "Listed first, its usage in the status bar; VS Code's Claude and plain claude (~/.claude, where it's a link) run on it",
       },
     );
-    if (pick && !pick.group) await vscode.commands.executeCommand("claudeStatus.addAccount");
+    if (pick && !pick.group) await vscode.commands.executeCommand("talpyDen.addAccount");
     else if (pick?.group) await this.switchTo(pick.group);
   }
 
@@ -288,7 +288,7 @@ export class AccountSwitch implements vscode.Disposable {
   // link, through accounts.py there; refused while a chat runs through it).
   async switchHost(group: Group, asDefault = false): Promise<boolean> {
     if (group.configDir === undefined) {
-      this.fail(`Can't tell which folder ${group.name} has on ${group.host}: that host's status comes from an older Claude Status.`);
+      this.fail(`Can't tell which folder ${group.name} has on ${group.host}: that host's status comes from an older Talpy Den.`);
       return false;
     }
     let value = group.configDir;

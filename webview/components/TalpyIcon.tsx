@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "preact/hooks";
-import { drawGlyph, glyphMoves } from "../../vendor/talpa/glyph.mjs";
+import { drawGlyph, glyphMoves } from "../../vendor/talpy/glyph.mjs";
 
-// Talpa peeking up out of the ground (the widget's panel icon,
-// talpa/glyph.mjs), in the state's color. It pops up when a chat needs you,
+// Talpy peeking up out of the ground (the widget's panel icon,
+// talpy/glyph.mjs), in the state's color. It pops up when a chat needs you,
 // glances around while Claude works, smiles when it's your turn and sleeps
 // when nothing runs: a few frames a second, cheap for hours.
-export function TalpaIcon({ state, moving }: { state: string; moving: boolean }) {
+export function TalpyIcon({ state, moving }: { state: string; moving: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const canvas = ref.current;
@@ -30,5 +30,5 @@ export function TalpaIcon({ state, moving }: { state: string; moving: boolean })
       clearInterval(timer);
     };
   }, [state, moving]);
-  return <canvas class={`talpa-icon ov-${state}`} ref={ref} width={16} height={16} aria-hidden="true" />;
+  return <canvas class={`talpy-icon ov-${state}`} ref={ref} width={16} height={16} aria-hidden="true" />;
 }

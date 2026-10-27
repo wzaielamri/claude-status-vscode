@@ -1,7 +1,7 @@
 // A stage where pets (pet.ts) live, ported from the widget's PetStrip.qml.
 // Two kinds:
 //
-// hero: the big Talpa at the top of the view, on a little stage whose light
+// hero: the big Talpy at the top of the view, on a little stage whose light
 // follows the whole dashboard (warm when a chat needs you, blue while chats
 // work, green when they wait for your next message, a starry night once
 // everything is done), with a headline and the session counts beside it.
@@ -17,11 +17,11 @@
 
 import { editorTab, isDark } from "../env";
 import { plural } from "../../src/shared/model";
-import type { TalpaTheme } from "../../vendor/talpa/talpa.mjs";
+import type { TalpyTheme } from "../../vendor/talpy/talpy.mjs";
 import type { AccountInput, HeroInput, PetStage, StageCallbacks, StageChat } from "./api";
 import type { ChatRef, Counts } from "../../src/shared/types";
 import { PALETTE, allPetColors, freeColor, setPetColors } from "./colors";
-import { BOX, FLOOR } from "../../vendor/talpa/talpa.mjs";
+import { BOX, FLOOR } from "../../vendor/talpy/talpy.mjs";
 import { Clock, Timer, Tween, cssEase, reducedMotion, type Animator } from "./motion";
 import { Pet, SMALL } from "./pet";
 
@@ -84,7 +84,7 @@ export class Stage implements PetStage, Animator {
   private readonly textEl: HTMLDivElement | null = null;
   private readonly cb: StageCallbacks;
 
-  // Each Talpa is drawn in a 64-unit box on a canvas with room around it
+  // Each Talpy is drawn in a 64-unit box on a canvas with room around it
   // (box*1.6 by box*1.5, the box 0.3 and 0.45 boxes in): its body is 38 units
   // wide and stands about 31 units out of its burrow, whose floor is 57 down
   readonly gu: number;
@@ -506,7 +506,7 @@ export class Stage implements PetStage, Animator {
   // ------------------------------------------------------------ shared by the pets
 
   // The pets' particles and words in the theme's text color
-  theme(): TalpaTheme {
+  theme(): TalpyTheme {
     const m = /rgba?\(([^)]*)\)/.exec(getComputedStyle(this.root).color);
     const [r, g, b] = m ? m[1].split(",").map((v) => parseFloat(v)) : [128, 128, 128];
     return { fx: `rgba(${r}, ${g}, ${b}, 0.5)`, text: `rgb(${r}, ${g}, ${b})` };

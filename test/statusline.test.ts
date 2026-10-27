@@ -10,7 +10,7 @@ const SNIPPET = fs.readFileSync(path.resolve("vendor/statusline-snippet.sh"), "u
 const SCRIPT = '#!/usr/bin/env bash\ninput=$(cat)\necho "$(jq -r .model.display_name <<<"$input")"\n';
 
 function fakeHome(): string {
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-test-"));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-test-"));
   process.env.HOME = home;
   process.env.XDG_DATA_HOME = path.join(home, ".local", "share");
   process.env.XDG_CACHE_HOME = path.join(home, ".cache");
@@ -56,7 +56,7 @@ test("set up and remove on a machine with three kinds of profiles", () => {
 
   const setup = plan(SNIPPET, false);
   const files = setup.changes.map((c) => path.relative(home, c.file)).sort();
-  assert.deepEqual(files, [".claude-other/settings.json", ".claude-work/statusline.sh", ".claude/settings.json", ".local/share/claude-status/statusline.sh"]);
+  assert.deepEqual(files, [".claude-other/settings.json", ".claude-work/statusline.sh", ".claude/settings.json", ".local/share/talpy-den/statusline.sh"]);
   apply(setup.changes);
   assert.equal(plan(SNIPPET, false).changes.length, 0, "a second setup changes nothing");
 
@@ -71,7 +71,7 @@ test("set up and remove on a machine with three kinds of profiles", () => {
   const run = spawnSync("bash", ["-c", other.statusLine.command], { input, encoding: "utf8", env: { ...process.env, HOME: home } });
   assert.equal(run.stdout.trim(), "other");
   const hasJq = spawnSync("jq", ["--version"]).status === 0;
-  if (hasJq) assert.ok(fs.existsSync(path.join(home, ".cache", "claude-widget", "statusline", ".claude-other", "abc-123.json")));
+  if (hasJq) assert.ok(fs.existsSync(path.join(home, ".cache", "talpy-den", "statusline", ".claude-other", "abc-123.json")));
 
   apply(plan(SNIPPET, true).changes);
   assert.equal(fs.readFileSync(path.join(home, ".claude-work", "statusline.sh"), "utf8"), SCRIPT);
@@ -124,4 +124,30 @@ test("a settings.json that is a link stays a link, and profiles sharing one file
   for (const name of [".claude-a", ".claude-b"]) assert.ok(fs.lstatSync(path.join(home, name, "settings.json")).isSymbolicLink());
   assert.match(JSON.parse(fs.readFileSync(shared, "utf8")).statusLine.command, /statusline\.sh/);
   assert.equal(JSON.parse(fs.readFileSync(shared, "utf8")).model, "opus");
+});
+
+test("what the first name set up is brought up to date: its snippet block and its wrapper", () => {
+  const home = fakeHome();
+  // a script with the snippet under its first name
+  const old = SCRIPT.replace("input=$(cat)\n", "input=$(cat)\n# >>> claude-widget >>>\n: old snippet\n# <<< claude-widget <<<\n");
+  write(path.join(home, ".claude-work", "statusline.sh"), old);
+  write(path.join(home, ".claude-work", "settings.json"), JSON.stringify({ statusLine: { type: "command", command: "bash ~/.claude-work/statusline.sh" } }));
+  // a profile whose status line the wrapper of the first name wraps
+  const oldWrapper = path.join(home, ".local", "share", "claude-status", "statusline.sh");
+  write(path.join(home, ".claude-other", "settings.json"), JSON.stringify({ statusLine: { type: "command", command: `${oldWrapper} 'echo other'` } }));
+
+  const setup = plan(SNIPPET, false);
+  const byFile = new Map(setup.changes.map((c) => [path.relative(home, c.file), c]));
+  const script = byFile.get(".claude-work/statusline.sh")!;
+  assert.ok(!script.after.includes("claude-widget"), "the old block is replaced");
+  assert.equal(script.after.split(MARK_START).length - 1, 1);
+  const settings = JSON.parse(byFile.get(".claude-other/settings.json")!.after);
+  assert.equal(settings.statusLine.command, `${wrapperPath()} 'echo other'`, "its previous command is kept, the wrapper is the new one");
+  assert.ok(byFile.has(".local/share/talpy-den/statusline.sh"));
+
+  // removing takes the old block out too, and unwraps the old wrapper
+  const removal = plan(SNIPPET, true);
+  const gone = new Map(removal.changes.map((c) => [path.relative(home, c.file), c]));
+  assert.equal(gone.get(".claude-work/statusline.sh")!.after, SCRIPT);
+  assert.equal(JSON.parse(gone.get(".claude-other/settings.json")!.after).statusLine.command, "echo other");
 });

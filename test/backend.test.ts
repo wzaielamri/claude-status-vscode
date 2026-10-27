@@ -14,7 +14,7 @@ const children: ChildProcess[] = [];
 after(() => children.forEach((c) => c.kill()));
 
 function fakeHome(): string {
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-test-"));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-test-"));
   process.env.HOME = home;
   process.env.XDG_CACHE_HOME = path.join(home, ".cache");
   delete process.env.CLAUDE_CONFIG_DIR;
@@ -73,12 +73,12 @@ test("a chat that mentions the answer's marker can't break the answer", { skip: 
     sessionId: "33333333-3333-4333-8333-333333333333",
     cwd: home,
     status: "idle",
-    name: "Why does @@claude-status@@ break the view?",
+    name: "Why does @@talpy-den@@ break the view?",
   });
   const backend = new Backend(path.resolve("."), () => "python3");
   const { status, error } = await backend.status([]);
   assert.equal(error, undefined);
-  assert.equal(status?.groups[0].sessions[0].name, "Why does @@claude-status@@ break the view?");
+  assert.equal(status?.groups[0].sessions[0].name, "Why does @@talpy-den@@ break the view?");
 });
 
 test("a custom CLAUDE_CONFIG_DIR is found when passed along", { skip: !linux && "sessions are detected through /proc" }, async () => {
@@ -135,7 +135,7 @@ test("a chat is shared between a stock ~/.claude and ~/.claude-work", async () =
 test("an action's answer keeps how plan feedback reaches the chat", async () => {
   // jump.py --plan-feedback --print-command: the command that reopens the
   // chat, or the text to type in or paste; without them nothing is sent
-  const ext = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-ext-"));
+  const ext = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-ext-"));
   fs.mkdirSync(path.join(ext, "vendor", "code"), { recursive: true });
   fs.writeFileSync(
     path.join(ext, "vendor", "code", "jump.py"),

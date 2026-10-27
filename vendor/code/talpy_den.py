@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Status backend for the Claude Status Plasma widget.
+"""Status backend for the Talpy Den Plasma widget.
 
 Prints one JSON object describing every local Claude Code session (working,
 waiting for input, idle), the plan-limit usage captured by the status line,
 and token totals parsed from transcripts. Standard library only; the widget
-runs it as `python3 -I claude_status.py` every couple of seconds.
+runs it as `python3 -I talpy_den.py` every couple of seconds.
 
 Data sources (per Claude config dir, e.g. ~/.claude, ~/.claude-work):
   <cfg>/sessions/<pid>.json       live session registry kept by Claude Code
@@ -17,10 +17,10 @@ Data sources (per Claude config dir, e.g. ~/.claude, ~/.claude-work):
                                   displayName, cachedUsageUtilization (Claude
                                   Code's own plan usage) and each folder's
                                   trust flag only
-  ~/.cache/claude-widget/statusline/<cfg dirname>/<session_id>.json
+  ~/.cache/talpy-den/statusline/<cfg dirname>/<session_id>.json
                                   status-line input snapshots (rate limits,
                                   context window), written by statusline-snippet.sh
-  ~/.cache/claude-widget/accounts.json
+  ~/.cache/talpy-den/accounts.json
                                   profiles accounts.py logged out of
 """
 
@@ -2352,7 +2352,7 @@ PERMISSION_WAITS = ("permission prompt", QUESTION_WAIT)
 #
 # The live hook (live_hook.py, which pane.py --live on puts in Claude's
 # settings) folds each chat's events into its live file,
-# ~/.cache/claude-widget/live/<session id>.json, as they happen: what the
+# ~/.cache/talpy-den/live/<session id>.json, as they happen: what the
 # chat does now, its last steps, its running subagents, what it said last.
 # A running chat's row carries it ("live"), and the widget follows the files
 # between two checks (live.py --wait; the VS Code extension: fs.watch).
@@ -2365,7 +2365,7 @@ LIVE_FIELDS = ("state", "doing", "asks", "at", "turnAt", "steps", "agents", "sai
 def live_hook_on(home):
     """Whether the live hook is on (pane.py --live on keeps its copy here)."""
     data = Path(os.environ.get("XDG_DATA_HOME") or home / ".local" / "share")
-    return (data / "claude-widget" / LIVE_HOOK_FILE).is_file()
+    return (data / "talpy-den" / LIVE_HOOK_FILE).is_file()
 
 
 def live_view(cache_root, sid, pid):
@@ -3461,7 +3461,7 @@ def note_overlaps(groups, changed, home):
 # ---------------------------------------------------------------- tasks waiting for a usage limit
 #
 # A task for a background session can wait until the usage limit of its
-# account resets: it's kept in ~/.cache/claude-widget/queue.json (an SSH
+# account resets: it's kept in ~/.cache/talpy-den/queue.json (an SSH
 # host's too: they start from here, over ssh), and every status lists it
 # ("due" once its time has come). A widget (or the VS Code extension) then
 # starts it with jump.py --start-queued, which takes it out of the queue
@@ -3552,7 +3552,7 @@ def queued_tasks(cache_root, now_ms):
 #
 # A chat of this computer can keep going until it's done: whenever a usage
 # limit stops it, it goes on a minute after the limit resets, as often as that
-# takes. Such chats are kept in ~/.cache/claude-widget/keep.json, and the
+# takes. Such chats are kept in ~/.cache/talpy-den/keep.json, and the
 # status run of the copy that notifies looks after them (look_after_kept): it
 # queues each go-on (started like one you queued), tries again after a pause
 # when one didn't take (nothing new in the chat a while after it went on) or
@@ -5172,7 +5172,7 @@ def is_vscode_terminal_host(pid):
 def vscode_terminal(pid):
     """The process a VS Code terminal started, that pid runs under, or None
     when it runs in no VS Code terminal. VS Code's extensions know a terminal
-    by that process (its processId), so the Claude Status extension can bring
+    by that process (its processId), so the Talpy Den extension can bring
     the chat's terminal up, even with the panel closed."""
     child, seen = None, set()
     while isinstance(pid, int) and pid > 1 and pid not in seen and len(seen) < 64:
@@ -6023,7 +6023,29 @@ class ScanLock:
 
 
 def cache_dir(home):
-    return Path(os.environ.get("XDG_CACHE_HOME") or home / ".cache") / "claude-widget"
+    return Path(os.environ.get("XDG_CACHE_HOME") or home / ".cache") / "talpy-den"
+
+
+def adopt_legacy_dirs(home):
+    """The folders an earlier version kept under its first name, claude-widget
+    (in the cache and in ~/.local/share), move to talpy-den. A link stays under
+    the old name: Claude's settings (the hooks) and the status-line snippet
+    still name it until the next ./install.sh brings them up to date."""
+    for base in (Path(os.environ.get("XDG_CACHE_HOME") or home / ".cache"),
+                 Path(os.environ.get("XDG_DATA_HOME") or home / ".local" / "share")):
+        old, new = base / "claude-widget", base / "talpy-den"
+        try:
+            if old.is_symlink() or not old.is_dir():
+                continue
+            new.mkdir(parents=True, exist_ok=True)
+            os.chmod(new, 0o700)
+            for child in list(old.iterdir()):
+                if not os.path.lexists(new / child.name):
+                    os.rename(child, new / child.name)
+            old.rmdir()  # (not while something is left in it: then it stays as it was)
+            os.symlink(new, old)
+        except OSError:
+            continue
 
 
 # ---------------------------------------------------------------- starred chats and plans
@@ -6750,7 +6772,7 @@ def add_vscode(result, home, extra_dirs=(), remote=False, cache_root=None):
 # also carries the shell command that opens it on the host, so the widget can
 # run it in a local terminal as `ssh -t host <command>`.
 
-REMOTE_MARK = "@@claude-status@@"
+REMOTE_MARK = "@@talpy-den@@"
 # Where claude is often installed besides PATH: Claude's installer, its old
 # local install, npm, bun, ~/bin, Volta, pnpm, mise and asdf; then nvm's
 # Node versions (newest first) and the system-wide places
@@ -6889,18 +6911,18 @@ def add_found_commands(result, home, extra_dirs=()):
         c["openCommand"] = in_folder(c["cwd"], resume_command(p, c["sessionId"], home, c["cwd"], claude)) if p else None
 
 
-USAGE = """usage: claude_status.py [--config-dir DIR]... [--done-hours H] [--recent N] [--plans N] [--no-tokens] [--pretty] [--remote [--local]]
-       claude_status.py --dismiss SESSION_ID | --undismiss-all
-       claude_status.py --end SESSION_ID [--profile PROFILE] [--busy] [--config-dir DIR]...
-       claude_status.py --interrupt SESSION_ID [--profile PROFILE] [--config-dir DIR]...
-       claude_status.py --agent-run AGENT_ID --chat CHAT_ID [--profile PROFILE] [--config-dir DIR]...
-       claude_status.py --vscode-account CONFIG_DIR|- [--vscode-server FOLDER]
-       claude_status.py --find QUERY [--limit N] [--remote]
-       claude_status.py --start-task|--task-command FOLDER --profile PROFILE [--prompt TEXT]
+USAGE = """usage: talpy_den.py [--config-dir DIR]... [--done-hours H] [--recent N] [--plans N] [--no-tokens] [--pretty] [--remote [--local]]
+       talpy_den.py --dismiss SESSION_ID | --undismiss-all
+       talpy_den.py --end SESSION_ID [--profile PROFILE] [--busy] [--config-dir DIR]...
+       talpy_den.py --interrupt SESSION_ID [--profile PROFILE] [--config-dir DIR]...
+       talpy_den.py --agent-run AGENT_ID --chat CHAT_ID [--profile PROFILE] [--config-dir DIR]...
+       talpy_den.py --vscode-account CONFIG_DIR|- [--vscode-server FOLDER]
+       talpy_den.py --find QUERY [--limit N] [--remote]
+       talpy_den.py --start-task|--task-command FOLDER --profile PROFILE [--prompt TEXT]
                         [--plan SLUG [--plan-profile PROFILE]] [--model MODEL] [--effort LEVEL]
                         [--permission-mode MODE] [--remote]
-       claude_status.py --plan-text SLUG [--profile PROFILE] [--remote]
-       claude_status.py --continue-chat CHAT_ID --profile PROFILE [--folder F] [--prompt TEXT] [--remote]
+       talpy_den.py --plan-text SLUG [--profile PROFILE] [--remote]
+       talpy_den.py --continue-chat CHAT_ID --profile PROFILE [--folder F] [--prompt TEXT] [--remote]
   --config-dir DIR  extra Claude config dir (repeatable)
   --done-hours H    keep finished background jobs listed for H hours (default 24, 0 = never)
   --recent N        list each account's N latest other chats (default 5, 0 = none)
@@ -7032,6 +7054,7 @@ def main(argv=None):
             sys.exit(USAGE)
     os.umask(0o077)  # cache files are private to the user
     home = Path.home()
+    adopt_legacy_dirs(home)
     cache_root = cache_dir(home)
     if (agent_run_id is None) != (chat_id is None):
         sys.exit(USAGE)

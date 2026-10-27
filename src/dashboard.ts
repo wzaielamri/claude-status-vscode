@@ -24,7 +24,7 @@ import { mergeChanges, TransitionTracker, type Changes, type PetEvent } from "./
 
 const HIDDEN_POLL_MS = 10000;
 const LIVE_WORKING_MS = 6000; // watched, a chat works, live mode (or the window isn't focused)
-const VIEW_ID = "claudeStatus.view";
+const VIEW_ID = "talpyDen.view";
 const DIGEST_SHOWN_MS = 60 * 60000; // the away card stays this long, unless closed
 const DEMO_STEP_MS = 8000;
 const MESSAGE_MS = { error: 10000, info: 12000 };
@@ -94,8 +94,8 @@ export class Dashboard implements vscode.Disposable {
       this.onStateEmitter,
       this.onPetEventEmitter,
       vscode.workspace.onDidChangeConfiguration((e) => {
-        if (!e.affectsConfiguration("claudeStatus")) return;
-        if (e.affectsConfiguration("claudeStatus.recapHistory")) void this.setRecapHistory(settings.recapHistory());
+        if (!e.affectsConfiguration("talpyDen")) return;
+        if (e.affectsConfiguration("talpyDen.recapHistory")) void this.setRecapHistory(settings.recapHistory());
         this.syncHosts();
         this.scheduleLocal(0);
         this.scheduleHosts(0);
@@ -399,7 +399,7 @@ export class Dashboard implements vscode.Disposable {
           void vscode.window.showInformationMessage(`Started on ${t.account}: ${what} — ${answer.message}${t.host ? ` · ${t.host}` : ""}`);
       } else if (!answer.ok) {
         this.setActionError(`Couldn't start the queued task: ${answer.message}`);
-        if (!this.visible) void vscode.window.showErrorMessage(`Claude Status: couldn't start the queued task “${what}”: ${answer.message}`);
+        if (!this.visible) void vscode.window.showErrorMessage(`Talpy Den: couldn't start the queued task “${what}”: ${answer.message}`);
       }
     } finally {
       this.starting.delete(t.id);
@@ -585,8 +585,8 @@ export class Dashboard implements vscode.Disposable {
   async setRecapHistory(keep: boolean): Promise<void> {
     if (this.demoPhase !== null) return;
     const { ok, message } = await this.backend.action("week.py", ["--history", keep ? "on" : "off"]);
-    if (ok) void vscode.window.showInformationMessage(`Claude Status: ${message}.`);
-    else void vscode.window.showWarningMessage(`Claude Status: the Recap's history didn't change: ${message}`);
+    if (ok) void vscode.window.showInformationMessage(`Talpy Den: ${message}.`);
+    else void vscode.window.showWarningMessage(`Talpy Den: the Recap's history didn't change: ${message}`);
   }
 
   async forgetRecapHistory(): Promise<void> {
@@ -596,15 +596,15 @@ export class Dashboard implements vscode.Disposable {
     }, "Delete");
     if (pick !== "Delete" || this.demoPhase !== null) return;
     const { ok, message } = await this.backend.action("week.py", ["--forget"]);
-    if (ok) void vscode.window.showInformationMessage(`Claude Status: ${message}.`);
-    else void vscode.window.showWarningMessage(`Claude Status: nothing was deleted: ${message}`);
+    if (ok) void vscode.window.showInformationMessage(`Talpy Den: ${message}.`);
+    else void vscode.window.showWarningMessage(`Talpy Den: nothing was deleted: ${message}`);
   }
 
   // The Permissions tab: the permissions you gave and the prompts of the
   // last 7 days (this computer's)
   async projects(): Promise<{ data?: ProjectsData; error?: string }> {
     if (this.demoPhase !== null) return { data: demoProjects(Date.now()) };
-    const currency = vscode.workspace.getConfiguration("claudeStatus").get<string>("recapCurrency") || "USD";
+    const currency = vscode.workspace.getConfiguration("talpyDen").get<string>("recapCurrency") || "USD";
     return this.backend.projects([...(currency !== "USD" ? ["--currency", currency] : []), ...configDirArgs()]);
   }
 
@@ -642,7 +642,7 @@ export class Dashboard implements vscode.Disposable {
         process.platform === "linux"
           ? ""
           : process.platform === "win32"
-            ? "Claude Status needs Linux or macOS: its status script doesn't run on Windows, so nothing shows here."
+            ? "Talpy Den needs Linux or macOS: its status script doesn't run on Windows, so nothing shows here."
             : "Running chats on this computer are only detected on Linux for now; SSH hosts still work.",
       claudeCode: this.claudeCodeInfo(),
       actionError: this.actionError,

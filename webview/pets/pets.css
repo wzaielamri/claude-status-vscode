@@ -1,5 +1,5 @@
 /* The pets' stages (webview/pets/stage.ts). Pets move with transforms only;
-   each Talpa draws itself on its own canvas (pet.ts). */
+   each Talpy draws itself on its own canvas (pet.ts). */
 
 .cs-stage {
   --cs-ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
@@ -204,7 +204,7 @@
   pointer-events: none;
 }
 
-/* The big Talpa walks in front of the headline, not behind it */
+/* The big Talpy walks in front of the headline, not behind it */
 .cs-stage--hero .cs-stage-pets {
   z-index: 2;
 }

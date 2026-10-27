@@ -1,6 +1,6 @@
 // Types for pictures.mjs, for the VS Code extension's webview (TypeScript)
 
-import type { Talpa } from "./talpa.mjs";
+import type { Talpy } from "./talpy.mjs";
 
 export interface Sheet {
     readonly index: number;
@@ -11,7 +11,7 @@ export interface Sheet {
 }
 
 export class Pictures {
-    constructor(talpa: Talpa, count: number);
+    constructor(talpy: Talpy, count: number);
     pictures: boolean;   // false: drawn live
     fadeMs: number;      // 0: a new pose just shows
     bigMs: number;       // a big move is drawn at most this often (with pictures on)

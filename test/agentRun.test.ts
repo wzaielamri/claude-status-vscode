@@ -24,7 +24,7 @@ test("the run is saved by jump.py here and by remote.py for an SSH host", () => 
 });
 
 test("only files in the cache's agent-runs folder are opened", () => {
-  const cache = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-runs-"));
+  const cache = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-runs-"));
   const root = agentRunsRoot(cache);
   fs.mkdirSync(root);
   const run = path.join(root, "Find the parser (a1).md");
@@ -71,7 +71,7 @@ test("it opens in the Markdown preview, as text where that's missing", async () 
 });
 
 test("the vendored backend saves a subagent's run where it's opened from", async () => {
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-test-"));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-test-"));
   process.env.HOME = home;
   process.env.XDG_CACHE_HOME = path.join(home, ".cache");
   delete process.env.CLAUDE_CONFIG_DIR;

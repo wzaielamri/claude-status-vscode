@@ -82,7 +82,7 @@ test("while you're away, finished chats wait for the digest; chats that need you
   const os = await import("node:os");
   const path = await import("node:path");
   const vscode = (await import("vscode")) as unknown as typeof import("./vscode-stub");
-  process.env.XDG_CACHE_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-away-"));
+  process.env.XDG_CACHE_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-away-"));
   const { Notifier } = await import("../src/notify");
   const sounds: string[] = [];
   const backend = { sound: (s: string) => sounds.push(s) } as never;

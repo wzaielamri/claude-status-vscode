@@ -1,5 +1,5 @@
 // Live mode: what a working chat does now (its live view against what the
-// last check read), the ticker under the big Talpa, and the watcher that
+// last check read), the ticker under the big Talpy, and the watcher that
 // asks for a check the moment a chat changes.
 
 import assert from "node:assert/strict";
@@ -106,7 +106,7 @@ test("the watcher: a session file asks for a check at once, a live file is hande
   const home = fs.mkdtempSync(path.join(os.tmpdir(), "cs-live-"));
   const sessions = path.join(home, ".claude-work/sessions");
   fs.mkdirSync(sessions, { recursive: true });
-  const cache = path.join(home, ".cache/claude-widget");
+  const cache = path.join(home, ".cache/talpy-den");
   const changes: LiveChange[] = [];
   const watch = new LiveWatch((c) => changes.push(c), () => [], cache, home);
   watch.start();

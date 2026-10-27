@@ -16,7 +16,7 @@ the others:
         <id>.file-history/   its undo checkpoints
 
 A chat shared this way by another tool, into a store of its own, is found
-through the profiles' links and handled where it is. claude_status.py tells
+through the profiles' links and handled where it is. talpy_den.py tells
 shared chats apart by the transcript's inode, whoever shared them.
 
 A chat can be open in only one Claude session at a time (two would write the
@@ -24,7 +24,7 @@ same file): a chat a session has open isn't shared or unshared.
 Nothing here starts Claude or sends anything anywhere.
 
 On an SSH host, remote.py runs this file's main() (python3 -I - with
-claude_status.py loaded first, remote.host_script), for the host's own
+talpy_den.py loaded first, remote.host_script), for the host's own
 profiles:
 
     --share CHAT_ID [--profile PROFILE]   share it with every profile (from PROFILE's copy)
@@ -40,7 +40,7 @@ import shutil
 import sys
 from pathlib import Path
 
-import claude_status as cs
+import talpy_den as cs
 
 # Claude's projects/<project> folder: the project's path with every other character as "-"
 PROJECT_KEY = re.compile(r"^[A-Za-z0-9._-]+$")
@@ -52,6 +52,7 @@ FOLDERS = (FOLDER, CHECKPOINTS)
 def store_root(home):
     data = os.environ.get("XDG_DATA_HOME", "")
     base = Path(data) if os.path.isabs(data) else home / ".local/share"
+    # (the folder keeps its first name: each shared chat's profile links point into it)
     return base / "claude-status" / "shared-chats"
 
 
@@ -488,7 +489,7 @@ def give_to(profiles, chat_id, name, root, end_first=False, home=None):
     """Give the profile `name` a chat, shared if it doesn't have it yet:
     (its profile, its transcript of the chat), or (None, why not). With
     end_first, a session that has it open idle (e.g. stopped by a usage
-    limit) is ended first (claude_status.end_for_handover)."""
+    limit) is ended first (talpy_den.end_for_handover)."""
     target = named(profiles, name)
     if target is None:
         return None, f"No Claude profile called {name}"

@@ -20,7 +20,7 @@ const PROFILE_DIR = /^[A-Za-z0-9._-]{1,100}$/;
 const TIP_COMMAND = /^\/[a-z][a-z-]{0,30}( [a-z0-9-]{1,30})?$/; // what a Recap tab tip suggests, e.g. "/effort xhigh"
 
 export class ViewHost implements vscode.WebviewViewProvider, vscode.Disposable {
-  static readonly viewId = "claudeStatus.view";
+  static readonly viewId = "talpyDen.view";
   private webviews = new Set<vscode.Webview>();
   private visibleCount = 0;
   private panel: vscode.WebviewPanel | undefined;
@@ -71,12 +71,12 @@ export class ViewHost implements vscode.WebviewViewProvider, vscode.Disposable {
       this.panel.reveal();
       return;
     }
-    const panel = vscode.window.createWebviewPanel("claudeStatus.panel", "Claude Status", vscode.ViewColumn.Active, {
+    const panel = vscode.window.createWebviewPanel("talpyDen.panel", "Talpy Den", vscode.ViewColumn.Active, {
       enableScripts: true,
       retainContextWhenHidden: true,
       localResourceRoots: this.roots(),
     });
-    panel.iconPath = vscode.Uri.joinPath(this.extensionUri, "media", "talpa.svg");
+    panel.iconPath = vscode.Uri.joinPath(this.extensionUri, "media", "talpy.svg");
     this.panel = panel;
     this.setUp(panel.webview, true);
     let visible = panel.visible;
@@ -320,7 +320,7 @@ export class ViewHost implements vscode.WebviewViewProvider, vscode.Disposable {
         void this.actions.pickHosts();
         break;
       case "setupUsageBars":
-        void vscode.commands.executeCommand("claudeStatus.setupUsageBars");
+        void vscode.commands.executeCommand("talpyDen.setupUsageBars");
         break;
       case "week": {
         const asked = weekAsked(m.back, m.account, m.span);
@@ -380,7 +380,7 @@ export class ViewHost implements vscode.WebviewViewProvider, vscode.Disposable {
         if (typeof m.text === "string" && TIP_COMMAND.test(m.text)) void vscode.env.clipboard.writeText(m.text);
         break;
       case "openUsagePage":
-        void vscode.commands.executeCommand("claudeStatus.openUsagePage");
+        void vscode.commands.executeCommand("talpyDen.openUsagePage");
         break;
     }
   }
@@ -408,10 +408,10 @@ export class ViewHost implements vscode.WebviewViewProvider, vscode.Disposable {
 <meta http-equiv="Content-Security-Policy" content="${csp}">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${asset("dist", "webview-style.css")}">
-<title>Claude Status</title>
+<title>Talpy Den</title>
 </head>
 <body>
-<script nonce="${nonce}">window.CLAUDE_STATUS = ${config.replace(/</g, "\\u003c")};</script>
+<script nonce="${nonce}">window.TALPY_DEN = ${config.replace(/</g, "\\u003c")};</script>
 <script nonce="${nonce}" src="${asset("dist", "webview.js")}"></script>
 </body>
 </html>`;

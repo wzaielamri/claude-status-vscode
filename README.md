@@ -1,10 +1,10 @@
-# Claude Status for VS Code
+# Talpy Den for VS Code
 
 Every Claude Code chat you have running, on this computer and on your SSH
 hosts, in one VS Code view: which ones need you, which are working, plan
-usage, subagents, recent chats, and Talpa, the animated pet who acts it all
+usage, subagents, recent chats, and Talpy, the animated pet who acts it all
 out. The VS Code companion of the
-[Claude Status widget](https://github.com/wzaielamri/claude-status)
+[Talpy Den widget](https://github.com/wzaielamri/talpy-den)
 for KDE Plasma and GNOME; all of them use the same backend.
 
 ## TL;DR
@@ -17,23 +17,23 @@ for KDE Plasma and GNOME; all of them use the same backend.
   and see what each chat is doing and what it changed without switching
   to it.
 - **Also**: subagent runs, plans, memories, Find a Chat, tasks that start
-  once a limit resets, moving a chat to another account, and Talpa acting it
+  once a limit resets, moving a chat to another account, and Talpy acting it
   all out.
-- **Install**: download `claude-status-<version>.vsix` from the
-  [latest release](https://github.com/wzaielamri/claude-status-vscode/releases/latest),
-  then `code --install-extension claude-status-<version>.vsix`. Needs
+- **Install**: download `talpy-den-<version>.vsix` from the
+  [latest release](https://github.com/wzaielamri/talpy-den-vscode/releases/latest),
+  then `code --install-extension talpy-den-<version>.vsix`. Needs
   Linux, Python 3.7+ and Claude Code; `jq` for the plan usage bars.
 - **On your desktop**: the
-  [Claude Status widget](https://github.com/wzaielamri/claude-status) for
+  [Talpy Den widget](https://github.com/wzaielamri/talpy-den) for
   KDE Plasma and GNOME.
 
-<!-- Screenshots show demo data only (Claude Status: Toggle Demo Data, or dev/harness.html), never real chats. -->
+<!-- Screenshots show demo data only (Talpy Den: Toggle Demo Data, or dev/harness.html), never real chats. -->
 <p>
-  <img src="docs/screenshots/view-dark.png" alt="The Claude Status view in a dark theme: Talpa under &quot;1 chat needs you&quot;, an account with three chats, their pets, plan usage bars and a queued task, and an SSH host with a chat a usage limit stopped" width="300">
+  <img src="docs/screenshots/view-dark.png" alt="The Talpy Den view in a dark theme: Talpy under &quot;1 chat needs you&quot;, an account with three chats, their pets, plan usage bars and a queued task, and an SSH host with a chat a usage limit stopped" width="300">
   <img src="docs/screenshots/view-light.png" alt="The same view in a light theme" width="300">
 </p>
 
-As an editor tab (**Claude Status: Open in Editor Tab**):
+As an editor tab (**Talpy Den: Open in Editor Tab**):
 
 <img src="docs/screenshots/editor-tab.png" alt="The view opened as a wide editor tab" width="640">
 
@@ -52,9 +52,9 @@ As an editor tab (**Claude Status: Open in Editor Tab**):
   session files, so a chat that starts, ends, starts working, asks for
   something or finishes its turn shows at once (also when you answer or
   interrupt it in its terminal), with its pet and notification; in between
-  it checks far less often. A line under the big Talpa says what the working
+  it checks far less often. A line under the big Talpy says what the working
   chats do right now, taking turns between them (click it for that chat's
-  tab). **Claude Status: Live Mode…** shows each step of each chat as it
+  tab). **Talpy Den: Live Mode…** shows each step of each chat as it
   happens too (a hook in Claude's settings that Claude doesn't wait for).
 - **What a chat is doing, without switching to it**: a line under each chat
   says what it's on right now (*▸ Bash: npm test*), what it needs, Claude's
@@ -121,7 +121,7 @@ As an editor tab (**Claude Status: Open in Editor Tab**):
 - **Your days with Claude**: the view's **Recap** tab shows a day, your last
   7 days or everything since your first chat (**Day | Week | Overall**; Claude
   Code deletes chats after 30 days, but the Recap keeps their numbers unless
-  `claudeStatus.recapHistory` is off). For the 7 days: how long you were at it and how long
+  `talpyDen.recapHistory` is off). For the 7 days: how long you were at it and how long
   Claude worked, against the week before; a row per day on a timeline, with
   when you were at it, when Claude worked (darker where several chats worked
   at once) and when it waited for your answer (point at a day to see what
@@ -137,7 +137,7 @@ As an editor tab (**Claude Status: Open in Editor Tab**):
   Code's own `/usage` (*Start fresh when you switch tasks*, *Save max effort
   for hard tasks*, …), each with the share of the week's usage it touches
   and a command to copy. For all your accounts or one, with the SSH hosts
-  shown, in US dollars or your currency (`claudeStatus.recapCurrency`). It's read from the chats' transcripts, so it uses no tokens,
+  shown, in US dollars or your currency (`talpyDen.recapCurrency`). It's read from the chats' transcripts, so it uses no tokens,
   and only while the tab is open: the first time takes a few seconds, after
   that only what's new is read.
 - **The permissions you gave, in one place**: the view's **Permissions** tab
@@ -149,7 +149,7 @@ As an editor tab (**Claude Status: Open in Editor Tab**):
   folder is marked untrusted). Under it,
   the permission prompts you answered in the last 7 days, with the rules
   that would have let the most of them through (**Allow…** writes one,
-  **Undo** takes it back; `claudeStatus.recapRules` leaves them out).
+  **Undo** takes it back; `talpyDen.recapRules` leaves them out).
 - **A chat's recap**: the unfolded peek ends with the chat's numbers: your
   prompts, how long Claude worked (each turn from your prompt to its last
   step), its tool calls by tool, its tokens with its subagents', and what it
@@ -172,10 +172,10 @@ As an editor tab (**Claude Status: Open in Editor Tab**):
 - **The status bar**: how many chats need you, the 5-hour usage, and with
   two or more accounts which one VS Code's Claude runs on (**Claude: work**):
   click it to change the default account.
-- **Talpa**: one pet for the whole dashboard, one per chat (in the same
+- **Talpy**: one pet for the whole dashboard, one per chat (in the same
   order as the list: the chats that need you first, the others in the order
   they started; its bar in the pet's color), each acting out its chat.
-  Talpa lives in a burrow: it digs over to another spot instead of walking,
+  Talpy lives in a burrow: it digs over to another spot instead of walking,
   a new chat's pet digs up out of the ground, and one whose chat leaves the
   list waves and digs away. Click a pet to go to its chat (its terminal or
   Claude Code tab), drag one out of its burrow, double-click the big one.
@@ -183,7 +183,7 @@ As an editor tab (**Claude Status: Open in Editor Tab**):
   on an SSH host), a finished chat's share button continues it on another
   account (say, when one hits its limit), shares it with all of them, or
   keeps it on one again (see "Good to know" for adding a second account).
-- **Accounts**: **Claude Status: Claude Accounts…**
+- **Accounts**: **Talpy Den: Claude Accounts…**
   (the view's **⋯** menu) lists the Claude accounts of this computer or of
   an SSH host in the view: whom each is logged in as, which one is the
   default, which ones VS Code's Claude and plain `claude` run on. **Add
@@ -207,7 +207,7 @@ machine the window is on:
  your computer                                 an SSH host
 ┌───────────────────────────────────────┐
 │ VS Code window (local or Remote-SSH)  │
-│   Claude Status view (webview)        │
+│   Talpy Den view (webview)        │
 │   extension: runs here, always        │
 │     ├─ reads ~/.claude* here          │       ┌────────────────────────┐
 │     └─ ssh host 'python3 -' ──────────┼─────► │ reads its ~/.claude*   │
@@ -216,7 +216,7 @@ machine the window is on:
 ```
 
 The host your window is connected to is shown without setting anything up.
-Other hosts: **Claude Status: Show Claude on SSH Hosts…** lists the ones in
+Other hosts: **Talpy Den: Show Claude on SSH Hosts…** lists the ones in
 `~/.ssh/config`. A host needs key-based login (the check never asks for a
 password) and `python3` 3.7 or newer; nothing is installed there.
 
@@ -226,7 +226,7 @@ call, Claude's replies rendered (headings, lists, code blocks with **Copy**,
 tables), each tool call on one line with what came of it under it
 (*● Bash(pytest) ⎿ 3 passed*, the dot green or red; click it for what it ran
 and got); **A−** / **A+** (or Ctrl+wheel) set the text size
-(`claudeStatus.chatTextScale`). Below it, a box to reply (Enter sends,
+(`talpyDen.chatTextScale`). Below it, a box to reply (Enter sends,
 Shift+Enter starts a new line, **Ctrl+V** pastes a picture, shown under the
 box):
 **Send**, or **Send when this turn ends** (kept, and sent once the turn is
@@ -243,9 +243,9 @@ the same way. A notification takes a reply too (**Reply…**).
 **Permission prompts:** a chat waiting for a permission shows the command, or
 the file and its change, with **Allow once**, **Always allow** and **Deny**
 (with a note for Claude), in Claude's own order, in its row, its tab and its
-notification. That needs **Claude Status: Answer Permission Prompts from
-Claude Status…**: it adds a hook to each Claude profile's `settings.json`
-(and on the SSH hosts shown) that hands each request to Claude Status. Claude
+notification. That needs **Talpy Den: Answer Permission Prompts from
+Talpy Den…**: it adds a hook to each Claude profile's `settings.json`
+(and on the SSH hosts shown) that hands each request to Talpy Den. Claude
 still asks in the chat too; whichever you answer first counts. **Always
 allow** saves the rule Claude suggests, as its own *don't ask again* does. Chats in tmux can be
 answered without the hook, with their dialog's keys.
@@ -270,7 +270,7 @@ files say **to review** until you **Mark reviewed** (or until they change
 files again), with whether tests ran and passed after their last edit.
 
 The window button beside a chat and a click on its pet open the chat
-itself, on the machine it's on (with `claudeStatus.clickOpensPane` off, so
+itself, on the machine it's on (with `talpyDen.clickOpensPane` off, so
 does a click on its name): in VS Code's terminal here, on the window's host,
 or through `ssh -t` for another host. A chat already running in one of this
 window's terminals is brought to the front; a chat of the Claude Code
@@ -294,7 +294,7 @@ the chat tab.
 
 **Recent chats** reopen in a terminal (`claude --resume`) or in a Claude Code
 tab: the **Terminal | Claude Code tab** switch above them picks which (kept in
-`claudeStatus.reopenIn`), and so does every other way to reopen a chat that
+`talpyDen.reopenIn`), and so does every other way to reopen a chat that
 isn't running (**Open its window** in its tab, its row, **Find a Chat**). A
 Claude Code tab opens in the window that has the chat's folder: this one,
 another, or a new one (an SSH host's chat: connected to it). A half is greyed
@@ -330,21 +330,21 @@ status line), and each subagent the model it runs on.
 ## Requirements
 
 - VS Code 1.90 or newer.
-- Python 3.7+ on this computer (`python3`, or set `claudeStatus.pythonPath`)
+- Python 3.7+ on this computer (`python3`, or set `talpyDen.pythonPath`)
   and on every SSH host you pick.
 - Linux on this computer for its running chats to show (they are found
   through `/proc`); SSH hosts work from macOS too. VS Code installed as a
   package (`.deb`, `.rpm`, Arch's): a Flatpak VS Code runs extensions in a
   sandbox that can't see Claude's sessions.
 - Claude Code. A plain `~/.claude` is all it needs; more profiles
-  (`~/.claude-*`, `$CLAUDE_CONFIG_DIR`, `claudeStatus.extraConfigDirs`) are
+  (`~/.claude-*`, `$CLAUDE_CONFIG_DIR`, `talpyDen.extraConfigDirs`) are
   picked up as well. `claude` is found on PATH, in `~/.local/bin` and npm's,
   bun's, Volta's, pnpm's and nvm's folders, or on your login shell's PATH.
 - For plan usage bars: `jq`, and the status-line snippet (next section).
 
 ## Plan usage bars
 
-Claude Code hands plan usage only to its status line. **Claude Status: Set Up
+Claude Code hands plan usage only to its status line. **Talpy Den: Set Up
 Plan Usage Bars…** adds a small snippet that keeps a copy of it:
 
 - a status line that runs a script reading its input (`input=$(cat)`) gets
@@ -360,12 +360,12 @@ it. The bars fill in after the next reply in each account's chats.
 
 ## Install
 
-Not on the Marketplace yet. Download `claude-status-<version>.vsix` from the
-[latest release](https://github.com/wzaielamri/claude-status-vscode/releases/latest),
+Not on the Marketplace yet. Download `talpy-den-<version>.vsix` from the
+[latest release](https://github.com/wzaielamri/talpy-den-vscode/releases/latest),
 then in VS Code open the Extensions view, **⋯** → **Install from VSIX…**, or:
 
 ```sh
-code --install-extension claude-status-<version>.vsix
+code --install-extension talpy-den-<version>.vsix
 ```
 
 A downloaded extension doesn't update by itself: install a newer release the
@@ -373,48 +373,48 @@ same way. Or build it from a clone:
 
 ```sh
 npm ci
-npm run package                     # builds claude-status-<version>.vsix
-code --install-extension claude-status-*.vsix
+npm run package                     # builds talpy-den-<version>.vsix
+code --install-extension talpy-den-*.vsix
 ```
 
 ## Settings
 
 | Setting | Default | |
 |---|---|---|
-| `claudeStatus.sshHosts` | `[]` | SSH hosts to show (use the host picker) |
-| `claudeStatus.includeCurrentRemote` | `true` | Also show the Remote-SSH window's host |
-| `claudeStatus.remotePollSeconds` | `30` | How often hosts are checked |
-| `claudeStatus.sshUsage` | `once` | Plan usage on hosts' accounts: an account on this computer and a host (or two hosts) shows it once, where it's listed first, with the newest numbers; `all`: under every copy; `none`: on no host |
-| `claudeStatus.pollInterval` | `2000` | While a chat works, ms between checks of this computer while the view is open: how often a working chat's line is brought up to date (10 s when hidden, 6 s when the window isn't focused). No effect with Live Mode on: its steps show as they happen, and a working chat is checked every 6 s |
-| `claudeStatus.idlePollInterval` | `20000` | While no chat works, ms between checks: plan usage and its forecast, a usage limit resetting, a queued task coming due, a Claude that crashed. A chat that starts, ends, starts working, asks for something or finishes its turn is checked at once either way |
-| `claudeStatus.extraConfigDirs` | `[]` | More Claude Code config folders |
-| `claudeStatus.clickOpensPane` | `true` | A click on a chat opens its tab (conversation, reply, permission prompt, review); `false`: the chat itself |
-| `claudeStatus.chatTextScale` | `1.15` | Text size in a chat's tab, times VS Code's font size (the tab's **A−** / **A+** and Ctrl+wheel set it) |
-| `claudeStatus.openIn` | `vscode` | `system`: open chats in your desktop's terminal app instead |
-| `claudeStatus.reopenIn` | `terminal` | `claudeCode`: reopen chats that aren't running in a Claude Code tab (the switch above Recent chats) |
-| `claudeStatus.notifyWaiting` / `notifyDone` | `true` | Notifications; turn them off here if the Plasma or GNOME widget notifies too |
-| `claudeStatus.notifyDoneMinSeconds` | `30` | Shortest turn that gets a "finished" notification |
-| `claudeStatus.awayDigest` / `awayMinutes` | `true` / `5` | The "while you were away" summary, after this many minutes without using VS Code (with notifications off, only its card in the view) |
-| `claudeStatus.notifySound`, `soundVolume`, `soundWaiting`, `soundDone`, `soundFailed` | | Sounds (sound-theme names or files) |
-| `claudeStatus.showPet` / `chatPets` | `true` / `5` | Talpa, and pets per account |
-| `claudeStatus.showTokens`, `showUsageInStatusBar`, `recentChats`, `keepDoneHours` | | What the view shows |
-| `claudeStatus.recapCurrency` | `USD` | The Recap tab's amounts: US dollars (Claude's API prices), or another currency at the European Central Bank's rate of the day |
-| `claudeStatus.recapHistory` | `true` | The Recap keeps the numbers of chats Claude Code has deleted (after 30 days), so **Overall** keeps growing; **Delete the Recap's Saved History…** starts it again |
-| `claudeStatus.recapRules` | `true` | The Permissions tab suggests rules for the permission prompts you answered, each with **Allow…**; off, it only counts the prompts |
-| `claudeStatus.pythonPath` | `python3` | Python on this computer |
+| `talpyDen.sshHosts` | `[]` | SSH hosts to show (use the host picker) |
+| `talpyDen.includeCurrentRemote` | `true` | Also show the Remote-SSH window's host |
+| `talpyDen.remotePollSeconds` | `30` | How often hosts are checked |
+| `talpyDen.sshUsage` | `once` | Plan usage on hosts' accounts: an account on this computer and a host (or two hosts) shows it once, where it's listed first, with the newest numbers; `all`: under every copy; `none`: on no host |
+| `talpyDen.pollInterval` | `2000` | While a chat works, ms between checks of this computer while the view is open: how often a working chat's line is brought up to date (10 s when hidden, 6 s when the window isn't focused). No effect with Live Mode on: its steps show as they happen, and a working chat is checked every 6 s |
+| `talpyDen.idlePollInterval` | `20000` | While no chat works, ms between checks: plan usage and its forecast, a usage limit resetting, a queued task coming due, a Claude that crashed. A chat that starts, ends, starts working, asks for something or finishes its turn is checked at once either way |
+| `talpyDen.extraConfigDirs` | `[]` | More Claude Code config folders |
+| `talpyDen.clickOpensPane` | `true` | A click on a chat opens its tab (conversation, reply, permission prompt, review); `false`: the chat itself |
+| `talpyDen.chatTextScale` | `1.15` | Text size in a chat's tab, times VS Code's font size (the tab's **A−** / **A+** and Ctrl+wheel set it) |
+| `talpyDen.openIn` | `vscode` | `system`: open chats in your desktop's terminal app instead |
+| `talpyDen.reopenIn` | `terminal` | `claudeCode`: reopen chats that aren't running in a Claude Code tab (the switch above Recent chats) |
+| `talpyDen.notifyWaiting` / `notifyDone` | `true` | Notifications; turn them off here if the Plasma or GNOME widget notifies too |
+| `talpyDen.notifyDoneMinSeconds` | `30` | Shortest turn that gets a "finished" notification |
+| `talpyDen.awayDigest` / `awayMinutes` | `true` / `5` | The "while you were away" summary, after this many minutes without using VS Code (with notifications off, only its card in the view) |
+| `talpyDen.notifySound`, `soundVolume`, `soundWaiting`, `soundDone`, `soundFailed` | | Sounds (sound-theme names or files) |
+| `talpyDen.showPet` / `chatPets` | `true` / `5` | Talpy, and pets per account |
+| `talpyDen.showTokens`, `showUsageInStatusBar`, `recentChats`, `keepDoneHours` | | What the view shows |
+| `talpyDen.recapCurrency` | `USD` | The Recap tab's amounts: US dollars (Claude's API prices), or another currency at the European Central Bank's rate of the day |
+| `talpyDen.recapHistory` | `true` | The Recap keeps the numbers of chats Claude Code has deleted (after 30 days), so **Overall** keeps growing; **Delete the Recap's Saved History…** starts it again |
+| `talpyDen.recapRules` | `true` | The Permissions tab suggests rules for the permission prompts you answered, each with **Allow…**; off, it only counts the prompts |
+| `talpyDen.pythonPath` | `python3` | Python on this computer |
 
 ## Privacy
 
 Nothing leaves your computer except the `ssh` connections to the hosts you
 pick. There is no telemetry, and the view loads nothing from the internet.
 
-With **Live Mode** on, a hook (`~/.local/share/claude-widget/live-hook.py`,
+With **Live Mode** on, a hook (`~/.local/share/talpy-den/live-hook.py`,
 named in each profile's `settings.json`) writes each chat's last steps to
-`~/.cache/claude-widget/live/<session>.json`: the tool and its file name or
+`~/.cache/talpy-den/live/<session>.json`: the tool and its file name or
 command (cut to 60 characters) and the first line of Claude's last reply. A
 file goes once its chat has said nothing for 3 days; turning Live Mode off
 takes the hook out again.
-The one download: with `claudeStatus.recapCurrency` set to a currency other
+The one download: with `talpyDen.recapCurrency` set to a currency other
 than US dollars, the **Recap** tab fetches the European Central Bank's public
 exchange rates (`https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml`)
 at most every 6 hours while it's open; that request carries nothing about
@@ -429,28 +429,28 @@ edits a file (`<config>/file-history`, to compare a chat's changes),
 the plans chats wrote (`<config>/plans`), Claude's memories
 (`<config>/projects/<folder>/memory`) and each account's `CLAUDE.md`,
 the account name and plan from `.claude.json`, and the status-line copies in
-`~/.cache/claude-widget/statusline`. The **Recap** tab reads the transcripts
-too, and keeps what it read in `~/.cache/claude-widget/week-2.json`; it calls
+`~/.cache/talpy-den/statusline`. The **Recap** tab reads the transcripts
+too, and keeps what it read in `~/.cache/talpy-den/week-2.json`; it calls
 no model. A rule you **Allow…** in the **Permissions** tab is one entry in the
 `.claude/settings.local.json` of the folder its chats started in (only
-there, never your user settings), and `~/.cache/claude-widget/rules.json`
+there, never your user settings), and `~/.cache/talpy-den/rules.json`
 remembers it so **Undo** can take it back. **Revoke…** on one of the
 permissions you gave takes that one entry out of the settings file it's in
 (your user settings or a folder's `.claude/settings.local.json`; never a
 folder's `.claude/settings.json`, which git shares). A chat's tab reads its
 transcript; what you send there goes to Claude as your message. Answering
 permission prompts takes the hook you turn on with **Answer Permission
-Prompts from Claude Status…** (`~/.local/share/claude-widget/permission-hook.py`,
+Prompts from Talpy Den…** (`~/.local/share/talpy-den/permission-hook.py`,
 named in each profile's `settings.json`; it writes each request to
-`~/.cache/claude-widget/permissions` while it waits, and removes it once
+`~/.cache/talpy-den/permissions` while it waits, and removes it once
 answered), or the dialog's keys in tmux. **Undo** writes a chat's files back
 as they were before it (a file it made is removed), **Commit** runs
 `git add` and `git commit` on only the chat's files, and **Mark reviewed** is
-kept in `~/.cache/claude-widget/reviewed.json`. A picture you paste into a
-reply is saved in `~/.cache/claude-widget/images` (yours alone, deleted after
+kept in `~/.cache/talpy-den/reviewed.json`. A picture you paste into a
+reply is saved in `~/.cache/talpy-den/images` (yours alone, deleted after
 30 days); for an SSH host's chat it's copied to the host's only once you click
 **Copy**. It writes only to
-`~/.cache/claude-widget` (caches, the list of chats you removed, the tasks
+`~/.cache/talpy-den` (caches, the list of chats you removed, the tasks
 you queue until they start, copies of the files a comparison shows, kept for
 a day, pictures you paste) and, if you
 ask for it, the status-line change above, the links of the chats and plans
@@ -478,7 +478,7 @@ you paste goes straight to Claude on the host.
   shows notifications and plays sounds. "Away" means no VS Code window was in
   use, so switching between windows isn't an absence.
 - The Plasma widget and the GNOME extension use this extension through its
-  `vscode://wzaielamri.claude-status/…` links: a chat's changes open in its
+  `vscode://wzaielamri.talpy-den/…` links: a chat's changes open in its
   changes view (without it, one diff per file), a chat in one of VS Code's
   terminals brings up that terminal, and the Plasma widget's plans and
   subagent runs open in the Markdown preview (**Open plans and runs in: VS
@@ -487,11 +487,11 @@ you paste goes straight to Claude on the host.
   turn notifications off in one of them.
 - On KDE Plasma, a chat running in a terminal outside VS Code (or in
   another VS Code window) is brought to the front the way the widget does it
-  (Konsole tab, window); on GNOME too, while the widget's Claude Status GNOME
+  (Konsole tab, window); on GNOME too, while the widget's Talpy Den GNOME
   Shell extension runs (GNOME 43, 44, 49 and newer; log out and in after
   installing it). Elsewhere, and on GNOME without it, the view says where
   the chat runs. On GNOME, sounds use GNOME's sound theme.
-- **Claude Status: Toggle Demo Data** shows made-up chats (for screenshots,
+- **Talpy Den: Toggle Demo Data** shows made-up chats (for screenshots,
   or to try it without Claude Code).
 - **Sharing a chat** hard-links its transcript into each account's profile,
   so whichever account continues it writes to the same file; its subagent
@@ -501,13 +501,13 @@ you paste goes straight to Claude on the host.
   close it on one account before you resume it on another. Everything in the
   chat goes to the account that continues it. **Keep only on …** undoes it.
   **Continue on …** opens the chat like any other: in VS Code's terminal, or
-  your desktop's with `claudeStatus.openIn` = `system`. On an SSH host
+  your desktop's with `talpyDen.openIn` = `system`. On an SSH host
   (Remote-SSH's or a picked one) with two or more accounts it works the same,
   between that host's accounts; the sharing script goes over ssh like the
   status script, so nothing is installed there. A chat can't move between
   this computer and a host.
 - **The default account** (click **Claude: …** in the status bar, run
-  **Claude Status: Default Claude Account…**, or **Make Default** in Claude
+  **Talpy Den: Default Claude Account…**, or **Make Default** in Claude
   Accounts) is the one VS Code's Claude runs on: it sets `CLAUDE_CONFIG_DIR`
   in VS Code's `claudeCode.environmentVariables` and reloads the window
   (other windows offer to reload). Where `~/.claude` is a link, it's pointed
@@ -521,7 +521,7 @@ you paste goes straight to Claude on the host.
   folder, set `"claudeCode.environmentVariables": []` in its Remote Settings.
 - **A second account to share with** is a second Claude config folder logged
   into a *different* Claude account (profiles on the same account count as
-  one): **Claude Status: Add Claude Account…** makes one (`~/.claude-NAME`)
+  one): **Talpy Den: Add Claude Account…** makes one (`~/.claude-NAME`)
   and opens Claude's login for it; you sign in with the other account. Its
   settings can be linked to another account's: `settings.json` (your status
   line too, so its plan usage bars work), `CLAUDE.md`, keybindings and your
@@ -547,7 +547,7 @@ npm run watch          # rebuild on change; F5 in VS Code starts a test window
 node esbuild.mjs --harness   # dev pages: look at the view with demo data in a browser
 ```
 
-`vendor/` is the widget's backend and Talpa (the pet's drawing, moods and
+`vendor/` is the widget's backend and Talpy (the pet's drawing, moods and
 actions, shared with the widget), copied by `scripts/sync-widget.sh` from a
 widget commit; change them there.
 
@@ -569,7 +569,7 @@ git config core.hooksPath .githooks
 
 ## Credits
 
-- Backend: the [Claude Status widget](https://github.com/wzaielamri/claude-status) for KDE Plasma and GNOME.
+- Backend: the [Talpy Den widget](https://github.com/wzaielamri/talpy-den) for KDE Plasma and GNOME.
 
 Not affiliated with Anthropic. Claude and Claude Code are Anthropic's.
 

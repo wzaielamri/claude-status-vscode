@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Bring a Claude Code session to the front, stop a background one, or start
-a new chat (used by the Claude Status widget).
+a new chat (used by the Talpy Den widget).
 
     python3 -I jump.py SESSION_ID [--config-dir DIR]...
     python3 -I jump.py --stop SESSION_ID [--profile PROFILE] [--busy] [--config-dir DIR]...
@@ -38,13 +38,13 @@ Sharing is done by sharing.py; a chat that's open in a session isn't touched
 
 `--stop` runs `claude stop <id>` for a background session: it's interrupted,
 its conversation is kept, and `claude attach <id>` resumes it. A chat in a
-terminal or in VS Code is stopped too (claude_status.stop_chat): Claude quits,
+terminal or in VS Code is stopped too (talpy_den.stop_chat): Claude quits,
 its terminal stays open (VS Code's tab goes on with the next message), and
 `claude --resume <id>` reopens it; only an idle one unless --busy (you were
 told it's working or waiting). `--interrupt` presses Ctrl+C for a chat in tmux.
 
 - terminal session: switch Konsole to the tab running it (or select its tmux
-  pane) and raise that window; in VS Code's terminal, the Claude Status
+  pane) and raise that window; in VS Code's terminal, the Talpy Den
   extension (1.11 or newer) brings that terminal up too;
 - VS Code session: raise the VS Code window of the project and reveal the
   conversation through the Claude extension's vscode:// link;
@@ -54,7 +54,7 @@ told it's working or waiting). `--interrupt` presses Ctrl+C for a chat in tmux.
   shared chat last used there): open a terminal running `claude --resume <id>`.
 
 Windows are raised with a short KWin script: on Plasma Wayland that is the
-way to activate another application's window. On GNOME the Claude Status
+way to activate another application's window. On GNOME the Talpy Den
 extension raises them (it runs inside GNOME Shell and offers RaiseWindow on
 D-Bus). Prints one JSON line, {"ok": bool, "message": str}.
 """
@@ -78,7 +78,7 @@ from urllib.parse import urlencode
 
 sys.dont_write_bytecode = True  # no __pycache__ inside the installed widget
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # -I leaves the script dir off sys.path
-import claude_status as cs  # noqa: E402
+import talpy_den as cs  # noqa: E402
 import sharing  # noqa: E402
 
 KWIN_SCRIPT = """\
@@ -202,8 +202,8 @@ def place_window(caption, x, y, width, height):
 
 
 def raise_window_kwin(want, script=KWIN_SCRIPT):
-    fd, path = tempfile.mkstemp(prefix="claude-status-", suffix=".js")
-    name = f"claude-status-jump-{os.getpid()}"
+    fd, path = tempfile.mkstemp(prefix="talpy-den-", suffix=".js")
+    name = f"talpy-den-jump-{os.getpid()}"
     try:
         with os.fdopen(fd, "w") as f:
             f.write(script % json.dumps(want))
@@ -225,15 +225,15 @@ def on_gnome():
 
 
 def raise_hint():
-    return "is the Claude Status extension enabled?" if on_gnome() else "is KWin scripting available?"
+    return "is the Talpy Den extension enabled?" if on_gnome() else "is KWin scripting available?"
 
 
-GNOME_RAISER = ("org.gnome.Shell", "/org/gnome/Shell/Extensions/ClaudeStatus",
-                "org.gnome.Shell.Extensions.ClaudeStatus.RaiseWindow")
+GNOME_RAISER = ("org.gnome.Shell", "/org/gnome/Shell/Extensions/TalpyDen",
+                "org.gnome.Shell.Extensions.TalpyDen.RaiseWindow")
 
 
 def raise_window_gnome(want):
-    """Ask the Claude Status GNOME Shell extension to raise the window (the
+    """Ask the Talpy Den GNOME Shell extension to raise the window (the
     same choice as KWIN_SCRIPT); False when it isn't running."""
     dest, path, method = GNOME_RAISER
     # gdbus reads its arguments as GVariant text: a quoted string literal
@@ -585,7 +585,7 @@ def jump_remote_vscode(host, session_id, folder=""):
 def jump_remote_vscode_terminal(host, terminal, folder=""):
     """Show a chat that runs in a terminal of a VS Code window connected to
     host (terminal: the process that terminal started there): raise that
-    window, then have the Claude Status extension bring the terminal up."""
+    window, then have the Talpy Den extension bring the terminal up."""
     mains, caption = vscode_connected_to(host)
     if not mains:
         return False, f"This chat runs in a VS Code terminal on {host}, and no VS Code window here is connected to it"
@@ -637,15 +637,15 @@ def jump_vscode(entry):
 
 
 # VS Code has no way to show one of its terminals from outside (and leaves it
-# hidden when you closed the panel); the Claude Status extension does it for
+# hidden when you closed the panel); the Talpy Den extension does it for
 # this link, in the window it reaches: the one focused last.
-TERMINAL_LINK = "vscode://wzaielamri.claude-status/terminal"
+TERMINAL_LINK = "vscode://wzaielamri.talpy-den/terminal"
 
 
 def show_vscode_terminal(code, terminal, host=None):
     """Have the VS Code window just raised bring up its terminal whose
     process is terminal (on host, for a window connected to it). False when
-    that needs a Claude Status extension it hasn't (code: VS Code's command)."""
+    that needs a Talpy Den extension it hasn't (code: VS Code's command)."""
     opener = shutil.which("xdg-open")
     if not opener or not status_extension_since(code, STATUS_EXTENSION_TERMINALS):
         return False
@@ -709,7 +709,7 @@ def scope_prefix(name):
             return []
     except (OSError, subprocess.TimeoutExpired):
         return []
-    unit = f"app-claudestatus-{re.sub(r'[^A-Za-z0-9_.]', '_', name)}-{os.urandom(4).hex()}.scope"
+    unit = f"app-talpyden-{re.sub(r'[^A-Za-z0-9_.]', '_', name)}-{os.urandom(4).hex()}.scope"
     return base + [f"--unit={unit}", "--"]
 
 
@@ -886,7 +886,7 @@ def interrupt(home, extra_dirs, session_id, profile_dir=None):
 
 
 def save_settings(home, values_json, by, unless_default=False):
-    """Save a widget's settings for its other copies (claude_status: several widgets at once)."""
+    """Save a widget's settings for its other copies (talpy_den: several widgets at once)."""
     try:
         values = json.loads(values_json)
     except ValueError:
@@ -1009,7 +1009,7 @@ def pick_files(home, start):
 #
 # Ctrl+V in a new chat's task field or a chat's reply, with no text on the
 # clipboard: its picture is saved in the widget's cache
-# (claude_status.images_dir, yours alone) for the task or reply to name. The
+# (talpy_den.images_dir, yours alone) for the task or reply to name. The
 # VS Code extension hands over what was pasted in its page (--save-image).
 
 IMAGE_TYPES = {"image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp", "image/gif": ".gif"}  # Claude's, best first
@@ -1183,7 +1183,7 @@ def attach_file(home, path):
 # ---------------------------------------------------------------- tasks waiting for a usage limit
 #
 # A background task can wait until its account's usage limit resets
-# (claude_status: the queue); the widget starts it then with --start-queued.
+# (talpy_den: the queue); the widget starts it then with --start-queued.
 
 
 def queue_task(home, extra_dirs, dirname, folder, task, start_at, host="", account="", scheduled=False):
@@ -1443,7 +1443,7 @@ def open_vscode_chat(caption, wait, prefer="", link=VSCODE_NEW_CHAT):
 def vscode_for(home, extra_dirs, dirname):
     """(VS Code's command, the profile named dirname), when VS Code's Claude
     runs on that profile: VS Code's environment and settings decide which one
-    (claude_status.vscode_profile), so other profiles are refused. Else
+    (talpy_den.vscode_profile), so other profiles are refused. Else
     (None, why not)."""
     profiles = cs.discover_profiles(home, extra_dirs)
     profile = next((p for p in profiles if cs.matches_profile(p, dirname)), None)
@@ -1617,10 +1617,10 @@ def send_to_phone(message, device=None):
 
 # ---------------------------------------------------------------- what a chat changed
 #
-# `--changes ID` compares the files a chat changed (claude_status.chat_edits)
+# `--changes ID` compares the files a chat changed (talpy_den.chat_edits)
 # with what they were before it: copies of the originals go to a folder of
 # their own in the cache (named like the files, so VS Code highlights them),
-# then VS Code shows them side by side. With the Claude Status extension for
+# then VS Code shows them side by side. With the Talpy Den extension for
 # VS Code (1.8 or newer) all of them open in one multi-file diff, through its
 # vscode:// link; else each file opens with `code --diff`. `--turn` compares
 # with what they were when you sent your last prompt; `--list` only prints
@@ -1628,10 +1628,10 @@ def send_to_phone(message, device=None):
 
 CHANGES_KEEP_S = 86400  # comparison folders are removed after a day
 CHANGES_ONE_BY_ONE = 25  # files `code --diff` opens, at most
-STATUS_EXTENSION = "wzaielamri.claude-status"
+STATUS_EXTENSION = "wzaielamri.talpy-den"
 STATUS_EXTENSION_CHANGES = (1, 8)  # its first version that opens CHANGES_LINK
 STATUS_EXTENSION_TERMINALS = (1, 11)  # its first version that opens TERMINAL_LINK
-CHANGES_LINK = "vscode://wzaielamri.claude-status/changes"
+CHANGES_LINK = "vscode://wzaielamri.talpy-den/changes"
 EXTENSION_FOLDERS = {"code": ".vscode", "code-insiders": ".vscode-insiders", "codium": ".vscode-oss",
                      "code-oss": ".vscode-oss"}
 
@@ -1755,12 +1755,12 @@ def chat_comparison(home, extra_dirs, session_id, profile_dir=None, turn=False):
 
 
 def status_extension_opens_changes(code):
-    """Has VS Code the Claude Status extension, new enough for CHANGES_LINK?"""
+    """Has VS Code the Talpy Den extension, new enough for CHANGES_LINK?"""
     return status_extension_since(code, STATUS_EXTENSION_CHANGES)
 
 
 def status_extension_since(code, since):
-    """Has VS Code (code: its command) the Claude Status extension, version
+    """Has VS Code (code: its command) the Talpy Den extension, version
     since or newer?"""
     folder = EXTENSION_FOLDERS.get(os.path.basename(code or ""), ".vscode")
     installed = cs.read_json(Path.home() / folder / "extensions" / "extensions.json")
@@ -1810,7 +1810,7 @@ def show_changes(home, extra_dirs, session_id, profile_dir=None, turn=False):
     later(lambda: open_diffs(code, items))
     if len(items) > CHANGES_ONE_BY_ONE:
         return True, f"Comparing {message} in VS Code (the first {CHANGES_ONE_BY_ONE}; " \
-                     f"the Claude Status extension for VS Code shows all of them in one view)"
+                     f"the Talpy Den extension for VS Code shows all of them in one view)"
     return True, f"Comparing {message} in VS Code"
 
 
@@ -1822,7 +1822,7 @@ def list_changes(home, extra_dirs, session_id, profile_dir=None, turn=False):
 # ---------------------------------------------------------------- a subagent's run
 #
 # A subagent can't be opened in Claude Code from outside, so its whole run is
-# saved as a Markdown file (claude_status.agent_run) and opened in the app you
+# saved as a Markdown file (talpy_den.agent_run) and opened in the app you
 # use for those. The VS Code extension opens the file itself (--no-open).
 
 RUNS_KEEP_S = 86400  # saved runs are removed after a day
@@ -1865,11 +1865,11 @@ def open_file(path):
 # Okular (it shows Markdown) where it's installed, else as a page in your
 # browser (markdown_page.py, nothing but Python). The widget's setting
 # markdownApp (shared with its other copies: settings.json) can also pick
-# VS Code (its Markdown preview, through the Claude Status extension 1.13 or
+# VS Code (its Markdown preview, through the Talpy Den extension 1.13 or
 # newer; else its editor) or your own app for Markdown (often a text editor).
 
 MARKDOWN_APPS = ("auto", "okular", "browser", "vscode", "default")
-MARKDOWN_LINK = "vscode://wzaielamri.claude-status/markdown"
+MARKDOWN_LINK = "vscode://wzaielamri.talpy-den/markdown"
 STATUS_EXTENSION_MARKDOWN = (1, 13)  # its first version that opens MARKDOWN_LINK
 
 
@@ -2129,8 +2129,8 @@ def tmux_paste(entry, text):
     base = [tmux, *(["-S", socket] if socket else [])]
     target = pane.rsplit(".", 1)[-1] if "." in pane else pane  # its pane id, e.g. %3
     try:
-        for args, data in ((["load-buffer", "-b", "claude-status", "-"], text.encode()),
-                           (["paste-buffer", "-p", "-d", "-b", "claude-status", "-t", target], None),
+        for args, data in ((["load-buffer", "-b", "talpy-den", "-"], text.encode()),
+                           (["paste-buffer", "-p", "-d", "-b", "talpy-den", "-t", target], None),
                            (["send-keys", "-t", target, "Enter"], None)):
             if args[0] == "send-keys":
                 time.sleep(0.3)  # (Claude takes the paste in first)

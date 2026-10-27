@@ -27,7 +27,7 @@ import { Tag } from "./Tag";
 
 // The account's latest other chats, to pick one up again. Folded by default:
 // the running chats come first. A switch above them says where they reopen:
-// in a terminal, or in a Claude Code tab (kept in claudeStatus.reopenIn). A
+// in a terminal, or in a Claude Code tab (kept in talpyDen.reopenIn). A
 // half is greyed out where it can't work: no claude command on the chat's
 // machine, or Claude Code not here or on another account. The chats you
 // starred come first, under their own fold (★ Starred), however old.

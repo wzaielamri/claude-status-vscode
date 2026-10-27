@@ -65,7 +65,7 @@ class Guarded extends Component<{ what: string; children: ComponentChildren }, {
   }
 }
 
-// The popup's layout: header and the big Talpa on top (they stay while the
+// The popup's layout: header and the big Talpy on top (they stay while the
 // list scrolls), then this computer's accounts, then each SSH host's.
 export function App() {
   const state = useStore(viewState);

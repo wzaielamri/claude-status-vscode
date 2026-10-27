@@ -1,5 +1,5 @@
 // SVG path data → a few canvas calls (moveTo, lineTo, bezierCurveTo,
-// closePath), so Talpa's shapes draw the same on an HTML canvas, a QML Canvas
+// closePath), so Talpy's shapes draw the same on an HTML canvas, a QML Canvas
 // and Cairo. Arcs become cubic curves. Parsed paths are cached.
 //
 // Plain ES2017: this file also runs in Qt's and GNOME Shell's JavaScript

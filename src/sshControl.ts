@@ -23,8 +23,8 @@ export function controlDir(env: NodeJS.ProcessEnv = process.env, tmp = "/tmp"): 
   const uid = process.getuid ? process.getuid() : -1;
   const runtime = env.XDG_RUNTIME_DIR ?? "";
   const dir = path.isAbsolute(runtime) && isDir(runtime)
-    ? path.join(runtime, "claude-status-ssh")
-    : path.join(tmp, `claude-status-ssh-${uid}`);
+    ? path.join(runtime, "talpy-den-ssh")
+    : path.join(tmp, `talpy-den-ssh-${uid}`);
   if (uid < 0 || dir.length > SOCKET_DIR_MAX) return null;
   try {
     try {

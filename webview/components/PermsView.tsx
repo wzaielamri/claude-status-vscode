@@ -11,7 +11,7 @@ const REFRESH_MS = 10 * 60000; // while the tab is in sight
 // The Permissions tab: the permissions you gave, every rule and mode that
 // lets chats on this computer go without asking (each to revoke), and the
 // permission prompts you answered in the last 7 days with the rules that
-// would have let the most of them through (claudeStatus.recapRules can leave
+// would have let the most of them through (talpyDen.recapRules can leave
 // those out). The extension runs the widget's week.py --permissions for it
 // (only while this tab is open): read from your settings and the chats'
 // transcripts, no tokens used.

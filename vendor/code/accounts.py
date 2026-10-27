@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Claude accounts on this computer: add one, log in or out, remove one
-(the Claude Status widget's Accounts settings, its GNOME extension's and the
+(the Talpy Den widget's Accounts settings, its GNOME extension's and the
 VS Code extension's).
 
     python3 -I accounts.py --list [--check]      the accounts (--check: ask Claude which are logged in)
@@ -34,14 +34,14 @@ Claude keeps the login in the folder. This script never reads it.
   and removes its claude-NAME command. Only for ~/.claude-NAME folders that
   no chat, ~/.claude or VS Code's Claude uses.
 - --default makes the account the default one, listed first everywhere
-  (claude_status.default_profile): VS Code's Claude runs on it (only that
+  (talpy_den.default_profile): VS Code's Claude runs on it (only that
   entry of VS Code's settings changes; --no-vscode: the VS Code extension
   does it itself), and plain claude too where ~/.claude is a link (it's
   pointed there; a ~/.claude folder stays as it is). Refused while a Claude
   process runs through the name ~/.claude: it would go on on the other account.
 
 On an SSH host, remote.py runs it there the way it runs sharing.py (on
-python3's stdin, with claude_status.py loaded first): nothing is installed
+python3's stdin, with talpy_den.py loaded first): nothing is installed
 there. A login there runs in a terminal here, over ssh (--add and --login
 print the command), VS Code's Claude there is the VS Code server's, and the
 Trash is the host's.
@@ -64,10 +64,10 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True  # no __pycache__ inside the installed widget
 # Run from its file: the widget's folder (-I leaves it off sys.path). On an SSH
-# host it comes on python3's stdin, after claude_status.py (remote.py).
+# host it comes on python3's stdin, after talpy_den.py (remote.py).
 if os.path.isfile(globals().get("__file__") or ""):
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import claude_status as cs  # noqa: E402
+import talpy_den as cs  # noqa: E402
 
 REMOTE = False  # on an SSH host (--remote): VS Code there is its VS Code server, and no terminal opens there
 NO_CLAUDE = ("Can't find the claude command: it isn't on PATH, in ~/.local/bin or npm's or nvm's folders, "
@@ -78,7 +78,7 @@ SHARED_FILES = ("settings.json", "CLAUDE.md", "keybindings.json")
 SHARED_FOLDERS = ("skills", "agents", "commands", "output-styles")
 # skills/synced: the skills claude.ai syncs for that account; .trash: Claude's
 NOT_SHARED = ("synced", ".trash")
-COMMAND_MARK = "Made by Claude Status"
+COMMAND_MARK = "Made by Talpy Den"
 SERVICE_WAIT = 10  # seconds a stopped background service gets to go
 
 
@@ -211,7 +211,7 @@ def command_problem(name, home):
     """Why claude-NAME can't be made (another program has the name), or ""."""
     path = bin_dir(home) / name
     if os.path.lexists(str(path)):
-        return "" if ours(path) else f"{short(path, home)} is there already (not made by Claude Status)"
+        return "" if ours(path) else f"{short(path, home)} is there already (not made by Talpy Den)"
     other = shutil.which(name)
     return f"{name} is a command already ({other})" if other else ""
 
@@ -250,7 +250,7 @@ def remove_command(profile, home):
     if path is None or not os.path.lexists(str(path)):
         return True, ""
     if not ours(path):
-        return False, f"{short(path, home)} wasn't made by Claude Status; it's left as it is"
+        return False, f"{short(path, home)} wasn't made by Talpy Den; it's left as it is"
     os.unlink(str(path))
     return True, f"Removed {name}"
 

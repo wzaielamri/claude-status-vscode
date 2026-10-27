@@ -9,7 +9,7 @@ import { test } from "node:test";
 import { configDirFor, withConfigDir } from "../src/vscodeAccount";
 
 function home(withLink: boolean): string {
-  const h = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-test-")));
+  const h = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-test-")));
   fs.mkdirSync(path.join(h, ".claude-work"));
   fs.mkdirSync(path.join(h, ".claude-personal"));
   if (withLink) fs.symlinkSync(path.join(h, ".claude-work"), path.join(h, ".claude"));

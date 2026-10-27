@@ -78,7 +78,7 @@ function hasChildren(pid: number): boolean {
 }
 
 // The widgets' link to a chat's terminal (jump.py's TERMINAL_LINK):
-// vscode://wzaielamri.claude-status/terminal?pid=<the process the terminal
+// vscode://wzaielamri.talpy-den/terminal?pid=<the process the terminal
 // started>[&host=<the SSH host it runs on, for a Remote-SSH window>]. VS Code
 // itself can't show one of its terminals from outside, nor bring the panel
 // back once you closed it.

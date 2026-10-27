@@ -232,8 +232,8 @@ test("a picture pasted in a chat's tab is saved, an SSH host's chat gets a copy 
   const saved: string[][] = [];
   const backend = {
     pane: async () => ({ ok: true, unchanged: true }),
-    saveImage: async (mime: string, data: string) => (saved.push(["save", mime, data]), { path: "/cache-here/claude-widget/images/20261026-101500.png", message: "" }),
-    putImage: async (host: string, path: string) => (saved.push(["put", host, path]), host === "down" ? { message: "no route" } : { path: "/cache-there/claude-widget/images/20261026-101500.png", message: "" }),
+    saveImage: async (mime: string, data: string) => (saved.push(["save", mime, data]), { path: "/cache-here/talpy-den/images/20261026-101500.png", message: "" }),
+    putImage: async (host: string, path: string) => (saved.push(["put", host, path]), host === "down" ? { message: "no route" } : { path: "/cache-there/talpy-den/images/20261026-101500.png", message: "" }),
   };
   const dash = { state: () => demoState(NOW), refresh: async () => undefined, pollHost: async () => undefined, onState: () => ({ dispose() {} }), onLive: () => ({ dispose() {} }), liveHook: false };
   const p = new ChatPanes(vscode.Uri.file("/ext") as never, backend as never, dash as never, {} as never, { find: async () => undefined } as never, {} as never);
@@ -247,9 +247,9 @@ test("a picture pasted in a chat's tab is saved, an SSH host's chat gets a copy 
     return panel.sent.filter((x) => (x as { type: string }).type === "picture");
   };
   assert.deepEqual(await tab("", { type: "picture", id: "1", mime: "image/png", data: "iVBORw0K" }),
-                   [{ type: "picture", id: "1", path: "/cache-here/claude-widget/images/20261026-101500.png", error: "" }]);
+                   [{ type: "picture", id: "1", path: "/cache-here/talpy-den/images/20261026-101500.png", error: "" }]);
   assert.deepEqual(await tab("lab", { type: "picture", id: "2", mime: "image/png", data: "iVBORw0K" }),
-                   [{ type: "picture", id: "2", path: "/cache-there/claude-widget/images/20261026-101500.png", error: "" }]);
+                   [{ type: "picture", id: "2", path: "/cache-there/talpy-den/images/20261026-101500.png", error: "" }]);
   assert.deepEqual((await tab("down", { type: "picture", id: "3", mime: "image/png", data: "iVBORw0K" }))[0],
                    { type: "picture", id: "3", path: "", error: "Couldn't copy the picture to down: no route" });
   assert.deepEqual(await tab("", { type: "picture", id: "4", mime: "image/svg+xml", data: "PHN2Zz4=" }),
@@ -258,7 +258,7 @@ test("a picture pasted in a chat's tab is saved, an SSH host's chat gets a copy 
 });
 
 test("the pictures a reply names, each once, and taking one out", () => {
-  const a = "/cache-here/claude-widget/images/a.png";
+  const a = "/cache-here/talpy-den/images/a.png";
   const text = `look [Image: ${a}] and [Image: /x/b.jpg] again [Image: ${a}]`;
   assert.deepEqual(picturesIn(text), [a, "/x/b.jpg"]);
   assert.equal(withoutPicture(text, a), "look and [Image: /x/b.jpg] again ");

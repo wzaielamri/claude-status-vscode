@@ -5,7 +5,7 @@ import { post } from "../env";
 import { useStore } from "../util/store";
 import { hostVisible, liveViews, pageVisible } from "../util/stores";
 
-// The line under the big Talpa: what the working chats do right now, e.g.
+// The line under the big Talpy: what the working chats do right now, e.g.
 // "fix parser ▸ Edit: parser.py +12 −3". A chat's new step shows as it
 // comes (at once with live mode, else at each check); with several chats at
 // work, one that did something new goes first, and with nothing new they

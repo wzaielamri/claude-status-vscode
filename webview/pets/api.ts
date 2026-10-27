@@ -1,6 +1,6 @@
 // The contract between the webview's UI (webview/components) and the pets
 // (webview/pets). The UI owns the layout and the data; the pets own their
-// stages: the hero (big Talpa with the headline and counts) and one stage per
+// stages: the hero (big Talpy with the headline and counts) and one stage per
 // account (a pet per chat). Ported from the widget's PetStrip.qml + Pet.qml.
 
 import type { ChatRef, Counts, Session } from "../../src/shared/types";
@@ -25,7 +25,7 @@ export interface HeroInput {
 
 export interface AccountInput {
   chats: StageChat[]; // sorted: waiting, working, idle, done (then list order)
-  maxPets: number; // claudeStatus.chatPets
+  maxPets: number; // talpyDen.chatPets
   fiveHour: number; // this account's 5-hour usage %, for alerts
 }
 

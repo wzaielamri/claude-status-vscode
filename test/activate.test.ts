@@ -14,7 +14,7 @@ import { activate } from "../src/extension";
 const stub = vscode as unknown as typeof import("./vscode-stub");
 
 test("activates, registers everything, and shows the first poll", { skip: process.platform !== "linux" && "needs /proc" }, async () => {
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-test-"));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-test-"));
   process.env.HOME = home;
   process.env.XDG_CACHE_HOME = path.join(home, ".cache");
   delete process.env.CLAUDE_CONFIG_DIR;
@@ -32,7 +32,7 @@ test("activates, registers everything, and shows the first poll", { skip: proces
     activate({ subscriptions, extensionPath: path.resolve("."), extensionUri: vscode.Uri.file(path.resolve(".")) } as unknown as vscode.ExtensionContext);
 
     for (const c of manifest.contributes.commands) assert.ok(stub.recorded.commands.has(c.command), `command ${c.command} registered`);
-    assert.ok(stub.recorded.viewProviders.has("claudeStatus.view"));
+    assert.ok(stub.recorded.viewProviders.has("talpyDen.view"));
 
     const item = stub.recorded.statusBarItems[0];
     for (let i = 0; i < 100 && !item.text.includes("bell-dot"); i++) await new Promise((r) => setTimeout(r, 100));

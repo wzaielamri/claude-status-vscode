@@ -87,8 +87,8 @@ export type PaneHostMessage =
   | { type: "conversation"; answer: Conversation }
   | { type: "review"; answer: ReviewAnswer | null; error: string }
   | { type: "result"; kind: string; ok: boolean; message: string; ask?: boolean } // ask: its terminal takes no text: choose
-  | { type: "textSize"; scale: number } // claudeStatus.chatTextScale
-  | { type: "diffLayout"; split: boolean } // claudeStatus.diffSideBySide
+  | { type: "textSize"; scale: number } // talpyDen.chatTextScale
+  | { type: "diffLayout"; split: boolean } // talpyDen.diffSideBySide
   | { type: "picked"; paths: string[] } // files picked to attach (+), attached as dropped ones
   | { type: "picture"; id: string; path: string; error: string } // a pasted picture, saved (path: where the chat opens it)
   | { type: "file"; id: string; path: string } // a file dropped on the tab: named in the reply (@path)
@@ -113,8 +113,8 @@ export type PaneMessage =
   | { type: "openWindow" }
   | { type: "moveToClaudeCode" } // Claude quits in its terminal, the chat reopens in a Claude Code tab (asks first)
   | { type: "copy"; text: string } // a code block of a reply, to the clipboard
-  | { type: "textSize"; scale: number } // A− / A+: claudeStatus.chatTextScale
-  | { type: "diffLayout"; split: boolean } // side by side or one after the other: claudeStatus.diffSideBySide
+  | { type: "textSize"; scale: number } // A− / A+: talpyDen.chatTextScale
+  | { type: "diffLayout"; split: boolean } // side by side or one after the other: talpyDen.diffSideBySide
   | { type: "pickFiles" } // + : files to attach, from VS Code's file dialog (answered with "picked")
   | { type: "picture"; id: string; mime: string; data: string } // pasted in the reply (base64): saved, an SSH host's copied there
   | { type: "attach"; id: string; path: string } // a file dropped from VS Code's Explorer: a picture saved as one, a file named
@@ -192,7 +192,7 @@ export function withoutPicture(text: string, path: string): string {
   return text.split(token + " ").join("").split(token).join("");
 }
 
-// The tab's text size, times VS Code's font size (claudeStatus.chatTextScale)
+// The tab's text size, times VS Code's font size (talpyDen.chatTextScale)
 export const TEXT_SCALES = [0.9, 1, 1.15, 1.3, 1.5, 1.75, 2];
 export function textScale(value: unknown): number {
   return typeof value === "number" && Number.isFinite(value) ? Math.min(2, Math.max(0.8, value)) : 1.15;

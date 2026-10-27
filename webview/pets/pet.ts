@@ -1,6 +1,6 @@
-// One Talpa on a stage (stage.ts). Ported from the widget's Pet.qml; the
-// creature itself (looks, moods, what it does) is the widget's talpa.mjs
-// (vendor/talpa), drawn on a canvas. This is where it lives on the stage and
+// One Talpy on a stage (stage.ts). Ported from the widget's Pet.qml; the
+// creature itself (looks, moods, what it does) is the widget's talpy.mjs
+// (vendor/talpy), drawn on a canvas. This is where it lives on the stage and
 // what it does with you.
 //
 // The hero (key "") mirrors all your sessions and has a life of its own: it
@@ -16,8 +16,8 @@
 
 import type { ChatRef, Session } from "../../src/shared/types";
 import { stateText } from "../../src/shared/model";
-import { Films } from "../../vendor/talpa/films.mjs";
-import { BOX, LILAC, Talpa, calmColors, drawHole, drawHoleSide } from "../../vendor/talpa/talpa.mjs";
+import { Films } from "../../vendor/talpy/films.mjs";
+import { BOX, LILAC, Talpy, calmColors, drawHole, drawHoleSide } from "../../vendor/talpy/talpy.mjs";
 import type { StageChat } from "./api";
 import { PALETTE, textOn } from "./colors";
 import { Timer, Tween, ease, reducedMotion } from "./motion";
@@ -87,8 +87,8 @@ export class Pet {
   private lastMood: string;
   private landing = false; // picked up, until it has landed and dug in: drawn live
 
-  readonly talpa: Talpa;
-  // Talpa on its view (a canvas), as a film (vendor/talpa/films.mjs): each
+  readonly talpy: Talpy;
+  // Talpy on its view (a canvas), as a film (vendor/talpy/films.mjs): each
   // picture of a move drawn once on a sheet (a canvas off the page) and shown
   // again as the move goes round, what flies about drawn over it; the open
   // hole is drawn once on sheets of its own and copied into each picture
@@ -139,15 +139,15 @@ export class Pet {
     if (chat) this.takeChat(chat);
 
     const clock = stage.clock;
-    this.talpa = new Talpa({
+    this.talpy = new Talpy({
       colors: this.lone ? LILAC : calmColors(PALETTE[colorIndex]),
       theme: stage.theme(),
       travels: this.lone && !reducedMotion(), // (no digging about, then)
     });
-    this.talpa.onTravel = (ms) => this.travel(ms);
-    this.talpa.tick(clock.now());
+    this.talpy.onTravel = (ms) => this.travel(ms);
+    this.talpy.tick(clock.now());
     this.lastMood = this.mood;
-    this.talpa.setMood(this.lastMood);
+    this.talpy.setMood(this.lastMood);
 
     this.stride = new Tween(stage, (v) => (this.px = v));
     this.faller = new Tween(stage, (v) => (this.lift = v));
@@ -155,7 +155,7 @@ export class Pet {
     // The hero turns towards the mouse while it hovers the stage
     this.lookTimer = new Timer(clock, 350, () => {
       const x = this.stage.cursorX();
-      if (x >= 0 && Math.abs(x - this.px) > this.stage.bodyWidth * 0.4) this.talpa.facingLeft = x < this.px;
+      if (x >= 0 && Math.abs(x - this.px) > this.stage.bodyWidth * 0.4) this.talpy.facingLeft = x < this.px;
     }, true);
     this.tickleTimer = new Timer(clock, 1500, () => {
       this.quickClicks = 0;
@@ -164,26 +164,26 @@ export class Pet {
     // A working session's context window is nearly full: point it out now and
     // then (a chat's pet for its own chat, the hero for chats without a pet)
     this.contextTimer = new Timer(clock, 40000, () => {
-      if (this.held || this.talpa.busy) return;
-      this.talpa.react("contextFull");
+      if (this.held || this.talpy.busy) return;
+      this.talpy.react("contextFull");
       this.say(this.contextFullText);
     }, true, true);
     // Close to a usage limit: mind-blown now and then; at the limit out of steam
     this.usageTimer = new Timer(clock, 25000, () => {
-      if (this.held || this.talpa.busy) return;
+      if (this.held || this.talpy.busy) return;
       const input = this.stage.heroInput;
-      this.talpa.react((input?.maxFiveHour ?? 0) >= 100 ? "battery" : "mindblown");
+      this.talpy.react((input?.maxFiveHour ?? 0) >= 100 ? "battery" : "mindblown");
       this.say(input?.highUsageText ?? "");
     }, true, true);
 
-    // Drawing: Talpa on its sheets (with room around it for what it throws
+    // Drawing: Talpy on its sheets (with room around it for what it throws
     // and holds up), its name tag, and a grab area around its body
     // The hero: every frame, live until a new pose has settled, breathing at
     // rest; a chat's pet: 30 pictures a second, pictures in between poses,
     // still at rest; both: a move too slow for a picture every frame is drawn
     // live (as in the widget, where such moves stepped)
     this.film = new Films(
-      this.talpa,
+      this.talpy,
       this.lone
         ? { frameMs: 16.7, maxFrames: 32, sheets: 36, tweenMs: 0, restMs: 200, smooth: true, clockMs: 1000 / 60 }
         : { frameMs: 33.3, maxFrames: 32, sheets: 32, tweenMs: 200, tweens: 5, smooth: true, clockMs: 1000 / 60 },
@@ -226,7 +226,7 @@ export class Pet {
     return this.lone ? this.stage.loneGround : this.stage.chatGround;
   }
 
-  // Talpa's moods: idle working agents needs done failed limit (error loading for the hero)
+  // Talpy's moods: idle working agents needs done failed limit (error loading for the hero)
   get mood(): string {
     if (this.lone) return this.stage.heroInput?.mood || "loading";
     const c = this.chat;
@@ -310,8 +310,8 @@ export class Pet {
   checkMood(): void {
     const mood = this.mood;
     if (mood === this.lastMood) return;
-    this.talpa.setMood(mood);
-    if (this.lastMood === "done" && mood !== "done" && !this.leaving) this.talpa.react("yawn"); // woken up by work
+    this.talpy.setMood(mood);
+    if (this.lastMood === "done" && mood !== "done" && !this.leaving) this.talpy.react("yawn"); // woken up by work
     this.lastMood = mood;
     this.changed();
   }
@@ -339,16 +339,16 @@ export class Pet {
     if (!this.stage.live || !this.lone || mood === "done" || mood === "loading" || offFor < 1500) return;
     const holiday = holidayGreeting();
     if (holiday) {
-      this.talpa.react("celebrate");
+      this.talpy.react("celebrate");
       this.say(holiday);
     } else if (Math.random() < 0.6) {
-      this.talpa.react("wave");
+      this.talpy.react("wave");
       this.say("Hi!");
     }
   }
 
   themeChanged(): void {
-    this.talpa.setTheme(this.stage.theme());
+    this.talpy.setTheme(this.stage.theme());
     this.film.reset(); // (the pictures are drawn again)
     this.changed();
   }
@@ -375,12 +375,12 @@ export class Pet {
   // It digs up out of the ground
   private arrive(): void {
     this.arriving = true;
-    this.talpa.react("arrive", () => (this.arriving = false));
+    this.talpy.react("arrive", () => (this.arriving = false));
   }
 
   // Its chat left the list: it waves and digs away
   private goAway(): void {
-    this.talpa.react("leave", (ok) => {
+    this.talpy.react("leave", (ok) => {
       if (ok && this.leaving && !this.destroyed) this.stage.removePet(this);
     });
   }
@@ -400,7 +400,7 @@ export class Pet {
       this.changed();
       return;
     }
-    this.talpa.react(quick ? "scoot" : "dig");
+    this.talpy.react(quick ? "scoot" : "dig");
   }
 
   // It dug in: tunnel across to its new spot within ms
@@ -415,7 +415,7 @@ export class Pet {
         : this.minX + Math.random() * (this.maxX - this.minX);
     }
     to = this.clampX(to);
-    this.talpa.facingLeft = to < this.px;
+    this.talpy.facingLeft = to < this.px;
     this.stride.run(this.px, to, Math.max(200, ms - 100), ease.inOutSine);
     this.changed();
   }
@@ -439,10 +439,10 @@ export class Pet {
       this.tickleTimer.restart();
       if (this.sleepyClicks >= 3) {
         this.sleepyClicks = 0;
-        this.talpa.react("angry");
+        this.talpy.react("angry");
         this.say("I said let me SLEEP!");
       } else {
-        this.talpa.react("grumpy");
+        this.talpy.react("grumpy");
         this.say("Zzz… let me sleep.");
       }
       return;
@@ -451,25 +451,25 @@ export class Pet {
     this.tickleTimer.restart();
     if (this.quickClicks >= 4) {
       this.quickClicks = 0;
-      this.talpa.react("laugh");
+      this.talpy.react("laugh");
       this.say("Hehe, that tickles!");
     } else if (this.quickClicks === 3) {
-      this.talpa.react("shy");
+      this.talpy.react("shy");
       this.say("Aww, stop it…");
     } else {
       const r = Math.random();
-      this.talpa.react(r < 0.2 ? "love" : r < 0.35 ? "wink" : r < 0.45 ? "blowkiss" : "pet");
+      this.talpy.react(r < 0.2 ? "love" : r < 0.35 ? "wink" : r < 0.45 ? "blowkiss" : "pet");
       this.say(this.petLine());
     }
   }
 
   private dance(): void {
     if (this.mood === "done") {
-      this.talpa.react("yawn");
+      this.talpy.react("yawn");
       this.say("…five more minutes.");
       return;
     }
-    this.talpa.react(Math.random() < 0.4 ? "boogie" : "dance");
+    this.talpy.react(Math.random() < 0.4 ? "boogie" : "dance");
     this.say("♪ ♫");
   }
 
@@ -479,7 +479,7 @@ export class Pet {
     this.stride.stop();
     this.faller.stop(); // grabbed again while falling
     // (its hole doesn't come along: it stays where it was, until it has landed)
-    const open = this.talpa.setHeld(true);
+    const open = this.talpy.setHeld(true);
     if (open > 0) this.leaveHole(open);
     this.say("Whoa!");
     this.changed();
@@ -488,7 +488,7 @@ export class Pet {
   private leaveHole(open: number): void {
     this.fill.stop();
     this.leftAt = this.px;
-    this.leftFlip = this.talpa.facingLeft;
+    this.leftFlip = this.talpy.facingLeft;
     this.leftOpen = open;
     this.leftHole.hidden = false;
   }
@@ -504,7 +504,7 @@ export class Pet {
     this.held = false;
     // (the one it left is filled in; it digs a new one where it is)
     if (!this.leftHole.hidden) this.fill.run(this.leftOpen, 0, 350, ease.linear, () => (this.leftHole.hidden = true));
-    const feel = this.talpa.land(fromHeight / (this.stage.box / 64), () => {
+    const feel = this.talpy.land(fromHeight / (this.stage.box / 64), () => {
       this.landing = false;
       if (this.destroyed) return;
       if (this.leaving) this.goAway(); // its chat left while you held it: now it goes
@@ -531,7 +531,7 @@ export class Pet {
     if (this.held || this.leaving) return; // (a reaction now would stop it digging away)
     const action = ({ done: Math.random() < 0.4 ? "yay" : "finished", failed: "failed", stopped: "shrug", limit: "battery", oops: "confused", reset: "charged" } as
       Record<string, string>)[kind];
-    this.talpa.react(action || "alert");
+    this.talpy.react(action || "alert");
     this.say(text);
   }
 
@@ -624,7 +624,7 @@ export class Pet {
       this.paintHole();
     }
 
-    this.talpa.tick(now);
+    this.talpy.tick(now);
     this.draw(now);
   }
 
@@ -655,7 +655,7 @@ export class Pet {
     this.stage.invalidate();
   }
 
-  // As a film (vendor/talpa/films.mjs): a picture of a move drawn once and
+  // As a film (vendor/talpy/films.mjs): a picture of a move drawn once and
   // shown again round after round, a new pose on its way through pictures in
   // between (the hero: live until it has settled), a big move live. Drawn
   // live while you hold it, until it has landed.
@@ -724,12 +724,12 @@ export class Pet {
       c.height = h;
       const ctx = this.begin(c);
       if (!ctx) {
-        this.talpa.holeImage = null;
+        this.talpy.holeImage = null;
         return;
       }
       drawHoleSide(ctx, i % 2 ? "front" : "back", i >= 2);
     }
-    this.talpa.holeImage = (part, left) => this.holes[(left ? 2 : 0) + (part === "front" ? 1 : 0)];
+    this.talpy.holeImage = (part, left) => this.holes[(left ? 2 : 0) + (part === "front" ? 1 : 0)];
   }
 
   // The empty hole it left, when it has changed (or the zoom has)

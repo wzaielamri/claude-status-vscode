@@ -1,6 +1,6 @@
 // What clicks do: open a chat, stop or remove one, share it, start a new one,
 // pick SSH hosts. Opening happens in VS Code's terminal by default (on the
-// machine the chat is on); claudeStatus.openIn = "system" keeps the widget's
+// machine the chat is on); talpyDen.openIn = "system" keeps the widget's
 // way (jump.py / remote.py: your desktop's terminal app; window raising on
 // KDE, and on GNOME with the widget's GNOME Shell extension).
 
@@ -101,7 +101,7 @@ const AGAIN_MS = 30000; // pressing the shortcut again this soon goes on to the 
 // Why a chat in another window can't be brought up: on GNOME, the extension
 // that would do it isn't running (canRaiseWindows)
 function noRaiserHint(): string {
-  return isGnome() ? " Bringing it up on GNOME needs the Claude Status GNOME Shell extension, and it isn't running." : "";
+  return isGnome() ? " Bringing it up on GNOME needs the Talpy Den GNOME Shell extension, and it isn't running." : "";
 }
 
 export class Actions {
@@ -136,7 +136,7 @@ export class Actions {
 
   private demoOnly(): boolean {
     if (!this.dash.demo) return false;
-    void vscode.window.showInformationMessage("Demo mode: these chats are made up. Run “Claude Status: Toggle Demo Data” to go back.");
+    void vscode.window.showInformationMessage("Demo mode: these chats are made up. Run “Talpy Den: Toggle Demo Data” to go back.");
     return true;
   }
 
@@ -210,8 +210,8 @@ export class Actions {
       const vscode = chat.vscodeTerminal ? ["--vscode-terminal", String(Math.trunc(chat.vscodeTerminal)), ...(chat.cwd ? ["--cwd", chat.cwd] : [])] : [];
       answer = await this.backend.action("jump.py", ["--remote-terminal", host, "--name", chat.name || "", ...vscode]);
     }
-    // jump.py's "is the Claude Status extension enabled?" means GNOME's, not this one
-    if (!answer.ok && isGnome()) answer.message = answer.message.replace("Claude Status extension", "Claude Status GNOME Shell extension");
+    // jump.py's "is the Talpy Den extension enabled?" means GNOME's, not this one
+    if (!answer.ok && isGnome()) answer.message = answer.message.replace("Talpy Den extension", "Talpy Den GNOME Shell extension");
     this.report(answer, "Couldn't open the chat");
   }
 
@@ -643,7 +643,7 @@ export class Actions {
   // ---------------------------------------------------------------- finding a chat
 
   // Every chat with all the words you type in its name, its folder or one of
-  // your prompts, here and on the SSH hosts shown (claude_status.py --find,
+  // your prompts, here and on the SSH hosts shown (talpy_den.py --find,
   // remote.py --find), newest first; the one you pick comes up, or reopens.
   // Each kind of thing found folds under its heading (found.ts: foundLines).
   async findChat(): Promise<void> {
@@ -1016,7 +1016,7 @@ export class Actions {
     if (hasTask) {
       const answer = host
         ? await this.backend.action("remote.py", ["--task", host, group.chatProfile, folder || "~", ...(task ? ["--prompt", task] : []), ...(plan ? ["--plan", plan.slug, plan.profileDir] : []), ...opts, "--print-command"])
-        : await this.backend.action("claude_status.py", ["--task-command", folder || os.homedir(), "--profile", group.chatProfile, ...taskArgs, ...opts, ...configDirArgs()]);
+        : await this.backend.action("talpy_den.py", ["--task-command", folder || os.homedir(), "--profile", group.chatProfile, ...taskArgs, ...opts, ...configDirArgs()]);
       if (!this.report(answer, "Couldn't start it")) return;
       command = answer.command;
     } else {
@@ -1097,7 +1097,7 @@ export class Actions {
     this.refresh();
   }
 
-  // A task's first prompt for a Claude Code chat tab (claude_status.py:
+  // A task's first prompt for a Claude Code chat tab (talpy_den.py:
   // plan_prompt): what you wrote, and the plan's text (an SSH host's fetched
   // over ssh)
   private async taskText(task: string, plan?: PlanItem, host?: string): Promise<string> {
@@ -1228,7 +1228,7 @@ export class Actions {
 
   // ---------------------------------------------------------------- the chat that needs you
 
-  // The shortcut (claudeStatus.nextChat): the chat waiting longest, then the
+  // The shortcut (talpyDen.nextChat): the chat waiting longest, then the
   // other waiting ones and the ones that finished while you weren't looking,
   // one per press; with none, the view. Chats it went to count as seen once
   // a round of presses is over.
@@ -1242,7 +1242,7 @@ export class Actions {
     const i = nextChatIndex(list, this.lastNext, now, AGAIN_MS);
     if (i < 0) {
       this.lastNext = null;
-      await vscode.commands.executeCommand("claudeStatus.view.focus");
+      await vscode.commands.executeCommand("talpyDen.view.focus");
       return;
     }
     const spot = list[i];
@@ -1291,7 +1291,7 @@ export class Actions {
     if (picked.includes(host)) await setSshHosts(picked.filter((h) => h !== host));
     if (host === this.dash.currentHost && settings.includeCurrentRemote()) {
       void vscode.window.showInformationMessage(
-        `${host} is this window's host, so it stays shown. Turn off “Claude Status: Include Current Remote” to hide it.`,
+        `${host} is this window's host, so it stays shown. Turn off “Talpy Den: Include Current Remote” to hide it.`,
       );
     }
   }
@@ -1311,7 +1311,7 @@ export class Actions {
         const choice = await vscode.window.showInformationMessage(`Saved: ${file}`, "Show It");
         if (choice === "Show It") await vscode.commands.executeCommand("revealFileInOS", vscode.Uri.file(file));
       } catch (e) {
-        void vscode.window.showErrorMessage(`Claude Status: couldn't save the card: ${(e as Error).message}`);
+        void vscode.window.showErrorMessage(`Talpy Den: couldn't save the card: ${(e as Error).message}`);
       }
       return;
     }
@@ -1319,6 +1319,6 @@ export class Actions {
     await fs.writeFile(file, data);
     const r = await this.backend.copyImage(file);
     if (r.ok) void vscode.window.setStatusBarMessage("$(check) The card is copied: paste it anywhere", 5000);
-    else void vscode.window.showErrorMessage(`Claude Status: couldn't copy the card: ${r.message}`);
+    else void vscode.window.showErrorMessage(`Talpy Den: couldn't copy the card: ${r.message}`);
   }
 }

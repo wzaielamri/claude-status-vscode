@@ -7,7 +7,7 @@ import * as vscode from "vscode";
 import { changesResources, manifestOf, openComparison, readComparison, type Comparison } from "../src/changes";
 
 function world() {
-  const cache = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-changes-"));
+  const cache = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-changes-"));
   const root = path.join(cache, "changes");
   const folder = path.join(root, "20261018-1");
   fs.mkdirSync(path.join(folder, "0"), { recursive: true });

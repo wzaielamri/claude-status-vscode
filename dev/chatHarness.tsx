@@ -116,7 +116,7 @@ window.addEventListener("harness-post", (e: Event) => {
     send({ type: "conversation", answer: { ok: true, items, more: true, stamp: "1" } });
   } else if (m.type === "picture") {
     const id = (m as unknown as { id: string }).id;
-    setTimeout(() => send({ type: "picture", id, path: `/home/alice/.cache/claude-widget/images/20261026-1015${id.slice(-2)}.png`, error: "" }), 200);
+    setTimeout(() => send({ type: "picture", id, path: `/home/alice/.cache/talpy-den/images/20261026-1015${id.slice(-2)}.png`, error: "" }), 200);
   } else if (m.type === "review") {
     send({ type: "review", answer: review, error: "" });
   } else if (m.type === "complete") {

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SSH hosts for the Claude Status widget.
+"""SSH hosts for the Talpy Den widget.
 
     python3 -I remote.py --hosts                    hosts named in ~/.ssh/config
     python3 -I remote.py --status HOST [--done-hours H] [--recent N] [--no-tokens]
@@ -29,10 +29,10 @@
     python3 -I remote.py --accounts HOST ACCOUNTS_ARGS... [--print-command]   the host's Claude accounts
                                                     (accounts.py there: --list, --add, --login, --default, …)
 
---status runs claude_status.py on HOST: the script goes to `python3 -I -` on
+--status runs talpy_den.py on HOST: the script goes to `python3 -I -` on
 the host's stdin, so nothing is installed there (it keeps its caches in the
-host's ~/.cache/claude-widget, like here). Sharing sends sharing.py the same
-way, with claude_status.py in front (host_script), and so do the accounts
+host's ~/.cache/talpy-den, like here). Sharing sends sharing.py the same
+way, with talpy_den.py in front (host_script), and so do the accounts
 (accounts.py: adding one, logging in or out, removing one, the default one).
 A login there opens a terminal here, over ssh: Claude's own login, whose
 code you paste into it. SSH runs in batch mode, so
@@ -61,7 +61,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True  # no __pycache__ inside the installed widget
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # -I leaves the script dir off sys.path
-import claude_status as cs  # noqa: E402
+import talpy_den as cs  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 HOST_NAME = re.compile(r"^[A-Za-z0-9_.@][A-Za-z0-9_.@:-]*$")
@@ -167,9 +167,9 @@ def control_dir():
     uses the same folder (sshControl.ts), so both share the connections."""
     runtime = os.environ.get("XDG_RUNTIME_DIR", "")
     if os.path.isabs(runtime) and os.path.isdir(runtime):
-        d = Path(runtime) / "claude-status-ssh"
+        d = Path(runtime) / "talpy-den-ssh"
     else:
-        d = Path(SOCKET_TMP) / f"claude-status-ssh-{os.getuid()}"
+        d = Path(SOCKET_TMP) / f"talpy-den-ssh-{os.getuid()}"
     if len(str(d)) > SOCKET_DIR_MAX:
         return None
     try:
@@ -227,16 +227,16 @@ def ssh(host, command, stdin=None, timeout=RUN_TIMEOUT):
                           text=True, errors="replace", timeout=timeout)
 
 
-def host_script(name="claude_status.py"):
-    """What runs on a host, on python3's stdin: claude_status.py, or another
-    script of this folder that imports it (sharing.py), after claude_status.py
+def host_script(name="talpy_den.py"):
+    """What runs on a host, on python3's stdin: talpy_den.py, or another
+    script of this folder that imports it (sharing.py), after talpy_den.py
     loaded as that module."""
-    status = (HERE / "claude_status.py").read_text(encoding="utf-8")
-    if name == "claude_status.py":
+    status = (HERE / "talpy_den.py").read_text(encoding="utf-8")
+    if name == "talpy_den.py":
         return status
     return ("import sys, types\n"
-            "module = sys.modules['claude_status'] = types.ModuleType('claude_status')\n"
-            f"exec(compile({status!r}, 'claude_status.py', 'exec'), module.__dict__)\n"
+            "module = sys.modules['talpy_den'] = types.ModuleType('talpy_den')\n"
+            f"exec(compile({status!r}, 'talpy_den.py', 'exec'), module.__dict__)\n"
             + (HERE / name).read_text(encoding="utf-8"))
 
 
@@ -266,7 +266,7 @@ def explain(host, code, stderr):
 
 
 def status(host, done_hours=None, recent=None, tokens=True):
-    """The widget's status of host, as claude_status.py --remote prints it there."""
+    """The widget's status of host, as talpy_den.py --remote prints it there."""
     host = check_host(host)
     args = ["--remote"]
     if done_hours is not None:
@@ -326,7 +326,7 @@ def run(host, command, stdin=None):
     return outcome(host, r)
 
 
-def host_answer(host, args, name="claude_status.py"):
+def host_answer(host, args, name="talpy_den.py"):
     """Run a script of this folder on host with args (it goes to python3's
     stdin, as for --status): its answer, {"ok", "message", ...}."""
     host = check_host(host)
@@ -347,7 +347,7 @@ def host_answer(host, args, name="claude_status.py"):
 
 
 def run_status_script(host, args):
-    """Run claude_status.py on host with args: (ok, its message)."""
+    """Run talpy_den.py on host with args: (ok, its message)."""
     answer = host_answer(host, args)
     return answer["ok"], answer["message"]
 
@@ -366,18 +366,18 @@ def dismiss(host, session_id=None):
 
 
 def end(host, session_id, profile=None, busy=False):
-    """Stop a chat that runs on host (claude_status.stop_chat); only an idle one unless busy."""
+    """Stop a chat that runs on host (talpy_den.stop_chat); only an idle one unless busy."""
     return run_status_script(host, ["--end", session_id] + (["--profile", profile] if profile else [])
                              + (["--busy"] if busy else []))
 
 
 def interrupt(host, session_id, profile=None):
-    """Interrupt a working chat in tmux on host (claude_status.interrupt_chat)."""
+    """Interrupt a working chat in tmux on host (talpy_den.interrupt_chat)."""
     return run_status_script(host, ["--interrupt", session_id] + (["--profile", profile] if profile else []))
 
 
 def agent_run(host, chat_id, agent_id, profile=None, open_it=True):
-    """A chat's subagent on host: its run (claude_status.agent_run there),
+    """A chat's subagent on host: its run (talpy_den.agent_run there),
     saved here as Markdown and opened, as jump.show_agent_run does for one
     here: (ok, message, file)."""
     host = check_host(host)
@@ -421,7 +421,7 @@ def continue_on(host, chat_id, profile, open_it=True, end_first=False):
     """Continue a chat of host on another account there: shared with it if
     needed, then reopened in a local terminal (ssh -t), or, without open_it,
     the command that reopens it there: (ok, message, command). end_first: an
-    idle session that has it open there quits first (claude_status.end_for_handover)."""
+    idle session that has it open there quits first (talpy_den.end_for_handover)."""
     answer = host_answer(host, ["--continue", chat_id, "--profile", profile] + (["--end-first"] if end_first else []),
                          "sharing.py")
     if not answer["ok"]:
@@ -436,14 +436,14 @@ def continue_on(host, chat_id, profile, open_it=True, end_first=False):
 
 
 def find(host, query):
-    """The chats on host with every word of query (claude_status.find_chats
+    """The chats on host with every word of query (talpy_den.find_chats
     there), each with the command that reopens it there."""
     answer = host_answer(host, ["--find", query])
     return {**answer, "results": answer.get("results") or [], "more": bool(answer.get("more"))}
 
 
 def plan_text(host, slug, profile=None):
-    """A plan of host: {"ok", "title", "markdown", "where"} (claude_status.plan_markdown there)."""
+    """A plan of host: {"ok", "title", "markdown", "where"} (talpy_den.plan_markdown there)."""
     return host_answer(host, ["--plan-text", slug] + (["--profile", profile] if profile else []))
 
 
@@ -502,13 +502,13 @@ def task(host, profile, folder, text="", plan=None, plan_profile=None, backgroun
 
 
 # A picture pasted here for a task there goes to the host's pictures folder
-# (claude_status.images_dir there: its XDG_CACHE_HOME or ~/.cache), on python3's
+# (talpy_den.images_dir there: its XDG_CACHE_HOME or ~/.cache), on python3's
 # stdin. Pictures older than IMAGES_KEEP_DAYS go, as here.
 PUT_IMAGE = """
 import json, os, sys, time
 from pathlib import Path
 name, stem = sys.argv[1], sys.argv[1].rsplit(".", 1)
-folder = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / "claude-widget" / "images"
+folder = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / "talpy-den" / "images"
 folder.mkdir(parents=True, exist_ok=True)
 folder.chmod(0o700)
 for old in folder.iterdir():
@@ -557,7 +557,7 @@ def put_image(host, path):
 
 def continue_chat(host, profile, chat_id, folder="", text=""):
     """Go on with host's chat a usage limit stopped, in the background there
-    (claude_status.continue_chat): {"ok", "message", "id"}."""
+    (talpy_den.continue_chat): {"ok", "message", "id"}."""
     args = ["--continue-chat", chat_id, "--profile", profile]
     if folder:
         args += ["--folder", folder]
@@ -648,7 +648,7 @@ def login_here(host):
     if d is None:
         print("There's no private folder for the shared connection ($XDG_RUNTIME_DIR), so the widget can't keep a login.")
         return 1
-    print(f"Logging in to {host} for Claude Status. Type what ssh asks for (password, passphrase, code):")
+    print(f"Logging in to {host} for Talpy Den. Type what ssh asks for (password, passphrase, code):")
     print("it goes to ssh only, the widget never sees it.\n")
     # The window closes once you're in, and what's left of its session gets
     # SIGHUP: the shared connection detaches from it, but the connection to a

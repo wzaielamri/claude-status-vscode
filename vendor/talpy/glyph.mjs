@@ -1,4 +1,4 @@
-// The panel icon: Talpa peeking up through the panel's edge, in one color
+// The panel icon: Talpy peeking up through the panel's edge, in one color
 // (the state's), its eyes cut out so the panel shows through. A 24 × 24 box.
 //   waiting: pops up, wide-eyed    working: glances around, lamp bobbing
 //   idle: smiles (your turn)       none: asleep, sunk low, lamp drooping

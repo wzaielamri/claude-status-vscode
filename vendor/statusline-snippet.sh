@@ -1,5 +1,5 @@
-# >>> claude-widget >>>
-# Snapshot for the Claude Status widget (plan limits + context window).
+# >>> talpy-den >>>
+# Snapshot for the Talpy Den widget (plan limits + context window).
 # Needs $input to hold the status-line JSON; silent and atomic, and it never
 # fails (not even under set -e), so it can't break the status line. Plain
 # POSIX sh, so it works in sh (dash), bash and
@@ -17,10 +17,10 @@
   # snapshot under the real folder, so it can't be credited to the wrong one.
   cw_cfg=$(realpath -e -- "$cw_cfg" 2>/dev/null || printf '%s' "$cw_cfg")
   case "$cw_sid" in ''|*[!A-Za-z0-9_-]*) ;; *)
-    cw_dir="${XDG_CACHE_HOME:-$HOME/.cache}/claude-widget/statusline/${cw_cfg##*/}"
+    cw_dir="${XDG_CACHE_HOME:-$HOME/.cache}/talpy-den/statusline/${cw_cfg##*/}"
     mkdir -p "$cw_dir" &&
       printf '%s' "$input" > "$cw_dir/.$cw_sid.tmp" &&
       mv -f "$cw_dir/.$cw_sid.tmp" "$cw_dir/$cw_sid.json"
   ;; esac
 ) 2>/dev/null || :
-# <<< claude-widget <<<
+# <<< talpy-den <<<

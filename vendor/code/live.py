@@ -9,7 +9,7 @@ it again at once). It watches two things:
     which Claude writes whenever a chat starts or ends, starts working,
     waits for you or ends its turn (also when you answer or interrupt it in
     its terminal);
-  - the live files of the live hook (live_hook.py, ~/.cache/claude-widget/
+  - the live files of the live hook (live_hook.py, ~/.cache/talpy-den/
     live/<session id>.json), with what each chat does now, step by step.
 
     {"ok": true, "at": ms, "sessions": bool, "urgent": bool, "live": [...],
@@ -51,7 +51,7 @@ WATCH_MASK = 0x8 | 0x40 | 0x80 | 0x200
 
 
 def cache_root(home):
-    return os.path.join(os.environ.get("XDG_CACHE_HOME") or os.path.join(home, ".cache"), "claude-widget")
+    return os.path.join(os.environ.get("XDG_CACHE_HOME") or os.path.join(home, ".cache"), "talpy-den")
 
 
 def live_dir(home):

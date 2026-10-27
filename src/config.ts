@@ -1,4 +1,4 @@
-// The extension's settings (claudeStatus.*), read fresh on every use so a
+// The extension's settings (talpyDen.*), read fresh on every use so a
 // change applies at the next poll.
 
 import * as os from "node:os";
@@ -7,7 +7,7 @@ import * as vscode from "vscode";
 import type { ReopenIn, SshUsage, ViewSettings } from "./shared/types";
 
 function cfg() {
-  return vscode.workspace.getConfiguration("claudeStatus");
+  return vscode.workspace.getConfiguration("talpyDen");
 }
 
 // A whole number in [min, max]: the scripts take counts like --recent 2.5 as an error
@@ -124,5 +124,5 @@ export async function setReopenIn(where: ReopenIn): Promise<void> {
 }
 
 export function cacheDir(): string {
-  return path.join(process.env.XDG_CACHE_HOME || path.join(os.homedir(), ".cache"), "claude-widget");
+  return path.join(process.env.XDG_CACHE_HOME || path.join(os.homedir(), ".cache"), "talpy-den");
 }

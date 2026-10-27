@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Claude Code's live hook for the Claude Status widget: each step of each
+"""Claude Code's live hook for the Talpy Den widget: each step of each
 chat as it happens, so the widget shows what a chat does the moment it does
 it, not at its next check.
 
 Claude runs it on its events without waiting for it (async): a prompt, a
 tool call starting and ending, a permission it asks for, a subagent starting
 and ending, the end of a turn, a session starting and ending. It folds the
-event into the chat's live file, ~/.cache/claude-widget/live/<session id>.json:
+event into the chat's live file, ~/.cache/talpy-den/live/<session id>.json:
 what the chat does now, its last steps (with the lines an edit added and
 removed), its running subagents and the first line of what it said last.
 The widget watches that folder (live.py; the VS Code extension: fs.watch).
 
-It is copied to ~/.local/share/claude-widget/live-hook.py and named in each
+It is copied to ~/.local/share/talpy-den/live-hook.py and named in each
 Claude profile's settings.json by pane.py --live on (the widget's setting
 "Live mode"); --live off takes it out again. Standard library only, and
 Python 3.7 (SSH hosts).
@@ -36,7 +36,7 @@ ASKS = {"AskUserQuestion": "question", "ExitPlanMode": "plan"}
 
 def folder():
     base = os.environ.get("XDG_CACHE_HOME") or os.path.join(os.path.expanduser("~"), ".cache")
-    return os.path.join(base, "claude-widget", "live")
+    return os.path.join(base, "talpy-den", "live")
 
 
 def short(value, limit=TEXT):
@@ -46,7 +46,7 @@ def short(value, limit=TEXT):
 
 def describe(name, inp):
     """What a tool call does, in a few words: "Bash: npm test", "Edit:
-    parser.py" (claude_status.describe_tool's words)."""
+    parser.py" (talpy_den.describe_tool's words)."""
     name = name or "tool"
     inp = inp if isinstance(inp, dict) else {}
     if name.startswith("mcp__"):

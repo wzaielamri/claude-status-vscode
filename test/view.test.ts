@@ -125,7 +125,7 @@ test("the page only runs its own script", () => {
   assert.equal(scripts.length, 2);
   for (const tag of scripts) assert.ok(tag.includes(`nonce="${nonce}"`), tag);
   assert.equal(page.match(/<\/script>/g)!.length, 2);
-  assert.match(page, /window\.CLAUDE_STATUS = \{"editorTab":true\};/);
+  assert.match(page, /window\.TALPY_DEN = \{"editorTab":true\};/);
   // a nonce for each page
   assert.notEqual(/'nonce-([^']+)'/.exec(html(webview))![1], nonce);
 });

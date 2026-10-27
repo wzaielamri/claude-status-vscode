@@ -186,12 +186,12 @@ class Pane implements vscode.Disposable {
     this.host = chat.host ?? "";
     this.chatId = chat.chatId || chat.sessionId;
     const { uri } = owner.ext;
-    this.panel = vscode.window.createWebviewPanel("claudeStatus.chat", chat.name || this.chatId.slice(0, 8), vscode.ViewColumn.Active, {
+    this.panel = vscode.window.createWebviewPanel("talpyDen.chat", chat.name || this.chatId.slice(0, 8), vscode.ViewColumn.Active, {
       enableScripts: true,
       retainContextWhenHidden: true,
       localResourceRoots: [vscode.Uri.joinPath(uri, "dist")],
     });
-    this.panel.iconPath = vscode.Uri.joinPath(uri, "media", "talpa.svg");
+    this.panel.iconPath = vscode.Uri.joinPath(uri, "media", "talpy.svg");
     this.panel.webview.html = this.html(tab);
     this.disposables.push(
       this.panel.webview.onDidReceiveMessage((m: unknown) => void this.receive(m)),
@@ -205,18 +205,18 @@ class Pane implements vscode.Disposable {
         if (this.panel.visible) void this.load();
       }),
       vscode.workspace.onDidChangeConfiguration((e) => {
-        if (e.affectsConfiguration("claudeStatus.chatTextScale")) this.post({ type: "textSize", scale: Pane.textScale() });
-        if (e.affectsConfiguration("claudeStatus.diffSideBySide")) this.post({ type: "diffLayout", split: Pane.sideBySide() });
+        if (e.affectsConfiguration("talpyDen.chatTextScale")) this.post({ type: "textSize", scale: Pane.textScale() });
+        if (e.affectsConfiguration("talpyDen.diffSideBySide")) this.post({ type: "diffLayout", split: Pane.sideBySide() });
       }),
     );
   }
 
   private static sideBySide(): boolean {
-    return vscode.workspace.getConfiguration("claudeStatus").get("diffSideBySide") !== false;
+    return vscode.workspace.getConfiguration("talpyDen").get("diffSideBySide") !== false;
   }
 
   private static textScale(): number {
-    return textScale(vscode.workspace.getConfiguration("claudeStatus").get("chatTextScale"));
+    return textScale(vscode.workspace.getConfiguration("talpyDen").get("chatTextScale"));
   }
 
   reveal(tab: "chat" | "review"): void {
@@ -450,10 +450,10 @@ class Pane implements vscode.Disposable {
       }
       case "textSize":
         if (typeof m.scale === "number" && Number.isFinite(m.scale))
-          await vscode.workspace.getConfiguration("claudeStatus").update("chatTextScale", textScale(m.scale), vscode.ConfigurationTarget.Global);
+          await vscode.workspace.getConfiguration("talpyDen").update("chatTextScale", textScale(m.scale), vscode.ConfigurationTarget.Global);
         break;
       case "diffLayout":
-        await vscode.workspace.getConfiguration("claudeStatus").update("diffSideBySide", m.split === true, vscode.ConfigurationTarget.Global);
+        await vscode.workspace.getConfiguration("talpyDen").update("diffSideBySide", m.split === true, vscode.ConfigurationTarget.Global);
         break;
       case "pickFiles": {
         // + : VS Code's own file dialog, in the chat's folder; an SSH host's chat takes pictures
@@ -491,7 +491,7 @@ class Pane implements vscode.Disposable {
       const id = this.recording;
       this.recording = "";
       tell({ state: "writing" });
-      const language = vscode.workspace.getConfiguration("claudeStatus").get<string>("dictateLanguage") || "auto";
+      const language = vscode.workspace.getConfiguration("talpyDen").get<string>("dictateLanguage") || "auto";
       const r = await backend.dictate(["--stop", id, "--language", language], 600000);
       tell({ state: "", text: r.ok ? String(r.text ?? "") : "", message: r.ok ? "" : String(r.message ?? "") });
     } else {

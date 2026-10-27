@@ -1,11 +1,11 @@
-// Types for talpa.mjs, for the VS Code extension's webview (TypeScript)
+// Types for talpy.mjs, for the VS Code extension's webview (TypeScript)
 
-export interface TalpaColors {
+export interface TalpyColors {
     skin: string;
     shade: string;
 }
 
-export interface TalpaTheme {
+export interface TalpyTheme {
     fx: string;    // particles, z's, notes
     text: string;  // the words it says
 }
@@ -13,13 +13,13 @@ export interface TalpaTheme {
 export const BOX: number;
 export const FLOOR: number;
 export const TOP: number;
-export const LILAC: TalpaColors;
-export function calmColors(tint: string): TalpaColors;
+export const LILAC: TalpyColors;
+export function calmColors(tint: string): TalpyColors;
 export function drawHole(ctx: unknown, hole: number): void;   // an empty hole in the 64 × 64 box (hole: 0 to 1.1, as it opens or closes)
-// the open hole's back or front, turned left or not, in the 64 × 64 box (for Talpa.holeImage)
+// the open hole's back or front, turned left or not, in the 64 × 64 box (for Talpy.holeImage)
 export function drawHoleSide(ctx: unknown, part: "back" | "front", left: boolean): void;
 
-// A film's picture of it (Talpa.still), see films.mjs
+// A film's picture of it (Talpy.still), see films.mjs
 export interface Still {
     readonly key: string;
     readonly pose: string;
@@ -29,8 +29,8 @@ export interface Still {
     readonly every: number;   // ms from one picture of its move to the next (Infinity at rest)
 }
 
-export class Talpa {
-    constructor(opts?: { colors?: TalpaColors; theme?: TalpaTheme; words?: (s: string) => string; travels?: boolean; brain?: boolean });
+export class Talpy {
+    constructor(opts?: { colors?: TalpyColors; theme?: TalpyTheme; words?: (s: string) => string; travels?: boolean; brain?: boolean });
     onTravel: ((ms: number) => void) | null;
     facingLeft: boolean;
     travels: boolean;
@@ -42,8 +42,8 @@ export class Talpa {
     // the open hole's back or front drawn by drawHoleSide on a sheet the size of the canvas, at the
     // canvas's transform: copied in (half of a picture's cost); null: drawn
     holeImage: ((part: "back" | "front", left: boolean) => CanvasImageSource) | null;
-    setColors(colors: TalpaColors): void;
-    setTheme(theme: TalpaTheme): void;
+    setColors(colors: TalpyColors): void;
+    setTheme(theme: TalpyTheme): void;
     setMood(mood: string): void;
     react(name: string, done?: ((ok: boolean) => void) | null): void;
     setHeld(held: boolean): number;   // how much of its hole it leaves behind (0 to 1): draw that where it was, drawHole

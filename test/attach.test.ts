@@ -18,7 +18,7 @@ import { attachClients, type Terminals } from "../src/terminals";
 const JOB = "c0ffee12";
 
 test("attach clients are told by their command line", () => {
-  const proc = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-proc-"));
+  const proc = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-proc-"));
   const add = (pid: number, comm: string, argv: string[]) => {
     fs.mkdirSync(path.join(proc, String(pid)));
     fs.writeFileSync(path.join(proc, String(pid), "comm"), comm + "\n");
@@ -40,7 +40,7 @@ test("attach clients are told by their command line", () => {
 
 test("a background job a terminal shows already comes up there, not attached twice", async () => {
   // a stand-in `claude attach <job>`: xargs named claude, waiting for its input
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-attach-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-attach-"));
   fs.copyFileSync("/usr/bin/xargs", path.join(dir, "claude"));
   fs.chmodSync(path.join(dir, "claude"), 0o755);
   const client = spawn(path.join(dir, "claude"), ["attach", JOB], { stdio: ["pipe", "ignore", "ignore"] });

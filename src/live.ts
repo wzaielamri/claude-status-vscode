@@ -2,7 +2,7 @@
 // (<config dir>/sessions/<pid>.json) whenever the chat starts or ends,
 // starts working, waits for you or finishes its turn (also when you answer
 // or interrupt it in its terminal), and live mode's hook (the widget's
-// live_hook.py) notes each step in ~/.cache/claude-widget/live/<session
+// live_hook.py) notes each step in ~/.cache/talpy-den/live/<session
 // id>.json. This watches both folders (fs.watch: inotify on Linux): a
 // session file that changes asks for a check now, a live file is read and
 // handed on. (The widget's live.py does the same for Plasma.)

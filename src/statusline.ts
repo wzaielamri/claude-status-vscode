@@ -17,8 +17,9 @@ import { runProcess } from "./backend";
 import { expandHome, extraConfigDirs } from "./config";
 import { shellQuote } from "./shared/model";
 
-export const MARK_START = "# >>> claude-widget >>>";
-const BLOCK = /^# >>> claude-widget >>>\n[\s\S]*?^# <<< claude-widget <<<\n/m;
+export const MARK_START = "# >>> talpy-den >>>";
+// (an older copy of it is named claude-widget, after the first name)
+const BLOCK = /^# >>> (talpy-den|claude-widget) >>>\n[\s\S]*?^# <<< \1 <<<\n/m;
 // input=$(cat), input="$(cat)", input=$(cat -): a line of its own (not one
 // that goes on with a \ or a trailing && or |)
 const INPUT_LINE = /^[ \t]*input=("?)\$\(cat(?:[ \t]+-)?\)\1[ \t]*(?:;[ \t]*)?(?:#[^\n]*)?(?:\n|$)/m;
@@ -31,21 +32,27 @@ export interface Change {
   mode?: number;
 }
 
+function wrapperIn(folder: string, env: NodeJS.ProcessEnv): string {
+  return path.join(env.XDG_DATA_HOME || path.join(os.homedir(), ".local", "share"), folder, "statusline.sh");
+}
+
 export function wrapperPath(env: NodeJS.ProcessEnv = process.env): string {
-  return path.join(env.XDG_DATA_HOME || path.join(os.homedir(), ".local", "share"), "claude-status", "statusline.sh");
+  return wrapperIn("talpy-den", env);
 }
 
 // Where a wrapper may have been put: here, or where it goes without
-// XDG_DATA_HOME (set up from a VS Code started another way)
+// XDG_DATA_HOME (set up from a VS Code started another way), or in the folder
+// of the first name (claude-status): a status line that names that one is
+// pointed at this one when the usage bars are set up again
 function wrapperPaths(env: NodeJS.ProcessEnv = process.env): string[] {
-  return [...new Set([wrapperPath(env), wrapperPath({})])];
+  return [...new Set([wrapperPath(env), wrapperPath({}), wrapperIn("claude-status", env), wrapperIn("claude-status", {})])];
 }
 
 export function wrapperScript(snippet: string): string {
   return `#!/usr/bin/env bash
-# Claude Status (VS Code): keeps a copy of the status-line input for the plan
+# Talpy Den (VS Code): keeps a copy of the status-line input for the plan
 # usage bars, then shows the status line this profile had before, if any (its
-# command is the first argument). Remove it with "Claude Status: Remove the
+# command is the first argument). Remove it with "Talpy Den: Remove the
 # Plan Usage Status-Line Snippet".
 input=$(cat)
 ${snippet.trimEnd()}
@@ -197,7 +204,7 @@ export function plan(snippet: string, remove: boolean): { changes: Change[]; not
       const script = command ? scriptOf(command) : null;
       if (script && !changes.has(script)) {
         const text = fs.readFileSync(script, "utf8");
-        if (text.includes(MARK_START))
+        if (BLOCK.test(text))
           changes.set(script, { file: script, before: text, after: unpatchScript(text), why: `${label}: snippet removed from its status line` });
       }
       continue;
@@ -225,7 +232,7 @@ export function plan(snippet: string, remove: boolean): { changes: Change[]; not
         continue;
       }
       if (patched !== null) {
-        const why = text.includes(MARK_START) ? "snippet in its status-line script updated" : "snippet added to its status-line script";
+        const why = BLOCK.test(text) ? "snippet in its status-line script updated" : "snippet added to its status-line script";
         changes.set(script, { file: script, before: text, after: patched, why: `${label}: ${why}` });
         continue;
       }
@@ -275,7 +282,7 @@ export function apply(changes: Change[]): void {
 // ---------------------------------------------------------------- commands
 
 class Preview implements vscode.TextDocumentContentProvider {
-  static scheme = "claude-status-preview";
+  static scheme = "talpy-den-preview";
   texts = new Map<string, string>();
   provideTextDocumentContent(uri: vscode.Uri): string {
     return this.texts.get(uri.path) ?? "";

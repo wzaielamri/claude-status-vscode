@@ -1,4 +1,4 @@
-// Talpa, the pet (the widget's talpa.mjs, vendored), on the stages ported
+// Talpy, the pet (the widget's talpy.mjs, vendored), on the stages ported
 // from the widget's PetStrip.qml and Pet.qml. The UI talks to the pets only
 // through this module (see api.ts).
 //

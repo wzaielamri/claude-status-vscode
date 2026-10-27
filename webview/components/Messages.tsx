@@ -9,7 +9,7 @@ export function Messages({ state }: { state: ViewState }) {
     <>
       {state.demo ? (
         <div class="msg banner" role="note">
-          Demo data — run “Claude Status: Toggle Demo Data” to go back
+          Demo data — run “Talpy Den: Toggle Demo Data” to go back
         </div>
       ) : null}
       {state.errorText ? (

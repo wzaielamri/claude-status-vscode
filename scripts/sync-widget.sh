@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Copy the Claude Status widget's backend and Talpa (the pet) into vendor/.
+# Copy the Talpy Den widget's backend and Talpy (the pet) into vendor/.
 #
 #   scripts/sync-widget.sh PATH_TO_WIDGET_CHECKOUT [COMMIT]
 #
-# The widget (github.com/wzaielamri/claude-status) is the one source
-# of the Python backend and of Talpa. Only committed files are copied
+# The widget (github.com/wzaielamri/talpy-den) is the one source
+# of the Python backend and of Talpy. Only committed files are copied
 # (git archive), never a working tree's uncommitted changes or __pycache__,
 # and vendor/WIDGET_COMMIT records which commit they came from.
 set -euo pipefail
@@ -21,13 +21,13 @@ commit=$(git -C "$src" rev-parse --verify "$rev^{commit}")
 
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
-git -C "$src" archive "$commit" package/contents/code package/contents/ui/talpa package/contents/ui/codeview.mjs \
+git -C "$src" archive "$commit" package/contents/code package/contents/ui/talpy package/contents/ui/codeview.mjs \
   package/contents/ui/codeview.d.mts statusline-snippet.sh | tar -x -C "$work"
 
-rm -rf "$here/vendor/code" "$here/vendor/pets" "$here/vendor/talpa" "$here/vendor/codeview.mjs" "$here/vendor/codeview.d.mts"
+rm -rf "$here/vendor/code" "$here/vendor/pets" "$here/vendor/talpy" "$here/vendor/codeview.mjs" "$here/vendor/codeview.d.mts"
 mkdir -p "$here/vendor"
 cp -r "$work/package/contents/code" "$here/vendor/code"
-cp -r "$work/package/contents/ui/talpa" "$here/vendor/talpa"
+cp -r "$work/package/contents/ui/talpy" "$here/vendor/talpy"
 cp "$work/package/contents/ui/codeview.mjs" "$work/package/contents/ui/codeview.d.mts" "$here/vendor/"
 cp "$work/statusline-snippet.sh" "$here/vendor/statusline-snippet.sh"
 echo "$commit" > "$here/vendor/WIDGET_COMMIT"

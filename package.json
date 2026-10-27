@@ -1,7 +1,7 @@
 {
-  "name": "claude-status",
-  "displayName": "Claude Status",
-  "description": "Every Claude Code chat on this computer and your SSH hosts in one view: who needs you, plan usage, subagents, and Talpa, the animated pet. Runs on your side, also in Remote-SSH windows.",
+  "name": "talpy-den",
+  "displayName": "Talpy Den",
+  "description": "Every Claude Code chat on this computer and your SSH hosts in one view: who needs you, plan usage, subagents, and Talpy, the animated pet. Runs on your side, also in Remote-SSH windows.",
   "version": "1.15.2",
   "publisher": "wzaielamri",
   "author": {
@@ -11,11 +11,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wzaielamri/claude-status-vscode.git"
+    "url": "https://github.com/wzaielamri/talpy-den-vscode.git"
   },
-  "homepage": "https://github.com/wzaielamri/claude-status-vscode#readme",
+  "homepage": "https://github.com/wzaielamri/talpy-den-vscode#readme",
   "bugs": {
-    "url": "https://github.com/wzaielamri/claude-status-vscode/issues"
+    "url": "https://github.com/wzaielamri/talpy-den-vscode/issues"
   },
   "private": true,
   "engines": {
@@ -44,160 +44,160 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "claudeStatus",
-          "title": "Claude Status",
-          "icon": "media/talpa.svg"
+          "id": "talpyDen",
+          "title": "Talpy Den",
+          "icon": "media/talpy.svg"
         }
       ]
     },
     "views": {
-      "claudeStatus": [
+      "talpyDen": [
         {
           "type": "webview",
-          "id": "claudeStatus.view",
-          "name": "Chats"
+          "id": "talpyDen.view",
+          "name": "Talpy Den"
         }
       ]
     },
     "commands": [
       {
-        "command": "claudeStatus.refresh",
+        "command": "talpyDen.refresh",
         "title": "Refresh",
-        "category": "Claude Status",
+        "category": "Talpy Den",
         "icon": "$(refresh)"
       },
       {
-        "command": "claudeStatus.pickHosts",
+        "command": "talpyDen.pickHosts",
         "title": "Show Claude on SSH Hosts…",
-        "category": "Claude Status",
+        "category": "Talpy Den",
         "icon": "$(remote-explorer)"
       },
       {
-        "command": "claudeStatus.openInEditor",
+        "command": "talpyDen.openInEditor",
         "title": "Open in Editor Tab",
-        "category": "Claude Status",
+        "category": "Talpy Den",
         "icon": "$(link-external)"
       },
       {
-        "command": "claudeStatus.newChat",
+        "command": "talpyDen.newChat",
         "title": "New Chat…",
-        "category": "Claude Status",
+        "category": "Talpy Den",
         "icon": "$(add)"
       },
       {
-        "command": "claudeStatus.findChat",
+        "command": "talpyDen.findChat",
         "title": "Find a Chat…",
-        "category": "Claude Status",
+        "category": "Talpy Den",
         "icon": "$(search)"
       },
       {
-        "command": "claudeStatus.nextChat",
+        "command": "talpyDen.nextChat",
         "title": "Go to the Chat That Needs You",
-        "category": "Claude Status",
+        "category": "Talpy Den",
         "icon": "$(bell-dot)"
       },
       {
-        "command": "claudeStatus.showRemoved",
+        "command": "talpyDen.showRemoved",
         "title": "Show Removed Chats Again",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.setupUsageBars",
+        "command": "talpyDen.setupUsageBars",
         "title": "Set Up Plan Usage Bars…",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.removeUsageBars",
+        "command": "talpyDen.removeUsageBars",
         "title": "Remove the Plan Usage Status-Line Snippet…",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.openUsagePage",
+        "command": "talpyDen.openUsagePage",
         "title": "Open Usage Page on claude.ai",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.toggleDemo",
+        "command": "talpyDen.toggleDemo",
         "title": "Toggle Demo Data (for Screenshots)",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.showLog",
+        "command": "talpyDen.showLog",
         "title": "Show Log",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.answerPermissions",
-        "title": "Answer Permission Prompts from Claude Status…",
-        "category": "Claude Status"
+        "command": "talpyDen.answerPermissions",
+        "title": "Answer Permission Prompts from Talpy Den…",
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.liveMode",
+        "command": "talpyDen.liveMode",
         "title": "Live Mode…",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.switchAccount",
+        "command": "talpyDen.switchAccount",
         "title": "Default Claude Account…",
-        "category": "Claude Status",
+        "category": "Talpy Den",
         "icon": "$(account)"
       },
       {
-        "command": "claudeStatus.forgetRecapHistory",
+        "command": "talpyDen.forgetRecapHistory",
         "title": "Delete the Recap's Saved History…",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.accounts",
+        "command": "talpyDen.accounts",
         "title": "Claude Accounts…",
-        "category": "Claude Status",
+        "category": "Talpy Den",
         "icon": "$(organization)"
       },
       {
-        "command": "claudeStatus.addAccount",
+        "command": "talpyDen.addAccount",
         "title": "Add Claude Account…",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.sendPlanFeedback",
+        "command": "talpyDen.sendPlanFeedback",
         "title": "Send Feedback to Claude",
-        "category": "Claude Status",
+        "category": "Talpy Den",
         "icon": "$(send)"
       },
       {
-        "command": "claudeStatus.planComment.add",
+        "command": "talpyDen.planComment.add",
         "title": "Add Comment for Claude",
         "enablement": "!commentIsEmpty"
       },
       {
-        "command": "claudeStatus.planComment.delete",
+        "command": "talpyDen.planComment.delete",
         "title": "Delete Comment",
         "icon": "$(trash)"
       },
       {
-        "command": "claudeStatus.allowOldest",
+        "command": "talpyDen.allowOldest",
         "title": "Allow the Oldest Prompt",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       },
       {
-        "command": "claudeStatus.denyOldest",
+        "command": "talpyDen.denyOldest",
         "title": "Deny the Oldest Prompt",
-        "category": "Claude Status"
+        "category": "Talpy Den"
       }
     ],
     "keybindings": [
       {
-        "command": "claudeStatus.nextChat",
+        "command": "talpyDen.nextChat",
         "key": "ctrl+alt+shift+c",
         "mac": "cmd+alt+shift+c"
       },
       {
-        "command": "claudeStatus.allowOldest",
+        "command": "talpyDen.allowOldest",
         "key": "ctrl+alt+shift+y",
         "mac": "cmd+alt+shift+y"
       },
       {
-        "command": "claudeStatus.denyOldest",
+        "command": "talpyDen.denyOldest",
         "key": "ctrl+alt+shift+n",
         "mac": "cmd+alt+shift+n"
       }
@@ -205,108 +205,108 @@
     "menus": {
       "view/title": [
         {
-          "command": "claudeStatus.newChat",
-          "when": "view == claudeStatus.view",
+          "command": "talpyDen.newChat",
+          "when": "view == talpyDen.view",
           "group": "navigation@1"
         },
         {
-          "command": "claudeStatus.findChat",
-          "when": "view == claudeStatus.view",
+          "command": "talpyDen.findChat",
+          "when": "view == talpyDen.view",
           "group": "navigation@2"
         },
         {
-          "command": "claudeStatus.pickHosts",
-          "when": "view == claudeStatus.view",
+          "command": "talpyDen.pickHosts",
+          "when": "view == talpyDen.view",
           "group": "navigation@3"
         },
         {
-          "command": "claudeStatus.refresh",
-          "when": "view == claudeStatus.view",
+          "command": "talpyDen.refresh",
+          "when": "view == talpyDen.view",
           "group": "navigation@4"
         },
         {
-          "command": "claudeStatus.openInEditor",
-          "when": "view == claudeStatus.view",
+          "command": "talpyDen.openInEditor",
+          "when": "view == talpyDen.view",
           "group": "more@1"
         },
         {
-          "command": "claudeStatus.showRemoved",
-          "when": "view == claudeStatus.view",
+          "command": "talpyDen.showRemoved",
+          "when": "view == talpyDen.view",
           "group": "more@2"
         },
         {
-          "command": "claudeStatus.setupUsageBars",
-          "when": "view == claudeStatus.view",
+          "command": "talpyDen.setupUsageBars",
+          "when": "view == talpyDen.view",
           "group": "more@3"
         },
         {
-          "command": "claudeStatus.openUsagePage",
-          "when": "view == claudeStatus.view",
+          "command": "talpyDen.openUsagePage",
+          "when": "view == talpyDen.view",
           "group": "more@4"
         },
         {
-          "command": "claudeStatus.switchAccount",
-          "when": "view == claudeStatus.view",
+          "command": "talpyDen.switchAccount",
+          "when": "view == talpyDen.view",
           "group": "more@5"
         },
         {
-          "command": "claudeStatus.accounts",
-          "when": "view == claudeStatus.view",
+          "command": "talpyDen.accounts",
+          "when": "view == talpyDen.view",
           "group": "more@6"
         }
       ],
       "editor/title": [
         {
-          "command": "claudeStatus.sendPlanFeedback",
+          "command": "talpyDen.sendPlanFeedback",
           "group": "navigation",
           "when": "resourcePath =~ /\\/\\.claude[^/]*\\/plans\\/[^/]+\\.md$/"
         }
       ],
       "comments/commentThread/context": [
         {
-          "command": "claudeStatus.planComment.add",
+          "command": "talpyDen.planComment.add",
           "group": "inline",
-          "when": "commentController == claudeStatus.planFeedback"
+          "when": "commentController == talpyDen.planFeedback"
         }
       ],
       "comments/commentThread/title": [
         {
-          "command": "claudeStatus.planComment.delete",
+          "command": "talpyDen.planComment.delete",
           "group": "navigation",
-          "when": "commentController == claudeStatus.planFeedback && !commentThreadIsEmpty"
+          "when": "commentController == talpyDen.planFeedback && !commentThreadIsEmpty"
         }
       ],
       "commandPalette": [
         {
-          "command": "claudeStatus.planComment.add",
+          "command": "talpyDen.planComment.add",
           "when": "false"
         },
         {
-          "command": "claudeStatus.planComment.delete",
+          "command": "talpyDen.planComment.delete",
           "when": "false"
         }
       ]
     },
     "configuration": {
-      "title": "Claude Status",
+      "title": "Talpy Den",
       "properties": {
-        "claudeStatus.sshHosts": {
+        "talpyDen.sshHosts": {
           "scope": "machine",
           "type": "array",
           "items": {
             "type": "string"
           },
           "default": [],
-          "markdownDescription": "SSH hosts (names from `~/.ssh/config`) whose Claude Code chats are shown too. Use **Claude Status: Show Claude on SSH Hosts…** to pick them. Needs key-based login (the check never asks for a password) and `python3` 3.7+ on the host; nothing is installed there.",
+          "markdownDescription": "SSH hosts (names from `~/.ssh/config`) whose Claude Code chats are shown too. Use **Talpy Den: Show Claude on SSH Hosts…** to pick them. Needs key-based login (the check never asks for a password) and `python3` 3.7+ on the host; nothing is installed there.",
           "order": 1
         },
-        "claudeStatus.includeCurrentRemote": {
+        "talpyDen.includeCurrentRemote": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "In a Remote-SSH window, also show the chats of the host the window is connected to.",
           "order": 2
         },
-        "claudeStatus.remotePollSeconds": {
+        "talpyDen.remotePollSeconds": {
           "type": "integer",
           "default": 30,
           "minimum": 10,
@@ -314,7 +314,7 @@
           "markdownDescription": "How often SSH hosts are checked, in seconds.",
           "order": 3
         },
-        "claudeStatus.sshUsage": {
+        "talpyDen.sshUsage": {
           "type": "string",
           "enum": [
             "once",
@@ -330,7 +330,7 @@
           "markdownDescription": "Plan usage on SSH hosts' accounts.",
           "order": 3
         },
-        "claudeStatus.pollInterval": {
+        "talpyDen.pollInterval": {
           "type": "integer",
           "default": 2000,
           "minimum": 1000,
@@ -338,15 +338,15 @@
           "markdownDescription": "While a chat works, how often this computer's chats are checked while the view is open, in milliseconds: how often a working chat's line (what it's doing) is brought up to date (every 10 s while the view is hidden, 6 s at most often in a window that isn't focused). **No effect with Live Mode… on:** a working chat's steps show as they happen then, and it's checked every 6 s. A chat that starts, ends, starts working, asks for something or finishes its turn is checked the moment it does, either way.",
           "order": 4
         },
-        "claudeStatus.idlePollInterval": {
+        "talpyDen.idlePollInterval": {
           "type": "integer",
           "default": 20000,
           "minimum": 1000,
           "maximum": 300000,
-          "markdownDescription": "While no chat works, how often this computer's chats are checked, in milliseconds: for what changes while no chat does anything (plan usage and its forecast, a usage limit resetting, a queued task coming due, a Claude that crashed). Without Live Mode, never more often than `#claudeStatus.pollInterval#`. A chat that changes is checked at once anyway.",
+          "markdownDescription": "While no chat works, how often this computer's chats are checked, in milliseconds: for what changes while no chat does anything (plan usage and its forecast, a usage limit resetting, a queued task coming due, a Claude that crashed). Without Live Mode, never more often than `#talpyDen.pollInterval#`. A chat that changes is checked at once anyway.",
           "order": 5
         },
-        "claudeStatus.extraConfigDirs": {
+        "talpyDen.extraConfigDirs": {
           "scope": "machine",
           "type": "array",
           "items": {
@@ -356,19 +356,19 @@
           "markdownDescription": "More Claude Code config folders to read. `~/.claude`, every `~/.claude-*` folder and `$CLAUDE_CONFIG_DIR` are found without this.",
           "order": 5
         },
-        "claudeStatus.clickOpensPane": {
+        "talpyDen.clickOpensPane": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "A click on a chat opens it in an editor tab: its conversation as it goes, a box to reply, what it asks for (Allow / Deny), and what it changed (Undo, Commit, Mark reviewed). Off: a click opens the chat itself, as `#claudeStatus.openIn#` says (the tab is then a button beside it).",
+          "markdownDescription": "A click on a chat opens it in an editor tab: its conversation as it goes, a box to reply, what it asks for (Allow / Deny), and what it changed (Undo, Commit, Mark reviewed). Off: a click opens the chat itself, as `#talpyDen.openIn#` says (the tab is then a button beside it).",
           "order": 5
         },
-        "claudeStatus.diffSideBySide": {
+        "talpyDen.diffSideBySide": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Show a change in a chat's tab side by side (before | after) where the tab is wide enough, else removed and added lines one after the other. The switch in a change's corner sets it too.",
           "order": 6
         },
-        "claudeStatus.chatTextScale": {
+        "talpyDen.chatTextScale": {
           "type": "number",
           "default": 1.15,
           "minimum": 0.8,
@@ -376,13 +376,13 @@
           "markdownDescription": "Text size in a chat's tab, times VS Code's font size. The tab's A− / A+ buttons and Ctrl+wheel change it.",
           "order": 6
         },
-        "claudeStatus.dictateLanguage": {
+        "talpyDen.dictateLanguage": {
           "type": "string",
           "default": "auto",
           "markdownDescription": "The language you dictate replies in, as a code (`en`, `de`, `fr`…), or `auto` to let whisper.cpp tell. Dictating (the microphone in a chat's tab) needs [whisper.cpp](https://github.com/ggml-org/whisper.cpp) on this computer; what you say never leaves it.",
           "order": 7
         },
-        "claudeStatus.openIn": {
+        "talpyDen.openIn": {
           "type": "string",
           "enum": [
             "vscode",
@@ -396,33 +396,33 @@
           "markdownDescription": "Where chats open when you click them.",
           "order": 6
         },
-        "claudeStatus.reopenIn": {
+        "talpyDen.reopenIn": {
           "type": "string",
           "enum": [
             "terminal",
             "claudeCode"
           ],
           "enumDescriptions": [
-            "Reopen chats that aren't running in a terminal (claude --resume), as `#claudeStatus.openIn#` says.",
+            "Reopen chats that aren't running in a terminal (claude --resume), as `#talpyDen.openIn#` says.",
             "Reopen chats that aren't running in a Claude Code tab, in the VS Code window that has the chat's folder (on an SSH host's chats: connected to it)."
           ],
           "default": "terminal",
           "markdownDescription": "Where chats that aren't running reopen: the **Terminal | Claude Code tab** switch above Recent chats. It holds for those, a chat's tab (**Open its window**), its row and Find a Chat. Without a `claude` command they reopen in Claude Code.",
           "order": 7
         },
-        "claudeStatus.notifyWaiting": {
+        "talpyDen.notifyWaiting": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Notify when a chat needs your input. (If the Plasma or GNOME widget runs too, turn this off in one of them.)",
           "order": 10
         },
-        "claudeStatus.notifyDone": {
+        "talpyDen.notifyDone": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Notify when a chat finishes a turn that took at least `#claudeStatus.notifyDoneMinSeconds#` seconds.",
+          "markdownDescription": "Notify when a chat finishes a turn that took at least `#talpyDen.notifyDoneMinSeconds#` seconds.",
           "order": 11
         },
-        "claudeStatus.notifyDoneMinSeconds": {
+        "talpyDen.notifyDoneMinSeconds": {
           "type": "integer",
           "default": 30,
           "minimum": 0,
@@ -430,13 +430,13 @@
           "markdownDescription": "Shortest turn, in seconds, that gets a \"finished\" notification.",
           "order": 12
         },
-        "claudeStatus.notifySound": {
+        "talpyDen.notifySound": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Play a sound with notifications (Linux: PipeWire, PulseAudio or ALSA; nothing plays while Do Not Disturb is on).",
           "order": 13
         },
-        "claudeStatus.soundVolume": {
+        "talpyDen.soundVolume": {
           "type": "integer",
           "default": 70,
           "minimum": 0,
@@ -444,45 +444,45 @@
           "markdownDescription": "Notification sound volume, in percent.",
           "order": 14
         },
-        "claudeStatus.soundWaiting": {
+        "talpyDen.soundWaiting": {
           "type": "string",
           "default": "message-new-instant",
           "markdownDescription": "Sound when a chat needs you: sound-theme names (comma-separated, the first one found plays) or a sound file.",
           "order": 15
         },
-        "claudeStatus.soundDone": {
+        "talpyDen.soundDone": {
           "type": "string",
           "default": "outcome-success,complete",
           "markdownDescription": "Sound when a chat finishes.",
           "order": 16
         },
-        "claudeStatus.soundFailed": {
+        "talpyDen.soundFailed": {
           "type": "string",
           "default": "dialog-error",
           "markdownDescription": "Sound when a chat fails.",
           "order": 17
         },
-        "claudeStatus.awayDigest": {
+        "talpyDen.awayDigest": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "When you come back to VS Code after `#claudeStatus.awayMinutes#` minutes or more, one notification sums up what happened meanwhile (chats that finished, failed or need you, limits that reset). While you're away, notifications of finished chats wait for it.",
+          "markdownDescription": "When you come back to VS Code after `#talpyDen.awayMinutes#` minutes or more, one notification sums up what happened meanwhile (chats that finished, failed or need you, limits that reset). While you're away, notifications of finished chats wait for it.",
           "order": 18
         },
-        "claudeStatus.awayMinutes": {
+        "talpyDen.awayMinutes": {
           "type": "integer",
           "default": 5,
           "minimum": 1,
           "maximum": 240,
-          "markdownDescription": "How long, in minutes, no VS Code window has to be in use to count as away (`#claudeStatus.awayDigest#`).",
+          "markdownDescription": "How long, in minutes, no VS Code window has to be in use to count as away (`#talpyDen.awayDigest#`).",
           "order": 19
         },
-        "claudeStatus.showPet": {
+        "talpyDen.showPet": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Show Talpa, the animated pet.",
+          "markdownDescription": "Show Talpy, the animated pet.",
           "order": 20
         },
-        "claudeStatus.chatPets": {
+        "talpyDen.chatPets": {
           "type": "integer",
           "default": 5,
           "minimum": 0,
@@ -490,19 +490,19 @@
           "markdownDescription": "Pets per account, one for each running chat (0 = none).",
           "order": 21
         },
-        "claudeStatus.showTokens": {
+        "talpyDen.showTokens": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Show today's and this week's token totals per account.",
           "order": 22
         },
-        "claudeStatus.showUsageInStatusBar": {
+        "talpyDen.showUsageInStatusBar": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "Show the 5-hour plan usage next to the status bar item.",
           "order": 23
         },
-        "claudeStatus.recentChats": {
+        "talpyDen.recentChats": {
           "type": "integer",
           "default": 5,
           "minimum": 0,
@@ -510,7 +510,7 @@
           "markdownDescription": "How many recent chats to list per account.",
           "order": 24
         },
-        "claudeStatus.keepDoneHours": {
+        "talpyDen.keepDoneHours": {
           "type": "integer",
           "default": 24,
           "minimum": 0,
@@ -518,7 +518,7 @@
           "markdownDescription": "Keep finished background chats listed for this many hours (0 = drop them right away).",
           "order": 25
         },
-        "claudeStatus.usageCap": {
+        "talpyDen.usageCap": {
           "type": "integer",
           "default": 0,
           "minimum": 0,
@@ -526,7 +526,7 @@
           "markdownDescription": "A usage cap, in percent (0 = none): once one of an account's plan windows (5 hours, a week) reaches it, the account's chats at work on this computer are stopped, once in that window (in tmux and in a Claude Code tab the turn is interrupted, the chat stays open). Queued tasks wait until the window resets, and chats that keep going go on then. Chats you start or answer yourself afterwards aren't stopped again.",
           "order": 31
         },
-        "claudeStatus.newChatModel": {
+        "talpyDen.newChatModel": {
           "type": "string",
           "enum": [
             "opus",
@@ -546,7 +546,7 @@
           "markdownDescription": "The model new chats in a terminal or in the background start with (`claude --model`; **New Chat…** changes it). Not for a Claude Code tab: that has its own model setting.",
           "order": 32
         },
-        "claudeStatus.newChatEffort": {
+        "talpyDen.newChatEffort": {
           "type": "string",
           "enum": [
             "low",
@@ -568,7 +568,7 @@
           "markdownDescription": "The reasoning effort new chats in a terminal or in the background start with (`claude --effort`; **New Chat…** changes it).",
           "order": 33
         },
-        "claudeStatus.recapCurrency": {
+        "talpyDen.recapCurrency": {
           "type": "string",
           "enum": ["USD", "EUR", "GBP", "CHF", "JPY", "CNY", "INR", "CAD", "AUD", "NZD", "SEK", "NOK", "DKK", "PLN", "CZK", "HUF", "RON", "ISK", "TRY", "BRL", "MXN", "ZAR", "KRW", "SGD", "HKD", "ILS", "IDR", "MYR", "PHP", "THB"],
           "enumItemLabels": ["US dollars (USD)", "Euros (EUR)", "Pounds sterling (GBP)", "Swiss francs (CHF)", "Japanese yen (JPY)", "Chinese yuan (CNY)", "Indian rupees (INR)", "Canadian dollars (CAD)", "Australian dollars (AUD)", "New Zealand dollars (NZD)", "Swedish kronor (SEK)", "Norwegian kroner (NOK)", "Danish kroner (DKK)", "Polish złoty (PLN)", "Czech koruny (CZK)", "Hungarian forints (HUF)", "Romanian lei (RON)", "Icelandic krónur (ISK)", "Turkish lira (TRY)", "Brazilian reais (BRL)", "Mexican pesos (MXN)", "South African rand (ZAR)", "South Korean won (KRW)", "Singapore dollars (SGD)", "Hong Kong dollars (HKD)", "Israeli shekels (ILS)", "Indonesian rupiah (IDR)", "Malaysian ringgit (MYR)", "Philippine pesos (PHP)", "Thai baht (THB)"],
@@ -576,25 +576,25 @@
           "markdownDescription": "The currency of the Recap tab's amounts. Claude's API prices are in US dollars; for another currency the Recap tab downloads the European Central Bank's reference rates of the day from ecb.europa.eu, at most every 6 hours and only while the tab is open (offline it uses the last rates it has). Nothing about your chats is sent.",
           "order": 35
         },
-        "claudeStatus.recapHistory": {
+        "talpyDen.recapHistory": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Claude Code deletes chats after 30 days (its `cleanupPeriodDays` setting). The Recap tab's **Overall** keeps their numbers past that, in `~/.cache/claude-widget`: times, tokens, costs, folders and chat names. Off, it keeps only what Claude still has. One choice for the widget and this extension. **Claude Status: Delete the Recap's Saved History…** deletes it.",
+          "markdownDescription": "Claude Code deletes chats after 30 days (its `cleanupPeriodDays` setting). The Recap tab's **Overall** keeps their numbers past that, in `~/.cache/talpy-den`: times, tokens, costs, folders and chat names. Off, it keeps only what Claude still has. One choice for the widget and this extension. **Talpy Den: Delete the Recap's Saved History…** deletes it.",
           "order": 36
         },
-        "claudeStatus.mondayRecap": {
+        "talpyDen.mondayRecap": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "On Mondays (from 9 o'clock, or the first time VS Code runs after that), a notification sums up the last 7 days; **Open the Recap** shows them. It comes once a week, here or in the Plasma widget.",
           "order": 37
         },
-        "claudeStatus.recapRules": {
+        "talpyDen.recapRules": {
           "type": "boolean",
           "default": true,
           "markdownDescription": "The Recap tab suggests rules that would have let the permission prompts you answered go without asking, each with an **Allow…** button. Off, it only counts the prompts, and there's nothing to allow by mistake. Either way it lists the permissions you gave, to revoke them.",
           "order": 37
         },
-        "claudeStatus.newChatMode": {
+        "talpyDen.newChatMode": {
           "type": "string",
           "enum": [
             "default",
@@ -618,7 +618,7 @@
           "markdownDescription": "The permission mode new chats in a terminal or in the background start in (`claude --permission-mode`; **New Chat…** changes it, Shift+Tab in the chat too). A background chat can start in auto mode or bypass permissions only once you turned that on in a terminal.",
           "order": 34
         },
-        "claudeStatus.pythonPath": {
+        "talpyDen.pythonPath": {
           "scope": "machine",
           "type": "string",
           "default": "python3",

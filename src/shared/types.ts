@@ -1,4 +1,4 @@
-// What vendor/code/claude_status.py prints (its collect(), plus the --remote
+// What vendor/code/talpy_den.py prints (its collect(), plus the --remote
 // additions), and the messages between the extension and its webview.
 
 export type SessionState = "waiting" | "working" | "idle" | "done";
@@ -60,7 +60,7 @@ export interface LiveStep {
 }
 
 // What a running chat does now, step by step (live mode: the live hook's
-// ~/.cache/claude-widget/live/<session id>.json; a row carries it at each
+// ~/.cache/talpy-den/live/<session id>.json; a row carries it at each
 // check, and the extension follows the files in between)
 export interface LiveView {
   sessionId?: string; // (the files have them; a row's view doesn't)
@@ -100,7 +100,7 @@ export interface Overlap {
 }
 
 // A background task waiting for its account's usage limit to reset
-// (claude_status.py: queued_tasks); an SSH host's starts from here, over ssh
+// (talpy_den.py: queued_tasks); an SSH host's starts from here, over ssh
 export interface QueuedTask {
   id: string;
   host: string; // "" for this computer
@@ -130,7 +130,7 @@ export interface QueuedTask {
 }
 
 // A chat of this computer that keeps going until it's done: after each usage
-// limit that stops it, it goes on by itself (claude_status.py: look_after_kept)
+// limit that stops it, it goes on by itself (talpy_den.py: look_after_kept)
 export interface KeptChat {
   chat: string;
   profile: string;
@@ -142,16 +142,16 @@ export interface KeptChat {
   error: string; // it gave up: why
 }
 
-// The plan a chat made (claude_status.py: plan_of)
+// The plan a chat made (talpy_den.py: plan_of)
 export interface ChatPlan {
   slug: string;
   title: string;
   path: string; // on the machine the chat is on
   updatedAt: number;
-  edited?: boolean; // changed since its chat last did anything: by you (claude_status.py: plan_edited)
+  edited?: boolean; // changed since its chat last did anything: by you (talpy_den.py: plan_edited)
 }
 
-// One of an account's plans (claude_status.py: account_plans)
+// One of an account's plans (talpy_den.py: account_plans)
 export interface PlanItem extends ChatPlan {
   key: string;
   profileDir: string; // the profile whose plans/ it's in
@@ -165,7 +165,7 @@ export interface PlanItem extends ChatPlan {
   starred?: boolean; // you starred it (older backends leave it out)
 }
 
-// One of Claude's memories on an account (claude_status.py: account_memories):
+// One of Claude's memories on an account (talpy_den.py: account_memories):
 // a note it keeps in <config>/projects/<folder>/memory
 export interface Memory {
   key: string;
@@ -238,7 +238,7 @@ export interface Session {
   // --remote: the process of the VS Code terminal it runs in (that terminal's
   // processId, on the machine the session is on), if it does
   vscodeTerminal?: number | null;
-  // How it takes a message from the chat tab (claude_status.py: reply_route);
+  // How it takes a message from the chat tab (talpy_den.py: reply_route);
   // older backends leave these out
   reply?: ReplyRoute;
   review?: Review | null; // it changed files: its last edit, and tests since
@@ -252,13 +252,13 @@ export interface Session {
 export type ReplyRoute = "tmux" | "vscode" | "background" | "terminal";
 
 // A chat that changed files: when it last edited one, and the newest test run
-// after that (claude_status.py: TestsCache.review)
+// after that (talpy_den.py: TestsCache.review)
 export interface Review {
   editedAt: number | null;
   tests: { command: string; ok: boolean; at: number | null } | null;
 }
 
-// What a chat waiting for a permission asks (claude_status.py: note_permissions)
+// What a chat waiting for a permission asks (talpy_den.py: note_permissions)
 export interface PermissionAsk {
   tool: string;
   line: string; // e.g. "Bash: npm publish"
@@ -284,7 +284,7 @@ export interface PlanAsk {
   title: string;
 }
 
-// One of Claude's questions (claude_status.py: question_view): pick one of
+// One of Claude's questions (talpy_den.py: question_view): pick one of
 // its options, or several for a multiSelect one, or answer in your own words
 export interface Question {
   question: string;
@@ -296,7 +296,7 @@ export interface Question {
 // Answers to Claude's questions: {question: [the labels chosen, or what you typed]}
 export type Answers = Record<string, string[]>;
 
-// A chat's numbers (claude_status.py: stats_summary): your prompts, its tool
+// A chat's numbers (talpy_den.py: stats_summary): your prompts, its tool
 // calls by name, tokens (subagents included), how long Claude worked
 export interface ChatStats {
   prompts: number;
@@ -308,7 +308,7 @@ export interface ChatStats {
   lastAt: number | null;
 }
 
-// An account's last days (claude_status.py: token_stats)
+// An account's last days (talpy_den.py: token_stats)
 export interface StatsDay {
   day: string; // YYYY-MM-DD, local
   total: number;
@@ -389,7 +389,7 @@ export interface RecentChat {
   review?: Review | null;
 }
 
-// A chat "Find a Chat" found (claude_status.py: find_chats)
+// A chat "Find a Chat" found (talpy_den.py: find_chats)
 export interface FoundChat {
   key: string;
   sessionId: string;
@@ -406,7 +406,7 @@ export interface FoundChat {
   openCommand?: string | null; // an SSH host's: reopens it there
 }
 
-// What the search found besides chats (claude_status.py: find_more)
+// What the search found besides chats (talpy_den.py: find_more)
 export interface FoundProject {
   folder: string;
   folderShort: string;
@@ -492,7 +492,7 @@ export interface Group {
   // With limitsHidden: the account's numbers all the same (the newest of its
   // machines'), for what weighs them (handoverTarget, limitReset)
   accountLimits?: Limits | null;
-  // One of its plan windows is at the usage cap (claudeStatus.usageCap): until
+  // One of its plan windows is at the usage cap (talpyDen.usageCap): until
   // it resets, queued tasks wait. Older backends leave it out.
   cap?: { pct: number; label: string; key: string; resetsAt: number } | null;
 }

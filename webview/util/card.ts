@@ -1,10 +1,10 @@
 // The Recap as a card to share (WeekView.tsx: Share…), as the widget's
-// RecapCard.qml draws it: the period shown with Talpa, Claude's and your
+// RecapCard.qml draws it: the period shown with Talpy, Claude's and your
 // time, prompts, chats, Claude's work day by day and the tokens, the
 // projects named if you want. 1200 × 630 pixels (twice the widget's size),
 // fixed colors: it's a picture, not part of the theme.
 
-import { BOX, LILAC, Talpa } from "../../vendor/talpa/talpa.mjs";
+import { BOX, LILAC, Talpy } from "../../vendor/talpy/talpy.mjs";
 import type { WeekRecap } from "../../src/shared/types";
 
 export const CARD_W = 1200;
@@ -44,8 +44,8 @@ export function drawCard(canvas: HTMLCanvasElement, r: WeekRecap, names: boolean
     ctx.arc((x + rr) * k, (y + rr) * k, rr * k, 0, Math.PI * 2);
     ctx.fill();
   }
-  // Talpa, out of its burrow, happy
-  const t = new Talpa({ brain: false, colors: LILAC, theme: { fx: "rgba(255,255,255,0.6)", text: "#ffffff" } });
+  // Talpy, out of its burrow, happy
+  const t = new Talpy({ brain: false, colors: LILAC, theme: { fx: "rgba(255,255,255,0.6)", text: "#ffffff" } });
   t.tick(1e6);
   t.pose({ depth: "high", arms: "up", eyes: "star", mouth: "grin", plume: "up", lamp: "done", blush: 1 });
   ctx.save();
@@ -99,6 +99,6 @@ export function drawCard(canvas: HTMLCanvasElement, r: WeekRecap, names: boolean
   ctx.fillStyle = "#8f89c4";
   ctx.font = `${11 * k}px system-ui, sans-serif`;
   ctx.textAlign = "right";
-  ctx.fillText("Claude Status", CARD_W - 14 * k, CARD_H - 14 * k);
+  ctx.fillText("Talpy Den", CARD_W - 14 * k, CARD_H - 14 * k);
   ctx.textAlign = "left";
 }

@@ -104,10 +104,10 @@ export function AskBox({ ask, onAnswer, onWholePlan, busy = false, max = 12, com
       {!canAnswer ? (
         <div class="muted small">
           {plan
-            ? "Approve it in the chat, or run “Claude Status: Answer Permission Prompts from Claude Status…” (it takes plans too) to approve it here."
+            ? "Approve it in the chat, or run “Talpy Den: Answer Permission Prompts from Talpy Den…” (it takes plans too) to approve it here."
             : questions.length
-            ? "Answer it in the chat, or run “Claude Status: Answer Permission Prompts from Claude Status…” (it answers Claude's questions too) to answer them here."
-            : "Answer it in the chat, or run “Claude Status: Answer Permission Prompts from Claude Status…” to answer them here."}
+            ? "Answer it in the chat, or run “Talpy Den: Answer Permission Prompts from Talpy Den…” (it answers Claude's questions too) to answer them here."
+            : "Answer it in the chat, or run “Talpy Den: Answer Permission Prompts from Talpy Den…” to answer them here."}
         </div>
       ) : null}
     </div>

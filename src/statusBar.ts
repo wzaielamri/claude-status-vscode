@@ -9,11 +9,11 @@ import { allGroups, claudeCodeGroup, countStates, overallState, panelWindow, too
 import type { ViewState } from "./shared/types";
 
 export class StatusBar implements vscode.Disposable {
-  private item = vscode.window.createStatusBarItem("claudeStatus.status", vscode.StatusBarAlignment.Right, 100);
+  private item = vscode.window.createStatusBarItem("talpyDen.status", vscode.StatusBarAlignment.Right, 100);
 
   constructor() {
-    this.item.name = "Claude Status";
-    this.item.command = "claudeStatus.view.focus";
+    this.item.name = "Talpy Den";
+    this.item.command = "talpyDen.view.focus";
     this.item.text = "$(sparkle)";
     this.item.show();
   }
@@ -38,10 +38,10 @@ export class StatusBar implements vscode.Disposable {
     this.item.color =
       overall !== "waiting" && usage && usage.window.pct >= 90 ? new vscode.ThemeColor("errorForeground") : undefined;
     const tip = new vscode.MarkdownString(undefined, true);
-    tip.appendMarkdown("**Claude Code**" + (state.demo ? " (demo data)" : "") + "\n\n");
+    tip.appendMarkdown("**Talpy Den**" + (state.demo ? " (demo data)" : "") + "\n\n");
     const lines = !state.status && state.errorText ? [state.errorText] : tooltipLines(groups, counts, state.hosts);
     for (const line of lines) tip.appendText(line + "\n\n");
     this.item.tooltip = tip;
-    this.item.accessibilityInformation = { label: `Claude Code: ${lines[0] ?? ""}` };
+    this.item.accessibilityInformation = { label: `Talpy Den: ${lines[0] ?? ""}` };
   }
 }

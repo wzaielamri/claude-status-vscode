@@ -32,7 +32,7 @@ export function isAgentRunFile(file: string | undefined, root = agentRunsRoot())
 
 // The widgets' link to show a plan or a subagent's run in VS Code's Markdown
 // preview (jump.py's MARKDOWN_LINK, the widget's "Open plans and runs in:
-// VS Code"): vscode://wzaielamri.claude-status/markdown?path=<file>. Only a
+// VS Code"): vscode://wzaielamri.talpy-den/markdown?path=<file>. Only a
 // Markdown file of the widget's runs folder, or of a Claude config folder's
 // plans (~/.claude*/plans, or of one named in configDirs), since any page
 // could hand VS Code such a link: else null.

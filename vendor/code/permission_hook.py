@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Claude Code's PermissionRequest hook for the Claude Status widget, so a
+"""Claude Code's PermissionRequest hook for the Talpy Den widget, so a
 permission prompt can be answered from the widget (Allow once, Always
 allow, Deny with a note) as well as in the chat; and Claude's questions
 (AskUserQuestion asks for a permission too: the answers go back in it).
 
 Claude runs it whenever a chat asks for a permission, side by side with its
 own dialog: whichever is answered first counts. It writes the request to
-~/.cache/claude-widget/permissions/<id>.json and waits for the widget's
+~/.cache/talpy-den/permissions/<id>.json and waits for the widget's
 answer (<id>.answer.json, written by pane.py --answer). It ends without a
 word, so the dialog alone decides, once the chat stops waiting (you
 answered it there), when its Claude is gone, or when no dialog shows a few
 seconds after it started (a Claude that waits for hooks before it asks).
 
-It is copied to ~/.local/share/claude-widget/permission-hook.py and named
+It is copied to ~/.local/share/talpy-den/permission-hook.py and named
 in each Claude profile's settings.json by pane.py --relay on (Claude
 Status' setting "Answer permission prompts from the widget"); --relay off
 takes it out again. Standard library only, and Python 3.7 (SSH hosts).
@@ -31,7 +31,7 @@ LONGEST_S = 23 * 3600  # (the settings give it 24 h; it ends before Claude would
 
 def cache_root():
     base = os.environ.get("XDG_CACHE_HOME") or os.path.join(os.path.expanduser("~"), ".cache")
-    return os.path.join(base, "claude-widget", "permissions")
+    return os.path.join(base, "talpy-den", "permissions")
 
 
 def session_file(pid):

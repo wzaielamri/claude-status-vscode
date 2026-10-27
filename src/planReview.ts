@@ -8,8 +8,8 @@ import * as os from "node:os";
 import * as path from "node:path";
 import * as vscode from "vscode";
 
-export const CONTROLLER_ID = "claudeStatus.planFeedback";
-const SLUG = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/; // claude_status.py: PLAN_SLUG
+export const CONTROLLER_ID = "talpyDen.planFeedback";
+const SLUG = /^[A-Za-z0-9][A-Za-z0-9_-]{0,127}$/; // talpy_den.py: PLAN_SLUG
 
 // A comment of yours on the plan
 class Note implements vscode.Comment {

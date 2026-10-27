@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Dictate a reply for Claude Status: your voice to text, on this computer
+"""Dictate a reply for Talpy Den: your voice to text, on this computer
 only (whisper.cpp), for the chat pane's reply box.
 
     python3 -I dictate.py --status
@@ -16,7 +16,7 @@ only (whisper.cpp), for the chat pane's reply box.
     python3 -I dictate.py --get-model NAME
         download a speech model (from huggingface.co/ggerganov/whisper.cpp,
         the only time anything goes over the network) into
-        ~/.local/share/claude-widget/whisper
+        ~/.local/share/talpy-den/whisper
 
 Speech never leaves the computer: whisper.cpp runs here. Standard library only.
 """
@@ -41,12 +41,12 @@ VALID_ID = set("abcdefghijklmnopqrstuvwxyz0123456789-")
 
 def data_dir():
     base = os.environ.get("XDG_DATA_HOME") or os.path.join(os.path.expanduser("~"), ".local", "share")
-    return Path(base) / "claude-widget" / "whisper"
+    return Path(base) / "talpy-den" / "whisper"
 
 
 def cache_dir():
     base = os.environ.get("XDG_CACHE_HOME") or os.path.join(os.path.expanduser("~"), ".cache")
-    path = Path(base) / "claude-widget" / "dictation"
+    path = Path(base) / "talpy-den" / "dictation"
     path.mkdir(parents=True, exist_ok=True)
     path.chmod(0o700)   # (what you said)
     return path

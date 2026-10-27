@@ -1,6 +1,6 @@
 // Types for films.mjs, for the VS Code extension's webview (TypeScript)
 
-import type { Still, Talpa } from "./talpa.mjs";
+import type { Still, Talpy } from "./talpy.mjs";
 
 export interface FilmSheet {
     readonly index: number;
@@ -11,7 +11,7 @@ export interface FilmSheet {
 }
 
 export class Films {
-    constructor(talpa: Talpa, opts?: { sheets?: number; frameMs?: number; maxFrames?: number; restMs?: number; tweenMs?: number;
+    constructor(talpy: Talpy, opts?: { sheets?: number; frameMs?: number; maxFrames?: number; restMs?: number; tweenMs?: number;
                                         tweens?: number; smooth?: boolean; clockMs?: number });
     on: boolean;        // false: drawn live (a pet you hold)
     frameMs: number;

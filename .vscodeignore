@@ -1,5 +1,5 @@
 # Only dist/, media/, the vendored backend, README, CHANGELOG and LICENSE go into the .vsix (README images load from
-# GitHub; Talpa, the pet, is bundled into dist/webview.js)
+# GitHub; Talpy, the pet, is bundled into dist/webview.js)
 **
 !dist/extension.js
 !dist/webview.js

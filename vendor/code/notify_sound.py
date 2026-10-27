@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Play a notification sound for the Claude Status widget.
+"""Play a notification sound for the Talpy Den widget.
 
     python3 -I notify_sound.py SOUND [--volume PERCENT] [--force] [--theme NAME]
 
@@ -119,7 +119,7 @@ def player_command(path, volume):
     if shutil.which("canberra-gtk-play"):
         import math
         db = 20 * math.log10(volume / 100) if volume > 0 else -60
-        return ["canberra-gtk-play", "-f", str(path), "-V", f"{db:.1f}", "-d", "Claude Status"]
+        return ["canberra-gtk-play", "-f", str(path), "-V", f"{db:.1f}", "-d", "Talpy Den"]
     if shutil.which("aplay") and path.suffix == ".wav":
         return ["aplay", "-q", str(path)]
     return None

@@ -23,7 +23,7 @@ export function hoursText(ms: number): string {
 }
 
 // The amounts are API prices in US dollars; in another currency (the
-// claudeStatus.recapCurrency setting) week.py sends the European Central
+// talpyDen.recapCurrency setting) week.py sends the European Central
 // Bank's rate of the day
 export interface Currency {
   code: string;

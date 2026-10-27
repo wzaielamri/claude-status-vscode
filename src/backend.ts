@@ -1,4 +1,4 @@
-// Runs the widget's Python backend (vendor/code): claude_status.py for this
+// Runs the widget's Python backend (vendor/code): talpy_den.py for this
 // computer, remote.py for SSH hosts, jump.py for actions, notify_sound.py for
 // sounds. Every call is a plain argument list (no shell).
 
@@ -8,7 +8,7 @@ import * as path from "node:path";
 import { isComparison, type Comparison } from "./changes";
 import type { ProjectsData, FoundChat, FoundMemory, FoundPlan, FoundProject, PermsData, Status, WeekRecap } from "./shared/types";
 
-export const REMOTE_MARK = "@@claude-status@@";
+export const REMOTE_MARK = "@@talpy-den@@";
 const KILL_GRACE_MS = 3000;
 
 export interface RunResult {
@@ -115,13 +115,13 @@ export class Backend {
     return path.join(this.codeDir, name);
   }
 
-  // poll.py runs claude_status.py with its compiled code cached (in the
+  // poll.py runs talpy_den.py with its compiled code cached (in the
   // widget's cache folder); a widget vendored before it came has none
   private statusScript?: string;
   private pollScript(): string {
     if (this.statusScript === undefined) {
       const poll = this.script("poll.py");
-      this.statusScript = fs.existsSync(poll) ? poll : this.script("claude_status.py");
+      this.statusScript = fs.existsSync(poll) ? poll : this.script("talpy_den.py");
     }
     return this.statusScript;
   }
@@ -134,8 +134,8 @@ export class Backend {
       timeoutMs: 15000,
     });
     if (r.spawnError)
-      return `Can't run "${python}" (${r.spawnError.code ?? r.spawnError.message}). Install Python 3.7 or newer, or set claudeStatus.pythonPath.`;
-    if (r.code === 3) return `"${python}" is older than Python 3.7; set claudeStatus.pythonPath to a newer one.`;
+      return `Can't run "${python}" (${r.spawnError.code ?? r.spawnError.message}). Install Python 3.7 or newer, or set talpyDen.pythonPath.`;
+    if (r.code === 3) return `"${python}" is older than Python 3.7; set talpyDen.pythonPath to a newer one.`;
     if (r.code !== 0) return `"${python}" doesn't work: ${lastLine(r.stderr) || `exit ${r.code}`}`;
     this.pythonChecked = python;
     return "";
@@ -176,7 +176,7 @@ export class Backend {
     return { ok: false, error: String(r.error || r.message || "no answer"), login: !!r.login };
   }
 
-  // The chats with every word of query (claude_status.py --find; an SSH
+  // The chats with every word of query (talpy_den.py --find; an SSH
   // host's through remote.py, each with the command that reopens it there)
   async find(query: string, host?: string, extra: string[] = []): Promise<FindAnswer> {
     let r: Record<string, any> | null;
@@ -228,7 +228,7 @@ export class Backend {
   }
 
   // jump.py / remote.py actions; they print {"ok": bool, "message": str}
-  async action(scriptName: "jump.py" | "remote.py" | "claude_status.py" | "week.py", args: string[], timeoutMs = 90000): Promise<Answer> {
+  async action(scriptName: "jump.py" | "remote.py" | "talpy_den.py" | "week.py", args: string[], timeoutMs = 90000): Promise<Answer> {
     const r = await this.json([scriptName, ...args], timeoutMs);
     if (!r) return { ok: false, message: "the helper gave no answer" };
     return {

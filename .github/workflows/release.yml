@@ -60,9 +60,9 @@ jobs:
 
           ### Install
 
-          Download \`claude-status-$VERSION.vsix\` below, then in VS Code open the
+          Download \`talpy-den-$VERSION.vsix\` below, then in VS Code open the
           Extensions view, **⋯** → **Install from VSIX…** (or run
-          \`code --install-extension claude-status-$VERSION.vsix\`). It needs Python
+          \`code --install-extension talpy-den-$VERSION.vsix\`). It needs Python
           3.7+; the README explains SSH hosts and the plan usage bars.
           EOF
 
@@ -75,13 +75,13 @@ jobs:
       - name: Nothing private in the package
         run: |
           mkdir vsix
-          unzip -q "claude-status-$VERSION.vsix" -d vsix
+          unzip -q "talpy-den-$VERSION.vsix" -d vsix
           python3 scripts/check_public.py vsix
 
       - name: Publish the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          sha256sum "claude-status-$VERSION.vsix" > SHA256SUMS
-          gh release create "$TAG" "claude-status-$VERSION.vsix" SHA256SUMS \
-            --title "Claude Status $VERSION" --notes-file notes.md --verify-tag
+          sha256sum "talpy-den-$VERSION.vsix" > SHA256SUMS
+          gh release create "$TAG" "talpy-den-$VERSION.vsix" SHA256SUMS \
+            --title "Talpy Den $VERSION" --notes-file notes.md --verify-tag

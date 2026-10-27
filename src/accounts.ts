@@ -30,7 +30,7 @@ export interface AccountInfo {
   vscode: boolean; // VS Code's Claude runs on it
   default: boolean; // the default account (listed first; VS Code's Claude and plain claude run on it)
   commandName: string | null; // claude-work
-  command: boolean; // ~/.local/bin/claude-work is there (made by Claude Status)
+  command: boolean; // ~/.local/bin/claude-work is there (made by Talpy Den)
   notRemovable: string; // why it can't be removed, or ""
 }
 

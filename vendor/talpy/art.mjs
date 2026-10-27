@@ -1,4 +1,4 @@
-// Talpa's parts: body, face, lamp, arms, burrow, props and the bits that fly
+// Talpy's parts: body, face, lamp, arms, burrow, props and the bits that fly
 // off (particles). All in one 64 × 64 box with the floor at y ≈ 57; the
 // shapes come straight from the design (build "Bean").
 //
@@ -18,7 +18,7 @@ export const BODY = 'M19 54C13.5 54 12.6 47 13 40C13.8 27 21.5 20 32 20S50.2 27 
 export const EDGE = 'M59 56.6A27 6.2 0 0 0 53.5 52.85V55.6A21.5 2.2 0 0 1 10.5 55.6V52.85A27 6.2 0 0 0 5 56.6';
 
 // The cut, with the burrow's edge scaled like the hole is while it opens or
-// closes (sx, sy about 32, 56: see Talpa.draw)
+// closes (sx, sy about 32, 56: see Talpy.draw)
 export function traceCut(ctx, sx, sy) {
     ctx.moveTo(-40, -60);
     ctx.lineTo(104, -60);
@@ -114,7 +114,7 @@ export function mix(a, b, k) {
     return toHex(x.map((v, i) => v * (1 - k) + y[i] * k));
 }
 
-// Talpa's own colors, and a calm version of a chat's color for a chat's pet
+// Talpy's own colors, and a calm version of a chat's color for a chat's pet
 export const LILAC = { skin: '#998fbe', shade: '#6b6190' };
 export function calmColors(tint) {
     if (!tint)

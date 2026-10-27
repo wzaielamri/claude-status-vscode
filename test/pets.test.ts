@@ -21,7 +21,7 @@ function bundle(): string {
     bundled = buildSync({
       stdin: {
         contents: 'export { Stage } from "./webview/pets/stage";\nexport { petFields, stageCallbacks } from "./webview/util/petStage";\n' +
-          'export { ACTIONS, MOODS } from "./vendor/talpa/actions.mjs";\n',
+          'export { ACTIONS, MOODS } from "./vendor/talpy/actions.mjs";\n',
         resolveDir: repo,
         loader: "ts",
       },
@@ -116,7 +116,7 @@ function load() {
       visibilityState: "visible",
       body: new FakeEl("body"),
     },
-    window: { CLAUDE_STATUS: { editorTab: false }, addEventListener() {} },
+    window: { TALPY_DEN: { editorTab: false }, addEventListener() {} },
     acquireVsCodeApi: () => ({ postMessage: (m: unknown) => void posted.push(m), getState: () => undefined, setState() {} }),
     ResizeObserver: class {
       constructor(cb: (entries: unknown[]) => void) {
@@ -177,10 +177,10 @@ function account(maxPets = 3) {
   };
 }
 
-// Talpa's time goes on by ms (it ticks every 50 ms, as on a stage in view)
+// Talpy's time goes on by ms (it ticks every 50 ms, as on a stage in view)
 function wait(pet: Any, ms: number) {
-  const from = pet.talpa.now;
-  for (let t = from + 50; t <= from + ms; t += 50) pet.talpa.tick(t);
+  const from = pet.talpy.now;
+  for (let t = from + 50; t <= from + ms; t += 50) pet.talpy.tick(t);
 }
 
 // A chat's pet on a stage in view, up out of the ground, whose chat has just
@@ -210,7 +210,7 @@ test("the pets are told when a usage limit has reset", () => {
 
 test("a click on a pet goes to its chat's window; only the chat's name opens its tab", () => {
   // (as on Plasma: the pets jump to the terminal or Claude Code tab, whatever
-  // claudeStatus.clickOpensPane says about the name)
+  // talpyDen.clickOpensPane says about the name)
   const { stageCallbacks, posted } = load();
   const ref = { key: "p/1", sessionId: "s-1", profileDir: "p", name: "chat 1" };
   stageCallbacks.open(ref);
@@ -219,7 +219,7 @@ test("a click on a pet goes to its chat's window; only the chat's name opens its
   assert.equal(posted[0].chat, ref);
 });
 
-test("every mood and action a pet asks Talpa for is one it knows", () => {
+test("every mood and action a pet asks Talpy for is one it knows", () => {
   const { ACTIONS, MOODS } = load();
   for (const mood of ["error", "loading", "needs", "agents", "working", "idle", "done", "failed", "limit"])
     assert.ok(mood in MOODS, mood);
@@ -229,7 +229,7 @@ test("every mood and action a pet asks Talpa for is one it knows", () => {
   const events = /\{ done: [^}]*\}/.exec(source)![0];
   const names = new Set([...reacts, events].flatMap((s) => [...s.matchAll(/"(\w+)"/g)].map((m) => m[1])));
   assert.ok(names.has("dig") && names.has("charged") && names.has("mindblown"), [...names].join(" "));
-  for (const name of names) assert.ok(name in ACTIONS, `Talpa has no "${name}"`);
+  for (const name of names) assert.ok(name in ACTIONS, `Talpy has no "${name}"`);
 });
 
 test("a pet on a stage in view draws itself, the canvas as sharp as the screen", () => {
@@ -255,11 +255,11 @@ test("a chat's pet draws a picture only when what it shows changes", async () =>
   show();
   const pet = stage.petFor("p/1");
   // up out of the ground (drawn live: a big move), 3 s on the stage's own
-  // clock, which Talpa's must follow
+  // clock, which Talpy's must follow
   const clock = stage.clock as Any;
   for (let i = 0; i < 60; i++) {
     clock.base += 50;
-    pet.talpa.tick(clock.now());
+    pet.talpy.tick(clock.now());
   }
   const drawn = () => pet.canvases.reduce((n: number, c: Any) => n + c.drawn.length, 0);
   const fadeOver = () => new Promise((done) => setTimeout(done, 260)); // (the stage's clock is real time)
@@ -269,9 +269,9 @@ test("a chat's pet draws a picture only when what it shows changes", async () =>
   const before = drawn();
   stage.render(); // nothing new to show
   assert.equal(drawn(), before, "drawn again without a change");
-  const key = pet.talpa.stillKey();
-  pet.talpa.react("pet"); // a new pose
-  assert.notEqual(pet.talpa.stillKey(), key);
+  const key = pet.talpy.stillKey();
+  pet.talpy.react("pet"); // a new pose
+  assert.notEqual(pet.talpy.stillKey(), key);
   stage.render();
   assert.ok(drawn() > before, "the new pose isn't drawn");
   stage.destroy();
@@ -284,7 +284,7 @@ test("a stage in view with pets keeps drawing them; a hidden one asks for no fra
   assert.equal(frames.asked, 0, "frames for a stage nobody sees");
   show();
   assert.equal(frames.asked, 1);
-  stage.loop(); // a frame: nothing walks, but Talpa is always up to something
+  stage.loop(); // a frame: nothing walks, but Talpy is always up to something
   assert.equal(frames.asked, 2);
   show(false);
   stage.loop();
@@ -294,7 +294,7 @@ test("a stage in view with pets keeps drawing them; a hidden one asks for no fra
 
 test("a pet whose chat left waves, digs away and is gone", () => {
   const { stage, pet } = leaving();
-  assert.equal(pet.talpa.run.name, "leave");
+  assert.equal(pet.talpy.run.name, "leave");
   wait(pet, 6000);
   assert.ok(!stage.pets.includes(pet), "it stayed");
   stage.destroy();
@@ -315,7 +315,7 @@ test("a pet you grab on its way off the stage is held, not removed", () => {
   wait(pet, 6000);
   assert.ok(stage.pets.includes(pet), "the pet vanished under the pointer");
   assert.equal(pet.held, true);
-  assert.equal(pet.talpa.held, true);
+  assert.equal(pet.talpy.held, true);
   stage.destroy();
 });
 
@@ -349,12 +349,12 @@ test("the hole stays where a pet was pulled out of it, and is filled in once the
   s.show();
   const pet = s.stage.petFor("p/1");
   wait(pet, 4000); // up out of the ground, its hole open
-  assert.ok(pet.talpa.v.hole > 0.9, "no hole to leave");
+  assert.ok(pet.talpy.v.hole > 0.9, "no hole to leave");
   assert.equal(pet.leftHole.hidden, true);
   const home = pet.px;
   pet.pickUp();
   assert.equal(pet.leftHole.hidden, false, "its hole didn't stay");
-  assert.equal(pet.talpa.v.hole, 0, "its hole came along");
+  assert.equal(pet.talpy.v.hole, 0, "its hole came along");
   s.stage.render();
   const placed = pet.leftHole.style.transform;
   assert.ok(placed.startsWith(`translate(${Math.round(home * 10) / 10 - s.stage.canvasW / 2}px,`), `${placed}, it was at ${home}`);
@@ -380,7 +380,7 @@ test("a pet that wasn't over a hole leaves none behind", () => {
   s.show();
   const pet = s.stage.petFor("p/1");
   wait(pet, 4000);
-  pet.talpa.react("dig"); // tunnelling: no hole under it
+  pet.talpy.react("dig"); // tunnelling: no hole under it
   wait(pet, 1200);
   pet.pickUp();
   assert.equal(pet.leftHole.hidden, true, "a hole from nowhere");
@@ -400,8 +400,8 @@ test("while you hold a pet nothing moves it", () => {
   wait(pet, 6000);
   assert.equal(pet.stride.active, false, "it digs home while you hold it");
   assert.equal(pet.px, 200);
-  assert.equal(pet.talpa.held, true);
-  assert.equal(pet.talpa.run, null, "it acts while you hold it");
+  assert.equal(pet.talpy.held, true);
+  assert.equal(pet.talpy.run, null, "it acts while you hold it");
   stage.destroy();
 });
 
@@ -444,7 +444,7 @@ test("the open hole is drawn once and copied into each picture", () => {
   assert.equal(pet.holes.length, 4); // back and front, turned right and left
   const drawnOnce = pet.holes.map((c: Any) => c.drawn.length);
   assert.ok(drawnOnce.every((n: number) => n > 10));
-  assert.equal(pet.talpa.holeImage("front", true), pet.holes[3]);
+  assert.equal(pet.talpy.holeImage("front", true), pet.holes[3]);
   const clock = stage.clock as Any;
   for (let i = 0; i < 100; i++) {
     clock.base += 33;
@@ -495,7 +495,7 @@ test("a pet whose spot moves hurries over to it", () => {
   const pet = stage.petFor("p/1");
   wait(pet, 3000); // up out of the ground
   give([chat("p/0"), chat("p/1")]); // a new chat comes first in the list: p/1's spot moves right
-  assert.equal(pet.talpa.run?.name, "scoot");
+  assert.equal(pet.talpy.run?.name, "scoot");
   stage.destroy();
 });
 

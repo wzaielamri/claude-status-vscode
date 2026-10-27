@@ -1,4 +1,4 @@
-/* Claude Status webview. Colors come from the VS Code theme, like the widget
+/* Talpy Den webview. Colors come from the VS Code theme, like the widget
    followed the Plasma theme; --cs-* are the roles used everywhere. */
 
 @import "./pets/pets.css";
@@ -151,17 +151,6 @@ code {
   padding-bottom: 8px;
 }
 
-.title {
-  flex: none;
-  font-size: 1em;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.app.tab .title {
-  font-size: 1.15em;
-}
-
 .summary {
   flex: 1 1 auto;
   min-width: 0;
@@ -181,7 +170,7 @@ code {
   gap: 2px;
 }
 
-.talpa-icon {
+.talpy-icon {
   flex: none;
   display: block;
   width: 16px;
@@ -209,7 +198,7 @@ code {
   padding: 0 var(--cs-pad);
 }
 
-/* The line under the big Talpa: what the working chats do right now */
+/* The line under the big Talpy: what the working chats do right now */
 .ticker {
   display: flex;
   gap: 6px;

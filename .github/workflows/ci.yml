@@ -42,4 +42,4 @@ jobs:
     container: python:3.7-slim
     steps:
       - uses: actions/checkout@v4
-      - run: python3 -I vendor/code/claude_status.py --remote --done-hours 24 --recent 5 | tail -1 | python3 -c "import json,sys; d=json.loads(sys.stdin.read().split('@@claude-status@@',1)[1]); assert d['ok'], d"
+      - run: python3 -I vendor/code/talpy_den.py --remote --done-hours 24 --recent 5 | tail -1 | python3 -c "import json,sys; d=json.loads(sys.stdin.read().split('@@talpy-den@@',1)[1]); assert d['ok'], d"

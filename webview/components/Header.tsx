@@ -5,11 +5,11 @@ import { useViewVisible } from "../util/petStage";
 import { useStore } from "../util/store";
 import { setFocus, setTab, uiState } from "../util/ui";
 import { IconButton } from "./IconButton";
-import { TalpaIcon } from "./TalpaIcon";
+import { TalpyIcon } from "./TalpyIcon";
 
 // The icon and the summary. In the sidebar the view's title bar has the
 // buttons; opened as an editor tab there's no title bar, so they're here.
-// With the big Talpa shown the summary is left out: its headline says it.
+// With the big Talpy shown the summary is left out: its headline says it.
 export function Header(props: {
   overall: Overall;
   counts: Counts;
@@ -35,16 +35,15 @@ export function Header(props: {
 
   return (
     <header class="header">
-      <TalpaIcon state={overall} moving={visible} />
-      <h1 class="title" title={tooltipLines(groups, counts, hosts).join("\n")}>
-        Claude Code
-      </h1>
-      {/* Your chats now, your last 7 days with Claude (WeekView.tsx), or the permissions you gave (PermsView.tsx) */}
+      <TalpyIcon state={overall} moving={visible} />
+      {/* The app's name is the first tab: your chats now. The others: your last 7 days with Claude (WeekView.tsx),
+          the permissions you gave (PermsView.tsx), your projects (ProjectsView.tsx) */}
       <div class="tabs" role="tablist">
         {(["chats", "week", "perms", "projects"] as const).map((t) => (
           <button key={t} type="button" role="tab" aria-selected={tab === t} class={"tab-btn" + (tab === t ? " on" : "")}
+            title={t === "chats" ? tooltipLines(groups, counts, hosts).join("\n") : undefined}
             onClick={() => setTab(t)}>
-            {t === "chats" ? "Chats" : t === "week" ? "Recap" : t === "perms" ? "Permissions" : "Projects"}
+            {t === "chats" ? "Talpy Den" : t === "week" ? "Recap" : t === "perms" ? "Permissions" : "Projects"}
           </button>
         ))}
       </div>

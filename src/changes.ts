@@ -2,7 +2,7 @@
 // in one editor). The widget's backend (jump.py --changes) finds the files
 // and copies what they were before the chat (or before its last turn) into
 // the cache; the Plasma and GNOME widgets hand such a comparison over with
-// vscode://wzaielamri.claude-status/changes?file=<its changes.json>.
+// vscode://wzaielamri.talpy-den/changes?file=<its changes.json>.
 
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -98,15 +98,15 @@ export async function openComparison(c: Comparison): Promise<string> {
   }
 }
 
-// The widgets' link: vscode://wzaielamri.claude-status/changes?file=…
+// The widgets' link: vscode://wzaielamri.talpy-den/changes?file=…
 export async function openChangesLink(uri: vscode.Uri, log: vscode.LogOutputChannel): Promise<void> {
   const file = manifestOf(uri);
   const comparison = file ? readComparison(file) : null;
   if (!comparison) {
-    log.warn(`Ignored a link that isn't a comparison of the Claude Status widget: ${uri.toString()}`);
-    void vscode.window.showErrorMessage("Claude Status: that link doesn't name one of the widget's comparisons (they're kept for a day).");
+    log.warn(`Ignored a link that isn't a comparison of the Talpy Den widget: ${uri.toString()}`);
+    void vscode.window.showErrorMessage("Talpy Den: that link doesn't name one of the widget's comparisons (they're kept for a day).");
     return;
   }
   const error = await openComparison(comparison);
-  if (error) void vscode.window.showErrorMessage(`Claude Status: couldn't show the changes: ${error}`);
+  if (error) void vscode.window.showErrorMessage(`Talpy Den: couldn't show the changes: ${error}`);
 }

@@ -308,7 +308,7 @@ export function agentsRunning(groups: Group[]): number {
   return n;
 }
 
-// Talpa's mood for the whole dashboard (talpa.mjs MOODS)
+// Talpy's mood for the whole dashboard (talpy.mjs MOODS)
 export function heroMood(state: Pick<ViewState, "status" | "errorText">, overall: Overall, groups: Group[]): string {
   const answered = !!state.status || groups.length > 0; // a host's chats count too
   if (!answered && state.errorText) return "error";
@@ -581,7 +581,7 @@ export function doingText(s: Pick<Session, "peek">, live: LiveView | null): stri
   return peek?.activity || "";
 }
 
-// The ticker under the big Talpa: what each working chat does now
+// The ticker under the big Talpy: what each working chat does now
 export interface TickerItem {
   key: string;
   name: string;

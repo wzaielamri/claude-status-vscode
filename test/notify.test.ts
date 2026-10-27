@@ -10,7 +10,7 @@ test("a permission prompt's notification lists Allow once, Always allow, Deny, D
   const os = await import("node:os");
   const path = await import("node:path");
   const vscode = (await import("vscode")) as unknown as typeof import("./vscode-stub");
-  process.env.XDG_CACHE_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-notify-"));
+  process.env.XDG_CACHE_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-notify-"));
   const { Notifier } = await import("../src/notify");
   const window = vscode.window as unknown as Record<string, unknown>;
   const shown: string[][] = [];
@@ -55,7 +55,7 @@ test("a plan's notification: Approve, accept edits / Approve / Keep planning…"
   const os = await import("node:os");
   const path = await import("node:path");
   const vscode = (await import("vscode")) as unknown as typeof import("./vscode-stub");
-  process.env.XDG_CACHE_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-notify-"));
+  process.env.XDG_CACHE_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-notify-"));
   const { Notifier } = await import("../src/notify");
   const window = vscode.window as unknown as Record<string, unknown>;
   const shown: string[][] = [];
@@ -92,7 +92,7 @@ test("a question's notification: its options, Other…; several questions: Answe
   const os = await import("node:os");
   const path = await import("node:path");
   const vscode = (await import("vscode")) as unknown as typeof import("./vscode-stub");
-  process.env.XDG_CACHE_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-notify-"));
+  process.env.XDG_CACHE_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-notify-"));
   const { Notifier } = await import("../src/notify");
   const window = vscode.window as unknown as Record<string, unknown>;
   const shown: string[][] = [];

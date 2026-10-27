@@ -1,4 +1,4 @@
-// Talpa (talpa.mjs) as a film: it moves smoothly without being drawn every
+// Talpy (talpy.mjs) as a film: it moves smoothly without being drawn every
 // frame. Each picture of a quick move (a round of typing, a wave, a bounce)
 // is drawn once, kept, and shown again as the move goes round; a new pose
 // moves there through a few pictures in between (or is drawn live until it
@@ -9,19 +9,19 @@
 // smooth: a move too slow for a picture every frame (fewer than maxFrames a
 // round) is drawn live instead of stepping from picture to picture.
 //
-//   const film = new Films(talpa, { sheets: 12, frameMs: 33, clockMs: 16.67 });
+//   const film = new Films(talpy, { sheets: 12, frameMs: 33, clockMs: 16.67 });
 //   (clockMs: about how far apart the host's ticks come, the screen's frame
 //   or two; the film measures them from then on. It counts its ticks: a
 //   picture, one in between and what's drawn live each show for a whole
 //   number of them, the same every time, whenever a tick comes.)
-//   every tick: talpa.tick(now); const changed = film.tick(now); then
+//   every tick: talpy.tick(now); const changed = film.tick(now); then
 //   - each sheet s with s.paint set: clear it and draw it with
-//     film.paint(s, ctx), ctx at the box's transform as for talpa.draw;
+//     film.paint(s, ctx), ctx at the box's transform as for talpy.draw;
 //   - show film.front, no other sheet, once it's drawn (an HTML canvas at
 //     once; a QML Canvas shows its new picture a frame later: until then
 //     keep the sheet shown before);
 //   - film.fx: if fx.paint, clear what flies about and draw it with
-//     film.paintFx(ctx); show it over Talpa while fx.on.
+//     film.paintFx(ctx); show it over Talpy while fx.on.
 //
 // Plain ES2017 (see paths.mjs).
 
@@ -29,9 +29,9 @@
 const moved = (a, b) => a.st.depth !== b.st.depth || a.st.arms !== b.st.arms || a.st.plume !== b.st.plume || a.st.sip !== b.st.sip;
 
 export class Films {
-    constructor(talpa, opts) {
+    constructor(talpy, opts) {
         opts = opts || {};
-        this.talpa = talpa;
+        this.talpy = talpy;
         this.on = true;                          // false: drawn live (a pet you hold)
         this.frameMs = opts.frameMs || 33;       // a quick move's pictures at least this far apart; live ones too
         this.maxFrames = opts.maxFrames || 12;   // and at most this many a round
@@ -48,7 +48,7 @@ export class Films {
         for (let i = 0; i < Math.max(2, opts.sheets || 8); i++)
             this.sheets.push({ index: i, key: '~', paint: false, usedAt: 0, d: null, from: null, p: 1 });
         this.front = this.sheets[0];
-        this.shown = null;                       // the film's picture shown last (talpa.still()), null while live
+        this.shown = null;                       // the film's picture shown last (talpy.still()), null while live
         this.tween = null;                       // a pose on its way: { from, at }
         this.liveAt = -1e9;                      // (ticks, as fx.at and tween.at)
         this.fx = { on: false, paint: false, at: -1e9 };
@@ -83,7 +83,7 @@ export class Films {
         return Math.max(1, Math.round(ms / this.clock()));
     }
 
-    // (for Talpa.still: ticks since move id began, ms ago, counted from then on)
+    // (for Talpy.still: ticks since move id began, ms ago, counted from then on)
     ticksSince(id, ms) {
         if (this.move.id !== id)
             this.move = { id: id, at: this.count - Math.round(ms / this.clock()) };
@@ -92,7 +92,7 @@ export class Films {
 
     // Returns true when what shows changed
     tick(now) {
-        const t = this.talpa;
+        const t = this.talpy;
         this.count++;
         if (this.lastAt !== null && now - this.lastAt > 0 && now - this.lastAt < 250) {
             this.gaps.push(now - this.lastAt);
@@ -194,7 +194,7 @@ export class Films {
 
     // What flies about: drawn as often as it moves (z's float up slowly)
     tickFx(now) {
-        const fx = this.fx, flying = this.talpa.particles(now);
+        const fx = this.fx, flying = this.talpy.particles(now);
         if (!flying) {
             if (!fx.on)
                 return false;
@@ -211,18 +211,18 @@ export class Films {
         return changed;
     }
 
-    // Draws sheet s: its picture, or Talpa now (live)
+    // Draws sheet s: its picture, or Talpy now (live)
     paint(s, ctx) {
         if (s.key === '')
-            this.talpa.draw(ctx, true);
+            this.talpy.draw(ctx, true);
         else if (s.d)
-            this.talpa.drawFilm(ctx, s.d, s.from, s.p);
+            this.talpy.drawFilm(ctx, s.d, s.from, s.p);
         s.paint = false;
     }
 
     paintFx(ctx) {
         this.fx.paint = false;
         if (this.fx.on)
-            this.talpa.drawParticles(ctx, this.talpa.now);
+            this.talpy.drawParticles(ctx, this.talpy.now);
     }
 }

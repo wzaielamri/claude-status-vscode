@@ -1,4 +1,4 @@
-// What Talpa does: each action is a few steps (a pose held for t ms, with
+// What Talpy does: each action is a few steps (a pose held for t ms, with
 // things that fly off), picked at random within a mood so it never does the
 // same thing twice. Depth is how far out of the burrow it is:
 // gone < hidden (only the lamp shows) < peek < low < half < high < out.

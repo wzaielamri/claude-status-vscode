@@ -123,7 +123,7 @@ test("a recent chat reopens in this window when it has the chat's project open",
   // (Claude's `cd`s move a chat's folder into subfolders, or out of the
   // folder it started in, which Claude Code files it under)
   const stub = vscode as unknown as typeof import("./vscode-stub");
-  const config = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-test-")), ".claude-work");
+  const config = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-test-")), ".claude-work");
   fs.mkdirSync(path.join(config, "projects", "-proj"), { recursive: true });
   fs.writeFileSync(path.join(config, "projects", "-proj", "c2.jsonl"), "");
   const saved = { env: process.env.CLAUDE_CONFIG_DIR, openExternal: stub.env.openExternal, folders: stub.workspace.workspaceFolders };

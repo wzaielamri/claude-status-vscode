@@ -14,11 +14,11 @@ test("the socket folder is short and only yours", { skip: !posix && "Unix socket
   const tmp = fs.mkdtempSync("/tmp/cs-test-");
   try {
     const dir = controlDir({ XDG_RUNTIME_DIR: tmp }, "/nonexistent");
-    assert.equal(dir, path.join(tmp, "claude-status-ssh"));
+    assert.equal(dir, path.join(tmp, "talpy-den-ssh"));
     assert.equal(fs.statSync(dir!).mode & 0o777, 0o700);
     assert.ok(`${dir}/${"0".repeat(40)}.${"x".repeat(16)}`.length <= 107, "what ssh binds fits");
     // no runtime folder: one in /tmp, unless it's a link (or someone else's)
-    const fallback = path.join(tmp, `claude-status-ssh-${process.getuid!()}`);
+    const fallback = path.join(tmp, `talpy-den-ssh-${process.getuid!()}`);
     assert.equal(controlDir({}, tmp), fallback);
     fs.rmdirSync(fallback);
     fs.symlinkSync(tmp, fallback);

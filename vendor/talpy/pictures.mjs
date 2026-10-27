@@ -1,32 +1,32 @@
-// Talpa (talpa.mjs) as pictures, for a host that can't afford to draw it
+// Talpy (talpy.mjs) as pictures, for a host that can't afford to draw it
 // every frame (the widget's chat pets): a picture is drawn once, shown while
-// it's what Talpa looks like (talpa.stillKey) and kept for when it's that
+// it's what Talpy looks like (talpy.stillKey) and kept for when it's that
 // again, so a quick move goes round its pictures without drawing any.
 //
-//   const pictures = new Pictures(talpa, 5);   // five sheets: canvases, offscreen or not
-//   every tick: talpa.tick(now); const changed = pictures.tick(now); then
+//   const pictures = new Pictures(talpy, 5);   // five sheets: canvases, offscreen or not
+//   every tick: talpy.tick(now); const changed = pictures.tick(now); then
 //   - each sheet s with s.paint set: clear that and draw the sheet (now, or
 //     when its canvas paints, before the next tick) with pictures.paint(s,
-//     ctx), ctx at the box's transform as for talpa.draw;
+//     ctx), ctx at the box's transform as for talpy.draw;
 //   - show pictures.front; while pictures.coming is set, the two mixed:
 //     (1 - mix) × front + mix × coming, added up ('lighter' on a canvas,
 //     Cairo's ADD), not one over the other. changed: that changed.
 //
 // Mixed that way a pose fades into the next and the background never shows
 // through: two half see-through pictures one over the other let a quarter of
-// it through (Talpa went darker, then lighter again), and an old picture kept
+// it through (Talpy went darker, then lighter again), and an old picture kept
 // whole under the new one shows what moved twice. A new detail (a blink, a
-// glance, a beat) just shows. A big move (talpa.stillKey() is '') is drawn
+// glance, a beat) just shows. A big move (talpy.stillKey() is '') is drawn
 // live on the front sheet (its key ''), and so is everything with pictures
-// off (a pet you hold; the big Talpa has one sheet).
+// off (a pet you hold; the big Talpy has one sheet).
 //
 // Plain ES2017 (see paths.mjs).
 
 const pose = key => key.split('#')[0];
 
 export class Pictures {
-    constructor(talpa, count) {
-        this.talpa = talpa;
+    constructor(talpy, count) {
+        this.talpy = talpy;
         this.pictures = count > 1;   // false: drawn live
         this.fadeMs = 200;           // 0: a new pose just shows
         this.bigMs = 80;             // a big move is drawn at most this often (with pictures on)
@@ -53,7 +53,7 @@ export class Pictures {
 
     // Returns true when what shows changed
     tick(now) {
-        const key = this.pictures && this.sheets.length > 1 ? this.talpa.stillKey() : '';
+        const key = this.pictures && this.sheets.length > 1 ? this.talpy.stillKey() : '';
         if (key === '') {
             let changed = this.coming !== null;
             this.coming = this.waiting = null;
@@ -62,7 +62,7 @@ export class Pictures {
                 s.key = '';
                 this.liveAt = -1e9;
             }
-            const every = this.pictures ? Math.max(this.talpa.frameMs, this.bigMs) : this.talpa.frameMs;
+            const every = this.pictures ? Math.max(this.talpy.frameMs, this.bigMs) : this.talpy.frameMs;
             if (now - this.liveAt >= every - this.slackMs) {
                 this.liveAt = now;
                 s.paint = true;
@@ -127,9 +127,9 @@ export class Pictures {
         this.mix = 0;
     }
 
-    // Draws sheet s: Talpa now, live or its picture
+    // Draws sheet s: Talpy now, live or its picture
     paint(s, ctx) {
-        const t = this.talpa;
+        const t = this.talpy;
         if (s.key === '') {
             t.draw(ctx);
         } else {

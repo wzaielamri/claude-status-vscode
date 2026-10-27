@@ -7,7 +7,7 @@ All of it comes from the chat transcripts Claude Code keeps on this computer
 (and on the SSH hosts shown): nothing here starts Claude or calls a model,
 and only --currency goes online (for the day's exchange rates). Each run
 reads only what the transcripts added since the last one
-(~/.cache/claude-widget/week-3.json), and the widget runs it only while its
+(~/.cache/talpy-den/week-3.json), and the widget runs it only while its
 Recap tab is open, never in its status checks.
 
 The cache keeps what it read for good (the history: Overall goes back to the
@@ -24,9 +24,9 @@ off: then it keeps only what the transcripts still have.
                   whether the history is kept (and since when), keep it or
                   not, or delete it (the cache starts again from the
                   transcripts Claude still has)
-    --account ID  one account's chats (an id of claude_status.py's groups)
+    --account ID  one account's chats (an id of talpy_den.py's groups)
     --host HOST   an SSH host's chats too: remote.py runs this file there
-                  (python3 -I - with claude_status.py loaded first) with
+                  (python3 -I - with talpy_den.py loaded first) with
     --data        that host's chats of those days, for the computer asking
     --remote      the JSON after a marker line (login scripts may print first)
     --currency C  amounts in C (EUR, …) at the European Central Bank's rate
@@ -60,14 +60,14 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 sys.dont_write_bytecode = True  # no __pycache__ inside the installed widget...
-if os.path.isfile(globals().get("__file__") or ""):  # (on an SSH host it comes on stdin, after claude_status.py)
-    if sys.version_info >= (3, 8):  # ...but claude_status.py compiled in the cache, as poll.py does
-        _cache = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / "claude-widget"
+if os.path.isfile(globals().get("__file__") or ""):  # (on an SSH host it comes on stdin, after talpy_den.py)
+    if sys.version_info >= (3, 8):  # ...but talpy_den.py compiled in the cache, as poll.py does
+        _cache = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / "talpy-den"
         if _cache.is_dir():
             sys.pycache_prefix = str(_cache / "pycache")
             sys.dont_write_bytecode = False
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # -I leaves the script dir off sys.path
-import claude_status as cs  # noqa: E402
+import talpy_den as cs  # noqa: E402
 
 CACHE_FILE = "week-3.json"  # (a new layout gets a new name: an older copy of this file keeps its own)
 OLD_CACHE_FILES = ("week-1.json", "week-2.json")
@@ -930,7 +930,7 @@ def live_turn(state):
 
 
 def account_ids(profiles):
-    """{profile key: account id}, [{"id", "name"}] (claude_status.py's groups)."""
+    """{profile key: account id}, [{"id", "name"}] (talpy_den.py's groups)."""
     by_profile, accounts = {}, []
     for gid, members in cs.group_profiles(profiles):
         named = next((p for p in members if not p.is_default), members[0])
@@ -2417,6 +2417,7 @@ def main(argv=None):
             sys.exit(__doc__)
     os.umask(0o077)  # cache files are private to the user
     home = Path.home()
+    cs.adopt_legacy_dirs(home)
     now_ms = int(time.time() * 1000)
     cache_root = cs.cache_dir(home)
 

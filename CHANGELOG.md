@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- **Now Talpy Den:** the extension is called **Talpy Den** and the pet
+  **Talpy**. It is a new extension (`wzaielamri.talpy-den`, settings
+  `talpyDen.*`): install it and remove *Claude Status* from VS Code's
+  extensions. Your `claudeStatus.*` settings are copied to `talpyDen.*` the
+  first time it starts (what you had already set under the new names stays).
+  Its data folders moved to `talpy-den` by themselves (a link stays under the
+  old name for an older status-line snippet), and the plan-usage setup
+  recognizes what the old extension added (its snippet, its status-line
+  wrapper) and brings it up to date. In the view the app's name is the first
+  tab (your chats), where the title *Claude Code* and a *Chats* tab were.
 - **Pets move in even steps:** each picture of a pet's move shows for the same
   number of frames (counted, not timed), so a frame that comes a little early
   or late no longer makes one picture show for a frame and the next for three.
@@ -11,7 +21,7 @@
   colors. Folded, an edit shows the lines around its first change; click it
   for all of it. Where the tab is wide enough a change shows **side by side**
   (before | after); the switch in its corner, the Review tab's *Side by side*
-  button and `claudeStatus.diffSideBySide` set it. A change you're asked to
+  button and `talpyDen.diffSideBySide` set it. A change you're asked to
   allow shows the same way.
 - **Tool calls that read well:** a call says what it did in code's font
   (**Bash** `git status`), and unfolded it shows the command and what it
@@ -39,7 +49,7 @@
   one to bring it up), its plans and memories, and **+** for a new chat
   there (on the account of its newest chat, with that folder first).
 - **Share your week as a picture:** the share button in the Recap makes a
-  card of the period shown (a day, the 7 days or everything): Talpa, how
+  card of the period shown (a day, the 7 days or everything): Talpy, how
   long Claude worked and how long you did, your prompts and chats, Claude's
   work day by day and the tokens, with your projects' names if you tick
   *Name the projects on it*. **Save** puts it in your Pictures folder,
@@ -54,7 +64,7 @@
   how long Claude worked over how many chats, your time and prompts, the
   project most of it went to, and against the week before; **Open the
   Recap** shows them. It comes once, here or in the Plasma widget
-  (`claudeStatus.mondayRecap` turns it off).
+  (`talpyDen.mondayRecap` turns it off).
 - **A background session's screen:** the tab of a background session
   (`claude --bg`) has an **Output** tab: its terminal as Claude draws it
   right now (what `claude attach` would show), read again every 2 seconds
@@ -65,7 +75,7 @@
   you say never leaves it, and the recording is deleted once written down.
   It needs whisper.cpp (Fedora: `sudo dnf install whisper-cpp`) and a
   speech model, which the tab offers to download once (142 MB, from
-  huggingface.co); `claudeStatus.dictateLanguage` (auto by default).
+  huggingface.co); `talpyDen.dictateLanguage` (auto by default).
 - **A reply box that helps:** in a chat's tab, `/` at the start offers
   Claude's commands, your own and the project's commands and skills (with
   what each does); `@` offers the project's files; ↑ and ↓ go through what
@@ -83,13 +93,13 @@
   *Deny the Oldest Prompt* (Ctrl+Alt+Shift+N) answer the chat that has
   waited longest for a permission (a plan: approve it, or keep planning);
   the status bar says what was answered. They take *Answer Permission
-  Prompts from Claude Status*.
+  Prompts from Talpy Den*.
 - **Approve a plan from VS Code:** a chat that leaves plan mode shows its
   plan in its row (*Read the whole plan* opens its tab) and in its chat
   tab, with **Approve, accept edits**, **Approve** and **Keep planning…**
   (what to change: Claude works on the plan and shows it again). Its
   notification has the same buttons. That takes *Answer Permission Prompts
-  from Claude Status*; the chat's own dialog works too.
+  from Talpy Den*; the chat's own dialog works too.
 - **Focus view:** the filter button beside the tabs shows only what needs
   you: the chats waiting for you as full rows (their questions, Allow /
   Deny), the chats that finished a turn in the last 15 minutes, one line
@@ -101,7 +111,7 @@
   context bars and the usage numbers glide to a new value, a tab slides in
   from the side it's on, and the chat tab grows open. Nothing moves when
   your system asks for less motion.
-- **More for Talpa to do:** it blows soap bubbles, grows a flower and
+- **More for Talpy to do:** it blows soap bubbles, grows a flower and
   smells it, eats a cookie, takes a selfie, hops like a bunny, boogies, and
   cheers *yay!* when a chat finishes; petting it may get heart eyes, a wink
   or a blown kiss; asleep it dreams with a bubble at its nose, watches a
@@ -119,12 +129,12 @@
 - **Live mode:** each step of each chat as it happens: its row says what it
   does right now (*▸ Edit: parser.py +12 −3*, *▸ Bash: pytest*), and its tab
   reads the conversation again at each step (else every 5 seconds, not 1.5).
-  **Claude Status: Live Mode…** turns it on: it adds a hook to each Claude
+  **Talpy Den: Live Mode…** turns it on: it adds a hook to each Claude
   profile's `settings.json` that notes each event of a chat in
-  `~/.cache/claude-widget/live` (Claude doesn't wait for it). Then the rest
+  `~/.cache/talpy-den/live` (Claude doesn't wait for it). Then the rest
   is checked every 6 seconds while chats work.
-- **A setting for the checks while no chat works:** `claudeStatus.idlePollInterval` (20 s by default) sets how often this computer is checked while no chat works, for what changes without a chat doing anything (plan usage, times); `claudeStatus.pollInterval` says it's for while a chat works, and has no effect with Live Mode on.
-- **What the chats do now, under the big Talpa:** one line with the step a
+- **A setting for the checks while no chat works:** `talpyDen.idlePollInterval` (20 s by default) sets how often this computer is checked while no chat works, for what changes without a chat doing anything (plan usage, times); `talpyDen.pollInterval` says it's for while a chat works, and has no effect with Live Mode on.
+- **What the chats do now, under the big Talpy:** one line with the step a
   working chat does right now, taking turns between the chats at work (a
   chat that did something new goes first). Click it for that chat's tab.
 

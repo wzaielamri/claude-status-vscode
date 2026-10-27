@@ -1,4 +1,4 @@
-// Answer Permission Prompts from Claude Status…: the widget's hook
+// Answer Permission Prompts from Talpy Den…: the widget's hook
 // (pane.py --relay on|off) in each Claude profile's settings.json, here and
 // on the SSH hosts shown. With it, a chat that asks for a permission shows
 // Allow once, Always allow and Deny in its row, its tab and its notification;
@@ -17,7 +17,7 @@ export async function answerPermissionsHere(backend: Backend, dash: Dashboard): 
   const where = hosts.length ? ` (and on ${hosts.join(", ")})` : "";
   const items: (vscode.QuickPickItem & { on: boolean })[] = [
     {
-      label: `${on ? "$(check) " : ""}Answer them from Claude Status too`,
+      label: `${on ? "$(check) " : ""}Answer them from Talpy Den too`,
       description: on ? "on now" : "",
       detail: `Adds a hook to each Claude profile's settings.json${where}: a chat that asks for a permission shows Allow once, Always allow and Deny in its row, its tab and its notification, and Claude's questions show their options there to answer. Claude still asks in the chat; the first answer counts.`,
       on: true,
@@ -39,14 +39,14 @@ export async function answerPermissionsHere(backend: Backend, dash: Dashboard): 
   const failed = results.filter((r) => !r.ok);
   if (failed.length)
     void vscode.window.showErrorMessage(
-      `Claude Status: ${failed.map((r) => `${r.host ? `${r.host}: ` : ""}${String(r.message ?? "no answer")}`).join("; ")}`,
+      `Talpy Den: ${failed.map((r) => `${r.host ? `${r.host}: ` : ""}${String(r.message ?? "no answer")}`).join("; ")}`,
     );
-  else void vscode.window.showInformationMessage(`Claude Status: ${String(results[0].message ?? "")}${where}.`);
+  else void vscode.window.showInformationMessage(`Talpy Den: ${String(results[0].message ?? "")}${where}.`);
 }
 
 // Live Mode…: the widget's live hook (pane.py --live on|off) in each Claude
 // profile's settings.json, here. With it, each step of each chat shows as it
-// happens (its row, its tab, the line under the big Talpa), and the checks
+// happens (its row, its tab, the line under the big Talpy), and the checks
 // in between are rarer.
 export async function liveModeHere(backend: Backend, dash: Dashboard): Promise<void> {
   const status = await backend.pane(["--live", "status", ...configDirArgs()], 30000);
@@ -55,7 +55,7 @@ export async function liveModeHere(backend: Backend, dash: Dashboard): Promise<v
     {
       label: `${on ? "$(check) " : ""}Show each step as it happens`,
       description: on ? "on now" : "",
-      detail: "Adds a hook to each Claude profile's settings.json that notes each step of each chat (Claude doesn't wait for it): rows, chat tabs and the line under the big Talpa follow every tool call at once.",
+      detail: "Adds a hook to each Claude profile's settings.json that notes each step of each chat (Claude doesn't wait for it): rows, chat tabs and the line under the big Talpy follow every tool call at once.",
       on: true,
     },
     {
@@ -68,7 +68,7 @@ export async function liveModeHere(backend: Backend, dash: Dashboard): Promise<v
   const pick = await vscode.window.showQuickPick(items, { title: "Live mode", placeHolder: "When do chats' steps show?" });
   if (!pick) return;
   const result: Record<string, any> = await backend.pane(["--live", pick.on ? "on" : "off", ...configDirArgs()], 30000);
-  if (!result.ok) void vscode.window.showErrorMessage(`Claude Status: ${String(result.message ?? "no answer")}`);
-  else void vscode.window.showInformationMessage(`Claude Status: ${String(result.message ?? "")}.`);
+  if (!result.ok) void vscode.window.showErrorMessage(`Talpy Den: ${String(result.message ?? "no answer")}`);
+  else void vscode.window.showInformationMessage(`Talpy Den: ${String(result.message ?? "")}.`);
   void dash.refresh();
 }

@@ -23,7 +23,7 @@ test("desktops are told apart like jump.py does", () => {
   assert.ok(!isGnome({}));
 });
 
-test("windows can be raised on Plasma, and on GNOME while the Claude Status GNOME Shell extension runs", async () => {
+test("windows can be raised on Plasma, and on GNOME while the Talpy Den GNOME Shell extension runs", async () => {
   const running = async () => true;
   const notRunning = async () => false;
   assert.ok(await canRaiseWindows(on("KDE"), notRunning), "KWin does it");
@@ -35,7 +35,7 @@ test("windows can be raised on Plasma, and on GNOME while the Claude Status GNOM
 
 // A gdbus on PATH that answers introspection like GNOME Shell does
 function fakeGdbus(answer: { code: number; stdout: string }): { restore: () => void } {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-gdbus-"));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-gdbus-"));
   fs.writeFileSync(path.join(dir, "out"), answer.stdout);
   fs.writeFileSync(path.join(dir, "gdbus"), `#!/bin/sh\nPATH=/usr/bin:/bin cat "${dir}/out"\nexit ${answer.code}\n`, { mode: 0o755 });
   const saved = process.env.PATH;
@@ -48,10 +48,10 @@ function fakeGdbus(answer: { code: number; stdout: string }): { restore: () => v
   };
 }
 
-const RAISER_INTROSPECTION = `node /org/gnome/Shell/Extensions/ClaudeStatus {
+const RAISER_INTROSPECTION = `node /org/gnome/Shell/Extensions/TalpyDen {
   interface org.freedesktop.DBus.Properties {
   };
-  interface org.gnome.Shell.Extensions.ClaudeStatus {
+  interface org.gnome.Shell.Extensions.TalpyDen {
     methods:
       RaiseWindow(in  s want,
                   out b handled);
@@ -62,7 +62,7 @@ const RAISER_INTROSPECTION = `node /org/gnome/Shell/Extensions/ClaudeStatus {
 test("the GNOME Shell extension runs when GNOME Shell has its D-Bus object", async () => {
   const cases: [{ code: number; stdout: string }, boolean, string][] = [
     [{ code: 0, stdout: RAISER_INTROSPECTION }, true, "it's there"],
-    [{ code: 0, stdout: "node /org/gnome/Shell/Extensions/ClaudeStatus {\n};\n" }, false, "turned off: GNOME Shell 50 still answers, with nothing in it"],
+    [{ code: 0, stdout: "node /org/gnome/Shell/Extensions/TalpyDen {\n};\n" }, false, "turned off: GNOME Shell 50 still answers, with nothing in it"],
     [{ code: 1, stdout: "" }, false, "No such object path (never loaded since login)"],
   ];
   for (const [answer, running, why] of cases) {
@@ -74,7 +74,7 @@ test("the GNOME Shell extension runs when GNOME Shell has its D-Bus object", asy
     }
   }
   const saved = process.env.PATH;
-  process.env.PATH = fs.mkdtempSync(path.join(os.tmpdir(), "claude-status-empty-"));
+  process.env.PATH = fs.mkdtempSync(path.join(os.tmpdir(), "talpy-den-empty-"));
   try {
     assert.equal(await gnomeRaiserRunning(), false, "no gdbus at all");
   } finally {
@@ -110,7 +110,7 @@ test("on GNOME without the GNOME Shell extension, a chat in another window says 
     }
     assert.deepEqual(helpers, [], "not jump.py: nothing raises the window");
     assert.deepEqual(errors, [
-      "long-covid runs in a terminal of a VS Code window connected to lab. Bringing it up on GNOME needs the Claude Status GNOME Shell extension, and it isn't running.",
+      "long-covid runs in a terminal of a VS Code window connected to lab. Bringing it up on GNOME needs the Talpy Den GNOME Shell extension, and it isn't running.",
     ]);
     gdbus = fakeGdbus({ code: 0, stdout: RAISER_INTROSPECTION });
     try {

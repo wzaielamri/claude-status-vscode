@@ -1,9 +1,9 @@
-// Talpa: the pet that lives in a burrow. One creature for the Plasma widget,
+// Talpy: the pet that lives in a burrow. One creature for the Plasma widget,
 // the GNOME extension and the VS Code extension: each host calls tick(now)
 // and draw(ctx) on its own 2D canvas (QML Canvas, Cairo through an adapter,
 // an HTML canvas) and moves it around its stage.
 //
-//   const t = new Talpa({ colors, words: s => i18n(s), travels: true });
+//   const t = new Talpy({ colors, words: s => i18n(s), travels: true });
 //   t.setMood('working');          // idle working agents needs done failed limit error loading
 //   t.react('pet');                // an action now (see actions.mjs)
 //   t.onTravel = ms => { ... };    // it dug in: move it to its new spot within ms
@@ -255,7 +255,7 @@ export function drawHole(ctx, hole) {
 
 // The open hole's back or front ('back', 'front'), turned left or not, in
 // the 64 × 64 box: a host may draw these once on sheets of their own and
-// give them to Talpa (holeImage): half of what drawing it costs is its hole
+// give them to Talpy (holeImage): half of what drawing it costs is its hole
 export function drawHoleSide(ctx, part, left) {
     ctx.save();
     if (left) {
@@ -268,7 +268,7 @@ export function drawHoleSide(ctx, part, left) {
 
 // ---------------------------------------------------------------- the creature
 
-export class Talpa {
+export class Talpy {
     constructor(opts) {
         opts = opts || {};
         this.colors = opts.colors || art.LILAC;
@@ -278,7 +278,7 @@ export class Talpa {
         this.onTravel = null;
         this.facingLeft = false;
         // (part, left) => the open hole's side drawn by drawHoleSide on a sheet the
-        // size of the canvas Talpa's drawn on, at the same transform; null: drawn
+        // size of the canvas Talpy's drawn on, at the same transform; null: drawn
         this.holeImage = null;
         this.mood = 'idle';
         this.base = Object.assign({}, MOODS.idle.base);
@@ -642,7 +642,7 @@ export class Talpa {
     drawStill(ctx) {
         let s = this.stillOne;
         if (!s)
-            s = this.stillOne = new Talpa({ brain: false });
+            s = this.stillOne = new Talpy({ brain: false });
         s.colors = this.colors;
         s.theme = this.theme;
         s.facingLeft = this.facingLeft;
@@ -766,7 +766,7 @@ export class Talpa {
     posed(d) {
         let s = this.stillOne;
         if (!s)
-            s = this.stillOne = new Talpa({ brain: false });
+            s = this.stillOne = new Talpy({ brain: false });
         s.colors = this.colors;
         s.theme = this.theme;
         s.holeImage = this.holeImage;

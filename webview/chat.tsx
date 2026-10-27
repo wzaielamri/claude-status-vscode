@@ -249,14 +249,14 @@ function ChatApp() {
     post({ type: "picture", id: p.id, mime: p.mime, data: p.data });
   };
 
-  // Changes side by side or one after the other: claudeStatus.diffSideBySide
+  // Changes side by side or one after the other: talpyDen.diffSideBySide
   const [split, setSplit] = useState(config.split !== false);
   const sideBySide = (next: boolean) => {
     setSplit(next);
     post({ type: "diffLayout", split: next });
   };
 
-  // A− / A+ and Ctrl+wheel: the text size, kept in claudeStatus.chatTextScale
+  // A− / A+ and Ctrl+wheel: the text size, kept in talpyDen.chatTextScale
   const zoom = (step: number) => {
     const i = TEXT_SCALES.findIndex((v) => v >= scale - 0.001);
     const at = i < 0 ? TEXT_SCALES.length - 1 : i;
@@ -621,7 +621,7 @@ function ChatApp() {
           {saving ? <div class="pane-hint">{chat?.host ? `Copying the picture to ${chat.host}…` : "Adding it to your reply…"}</div> : null}
           {offerModel ? (
             <div class="pane-hint ask-buttons">
-              <span>To dictate, whisper.cpp needs a speech model: download its base model (142 MB) from huggingface.co? It's kept in ~/.local/share/claude-widget/whisper; what you say never leaves the computer.</span>
+              <span>To dictate, whisper.cpp needs a speech model: download its base model (142 MB) from huggingface.co? It's kept in ~/.local/share/talpy-den/whisper; what you say never leaves the computer.</span>
               <button type="button" class="btn" onClick={() => { setOfferModel(false); post({ type: "dictate", action: "getModel" }); }}>Download</button>
               <button type="button" class="btn secondary" onClick={() => setOfferModel(false)}>Not now</button>
             </div>

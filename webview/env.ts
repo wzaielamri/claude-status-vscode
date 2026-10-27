@@ -10,7 +10,7 @@ interface VsCodeApi {
 
 declare global {
   interface Window {
-    CLAUDE_STATUS: { editorTab: boolean };
+    TALPY_DEN: { editorTab: boolean };
   }
   function acquireVsCodeApi(): VsCodeApi;
 }
@@ -21,7 +21,7 @@ export function post(message: WebviewMessage): void {
   api.postMessage(message);
 }
 
-export const editorTab: boolean = window.CLAUDE_STATUS.editorTab;
+export const editorTab: boolean = window.TALPY_DEN.editorTab;
 
 export function isDark(): boolean {
   return document.body.classList.contains("vscode-dark") || document.body.classList.contains("vscode-high-contrast")
