@@ -1,5 +1,14 @@
 # Talpy Den for VS Code
 
+> [!IMPORTANT]
+> **This repository moved.** Talpy Den for VS Code now lives in the
+> [`vscode/` folder of the Talpy Den repository](https://github.com/wzaielamri/talpy-den/tree/main/vscode),
+> next to the KDE Plasma widget and the GNOME extension. Its releases, with
+> the `.vsix`, come from there too, starting with 1.16.0:
+> [latest release](https://github.com/wzaielamri/talpy-den/releases/latest).
+> Issues and pull requests are welcome there. This repository is no longer
+> updated; its older releases stay here.
+
 Every Claude Code chat you have running, on this computer and on your SSH
 hosts, in one VS Code view: which ones need you, which are working, plan
 usage, subagents, recent chats, and Talpy, the animated pet who acts it all
